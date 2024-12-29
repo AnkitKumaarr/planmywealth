@@ -23,9 +23,9 @@ const NomineeReactionForm = ({ data, onChange }) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4 sm:px-6 lg:px-8">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-semibold">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold">
           How will your nominee react if they suddenly receive a INR 2 Crores in their bank account?
         </h2>
       </div>

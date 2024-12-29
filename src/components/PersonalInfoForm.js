@@ -31,12 +31,12 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4 sm:px-6 lg:px-8">
       <h2 className="text-2xl font-semibold mb-6 text-center">
         Good to meet you! 🙂 Tell us about yourself
       </h2>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <input
           type="text"
           placeholder="First Name"
@@ -59,7 +59,7 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <input
           type="date"
           className={`p-3 border ${
@@ -85,7 +85,7 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
       <div>
         <label className="block text-gray-700 mb-2">Gender</label>
         <div
-          className={`flex gap-4 ${
+          className={`flex flex-col sm:flex-row gap-4 ${
             errors.gender ? "border border-red-500 rounded-lg p-1" : ""
           }`}
         >
@@ -127,7 +127,6 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
           onBlur={(e) => validateField("education", e.target.value)}
         >
           <option value="">Select</option>
-
           <option value="graduateorabove">Graduate or Above</option>
           <option value="12thpass">12th pass</option>
           <option value="10thpass">10th pass</option>

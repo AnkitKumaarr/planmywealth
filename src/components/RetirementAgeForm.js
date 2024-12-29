@@ -2,7 +2,7 @@ const RetirementAgeForm = ({ data, onChange }) => {
   const ageOptions = [40, 45, 50, 55, 60, 65, 70];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4 sm:px-6 lg:px-8">
       <h2 className="text-2xl font-semibold text-center">
         At what age are you most likely to retire from work?
       </h2>

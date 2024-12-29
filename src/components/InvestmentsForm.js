@@ -47,10 +47,10 @@ const InvestmentsForm = ({ data, onChange, errors }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="font-medium">ASSETS & LIABILITIES: Question 4/5</h3>
-        <div className="flex gap-1">
+    <div className="space-y-6 px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col sm:flex-row items-center justify-between mb-4">
+        <h3 className="font-medium text-center sm:text-left">ASSETS & LIABILITIES: Question 4/5</h3>
+        <div className="flex gap-1 mt-2 sm:mt-0">
           {[...Array(5)].map((_, i) => (
             <div 
               key={i} 
@@ -70,7 +70,7 @@ const InvestmentsForm = ({ data, onChange, errors }) => {
         </p>
       </div>
 
-      <div className="flex justify-center gap-4 mt-8">
+      <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
         <button
           type="button"
           className={`px-12 py-3 rounded-lg ${
@@ -128,8 +128,8 @@ const InvestmentsForm = ({ data, onChange, errors }) => {
       {data.knowsInvestments === false && (
         <div className="space-y-4 mt-6">
           {investments.map((investment, index) => (
-            <div key={index} className="flex gap-4">
-              <div className="w-1/2">
+            <div key={index} className="flex flex-col sm:flex-row gap-4">
+              <div className="w-full sm:w-1/2">
                 <div className="bg-gray-200 p-4 rounded-lg">
                   <select
                     className="w-full bg-transparent outline-none"
@@ -151,7 +151,7 @@ const InvestmentsForm = ({ data, onChange, errors }) => {
                   </select>
                 </div>
               </div>
-              <div className="w-1/2">
+              <div className="w-full sm:w-1/2">
                 <div className="relative bg-white rounded-lg border border-gray-200">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">₹</span>
                   <input

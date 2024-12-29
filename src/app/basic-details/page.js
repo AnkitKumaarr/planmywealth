@@ -128,15 +128,6 @@ export default function BasicDetails() {
         return null;
     }
   };
-  const validateIncomeSources = () => {
-    const newErrors = {};
-    const hasValidIncome = formData.incomeSources.some(
-      (source) => source.type && source.amount && source.amount > 0
-    );
-    if (!hasValidIncome) newErrors.income = true;
-    return newErrors;
-  };
-
 
   const validateCurrentStep = () => {
     const newErrors = {};
@@ -160,7 +151,10 @@ export default function BasicDetails() {
         if (!formData.alcohol) newErrors.alcohol = true;
         break;
       case 5:
-        newErrors.income = validateIncomeSources();;
+        const hasValidIncome = formData.incomeSources.some(
+          (source) => source.type && source.amount && source.amount > 0
+        );
+        if (!hasValidIncome) newErrors.income = true;
         break;
       case 6:
         if (!formData.incomeStability) newErrors.incomeStability = true;

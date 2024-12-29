@@ -38,13 +38,13 @@ const DependentsForm = ({ data, onChange }) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4 sm:px-6 lg:px-8">
       <h2 className="text-2xl font-semibold text-center">
         Do you have family members who depend on your earnings?
       </h2>
 
-      <div className="flex justify-center gap-8 mt-8">
-        <div className={`w-64 h-40 flex items-center justify-center border rounded-lg cursor-pointer ${
+      <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 mt-8">
+        <div className={`w-full sm:w-64 h-40 flex items-center justify-center border rounded-lg cursor-pointer ${
           data.hasDependents === false ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-gray-50'
         }`}
           onClick={() => onChange('hasDependents', false)}
@@ -52,7 +52,7 @@ const DependentsForm = ({ data, onChange }) => {
           <span className="text-lg">No</span>
         </div>
 
-        <div className={`w-64 relative ${data.hasDependents ? 'border-green-500' : 'border-gray-200'} border rounded-lg`}>
+        <div className={`w-full sm:w-64 relative ${data.hasDependents ? 'border-green-500' : 'border-gray-200'} border rounded-lg`}>
           <div 
             className={`h-40 flex flex-col items-center justify-center cursor-pointer ${
               data.hasDependents ? 'bg-green-50' : 'bg-gray-50'

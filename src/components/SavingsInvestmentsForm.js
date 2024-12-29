@@ -16,10 +16,10 @@ const SavingsInvestmentsForm = ({ data, onChange, errors }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="font-medium">ASSETS & LIABILITIES: Question 3/5</h3>
-        <div className="flex gap-1">
+    <div className="space-y-6 px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col sm:flex-row items-center justify-between mb-4">
+        <h3 className="font-medium text-center sm:text-left">ASSETS & LIABILITIES: Question 3/5</h3>
+        <div className="flex gap-1 mt-2 sm:mt-0">
           {[...Array(5)].map((_, i) => (
             <div
               key={i}
@@ -35,10 +35,10 @@ const SavingsInvestmentsForm = ({ data, onChange, errors }) => {
         Do you have any major upcoming expenses?
       </h2>
 
-      <div className="flex justify-center gap-4 mt-8">
+      <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
         <button
           type="button"
-          className={`w-32 py-3 rounded-lg ${
+          className={`w-full sm:w-32 py-3 rounded-lg ${
             data.hasSavings === true
               ? "border border-green-500 bg-white"
               : "bg-gray-100"
@@ -50,7 +50,7 @@ const SavingsInvestmentsForm = ({ data, onChange, errors }) => {
 
         <button
           type="button"
-          className={`w-32 py-3 rounded-lg ${
+          className={`w-full sm:w-32 py-3 rounded-lg ${
             data.hasSavings === false
               ? "border border-green-500 bg-white"
               : "bg-gray-100"
@@ -94,7 +94,7 @@ const SavingsInvestmentsForm = ({ data, onChange, errors }) => {
         </div>
       )}
 
-      <button className="flex items-center text-gray-500 text-sm">
+      <button className="flex items-center text-gray-500 text-sm mt-4">
         <svg
           className="w-4 h-4 mr-2"
           fill="none"

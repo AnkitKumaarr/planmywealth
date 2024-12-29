@@ -20,26 +20,18 @@ const ProgressBar = ({ currentSection, currentStep, totalSteps }) => {
           </div>
         ))}
       </div>
-      <div className="h-1 bg-gray-200 rounded-full">
+      <div className="h-2 bg-gray-200 rounded-full">
         <div
-          className="h-full bg-green-500 rounded-full transition-all duration-300"
+          className="h-2 bg-green-500 rounded-full transition-all duration-300"
           style={{
-            width: `${(currentSection / (sections.length - 1)) * 100}%`,
+            width: `${
+              currentSection === 0
+                ? "10%"
+                : `${(currentSection / sections.length) * 100}%`
+            }`,
           }}
         />
       </div>
-      {currentSection === 1 && (
-        <div className="mt-2 flex justify-center gap-2">
-          {[1, 2, 3].map((step) => (
-            <div
-              key={step}
-              className={`w-3 h-3 rounded-full ${
-                step <= currentStep - 3 ? "bg-green-500" : "bg-gray-300"
-              }`}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 };

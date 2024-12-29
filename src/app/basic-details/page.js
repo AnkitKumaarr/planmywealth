@@ -14,11 +14,16 @@ import LoansAdvancesForm from "@/components/LoansAdvancesForm";
 import SavingsInvestmentsForm from "@/components/SavingsInvestmentsForm";
 import InvestmentsForm from "@/components/InvestmentsForm";
 import LifeCoverForm from "@/components/LifeCoverForm";
+import KidsExpensesForm from "@/components/KidsExpensesForm";
+import EmergencyFundForm from "@/components/EmergencyFundForm";
 import { useFormData } from "@/context/FormContext";
+import { useRouter } from "next/navigation";
+import ProgressIndicator from "@/components/ProgressIndicator";
 
 export default function BasicDetails() {
   const { formData, handleInputChange, errors, setErrors } = useFormData();
   const [currentStep, setCurrentStep] = useState(1);
+  const router = useRouter();
 
   const renderStep = () => {
     switch (currentStep) {
@@ -124,6 +129,22 @@ export default function BasicDetails() {
             errors={errors}
           />
         );
+      case 15:
+        return (
+          <KidsExpensesForm
+            data={formData}
+            onChange={handleInputChange}
+            errors={errors}
+          />
+        );
+      case 16:
+        return (
+          <EmergencyFundForm
+            data={formData}
+            onChange={handleInputChange}
+            errors={errors}
+          />
+        );
       default:
         return null;
     }
@@ -205,6 +226,39 @@ export default function BasicDetails() {
         break;
       case 14:
         if (formData.hasLifeCover === null) newErrors.hasLifeCover = true;
+        if (formData.hasLifeCover === true && !formData.lifeCoverAmount) {
+          newErrors.lifeCoverAmount = true;
+        }
+        break;
+      case 15:
+        if (
+          formData.numberOfKids === null ||
+          formData.numberOfKids === undefined
+        ) {
+          newErrors.numberOfKids = true;
+        }
+        if (
+          formData.educationExpenses === null ||
+          formData.educationExpenses === undefined
+        ) {
+          newErrors.educationExpenses = true;
+        }
+        if (
+          formData.weddingExpenses === null ||
+          formData.weddingExpenses === undefined
+        ) {
+          newErrors.weddingExpenses = true;
+        }
+        break;
+      case 16:
+        if (formData.hasEmergencyFund === null)
+          newErrors.hasEmergencyFund = true;
+        if (formData.hasEmergencyFund === true) {
+          if (!formData.emergencyFundAmount)
+            newErrors.emergencyFundAmount = true;
+          if (!formData.emergencyFundMonths)
+            newErrors.emergencyFundMonths = true;
+        }
         break;
     }
 
@@ -215,11 +269,10 @@ export default function BasicDetails() {
   const handleNext = () => {
     const isValid = validateCurrentStep();
     if (isValid) {
-      if (currentStep < 14) {
+      if (currentStep < 16) {
         setCurrentStep((prev) => prev + 1);
       } else {
-        // Navigate to review page
-        window.location.href = "/review";
+        router.push("/review");
       }
     }
   };
@@ -231,20 +284,46 @@ export default function BasicDetails() {
   };
 
   const getCurrentSection = () => {
-    if (currentStep <= 4) return 0; // BASIC
-    if (currentStep <= 7) return 1; // INCOME
-    if (currentStep <= 9) return 2; // DEPENDANTS
-    return 3; // ASSETS & LIABILITIES
+    if (currentStep <= 4) return { index: 0, title: "BASIC", totalSteps: 4 };
+    if (currentStep <= 7) return { index: 1, title: "INCOME", totalSteps: 3 };
+    if (currentStep <= 9)
+      return { index: 2, title: "DEPENDANTS", totalSteps: 2 };
+    return { index: 3, title: "ASSETS & LIABILITIES", totalSteps: 7 };
+  };
+
+  const getRelativeStep = () => {
+    const section = getCurrentSection();
+    return (
+      currentStep -
+      (section.index === 0
+        ? 0
+        : section.index === 1
+        ? 4
+        : section.index === 2
+        ? 7
+        : 9)
+    );
   };
 
   const handleRetake = () => {
-    // Implement retake functionality
+    // Reset form data
+    handleInputChange({ target: { name: "reset", value: true } });
+    // Reset errors
+    setErrors({});
+    // Set current step to 1
+    setCurrentStep(1);
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4 sm:p-8">
-      <div className="bg-white rounded-lg shadow-lg p-4 sm:p-8">
-        <ProgressBar currentSection={getCurrentSection()} />
+    <div className="max-w-3xl mx-auto p-4 sm:p-6 lg:p-8">
+      <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 lg:p-8">
+        <ProgressBar currentSection={getCurrentSection().index} />
+
+        <ProgressIndicator
+          currentStep={getRelativeStep()}
+          totalSteps={getCurrentSection().totalSteps}
+          title={getCurrentSection().title}
+        />
 
         {renderStep()}
 
@@ -253,20 +332,19 @@ export default function BasicDetails() {
             <button
               type="button"
               onClick={handleRetake}
-              className="flex items-center text-blue-500 hover:text-blue-700 mb-4 sm:mb-0 text-sm"
+              className="flex items-center text-gray-500 hover:text-gray-700 mb-4 sm:mb-0 text-sm"
             >
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-2"
+                className="w-4 h-4 mr-2"
                 fill="none"
-                viewBox="0 0 24 24"
                 stroke="currentColor"
+                viewBox="0 0 24 24"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 4v6h6M20 20v-6h-6M4 10a9 9 0 0118 0v4a9 9 0 01-18 0v-4z"
+                  strokeWidth="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                 />
               </svg>
               Retake the test
@@ -274,7 +352,7 @@ export default function BasicDetails() {
           )}
         </div>
         <div className="flex justify-between w-full">
-          {(currentStep > 1 || currentStep === 13) && (
+          {(currentStep > 1 || currentStep === 16) && (
             <button
               type="button"
               onClick={handlePrevious}
@@ -288,7 +366,7 @@ export default function BasicDetails() {
             onClick={handleNext}
             className="bg-green-500 text-white px-4 py-2 sm:px-8 sm:py-3 rounded-lg hover:bg-green-600 transition-colors ml-auto"
           >
-            {currentStep === 13 ? "Review" : "Next →"}
+            {currentStep === 16 ? "Review" : "Next →"}
           </button>
         </div>
       </div>

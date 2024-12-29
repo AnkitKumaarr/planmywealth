@@ -1,20 +1,19 @@
 const ProgressIndicator = ({ currentStep, totalSteps, title }) => {
+
   return (
-    <div className="flex justify-between items-center mb-8">
-      <div className="space-y-2">
-        <div className="flex space-x-4">
-          {[...Array(totalSteps)].map((_, index) => (
-            <div
-              key={index}
-              className={`w-3 h-3 rounded-full ${
-                index < currentStep ? 'bg-green-500' : 'bg-gray-300'
-              }`}
-            />
-          ))}
-        </div>
-        <div className="text-sm text-gray-600">
-          {title}: Question {currentStep}/{totalSteps}
-        </div>
+    <div className="flex flex-col items-center justify-between mb-4">
+      <p className="font-medium text-center">
+        {title}: Question {currentStep}/{totalSteps}
+      </p>
+      <div className="flex gap-1 mt-2 sm:mt-0">
+        {[...Array(totalSteps)].map((_, i) => (
+          <div
+            key={i}
+            className={`h-1 w-8 rounded-full ${
+              i < currentStep ? "bg-green-500" : "bg-gray-200"
+            }`}
+          />
+        ))}
       </div>
     </div>
   );

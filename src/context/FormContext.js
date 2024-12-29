@@ -31,6 +31,12 @@ export function FormProvider({ children }) {
     knowsInvestments: null,
     totalInvestments: 0,
     hasLifeCover: null,
+    numberOfKids: 1,
+    educationExpenses: "",
+    weddingExpenses: "",
+    hasEmergencyFund: null,
+    emergencyFundAmount: "",
+    emergencyFundMonths: "",
   });
   const [errors, setErrors] = useState({});
 

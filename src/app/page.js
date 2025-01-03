@@ -28,12 +28,13 @@ export default function Home() {
           padding: "2rem",
           flex: 1,
           width: "100%",
-          maxWidth: "1200px",
-          margin: "0 auto",
+          margin: "0",
+          backgroundColor: "#E2F6E9",
         }}
       >
         <InsuranceForm />
         {/* <SettingSidebar /> */}
+        
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from 'react';
-import { useFormData } from '../context/FormContext';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useFormData } from "../context/FormContext";
+import { useRouter } from "next/navigation";
 
 const InsuranceForm = () => {
   const router = useRouter();
@@ -13,7 +13,8 @@ const InsuranceForm = () => {
     if (!formData.gender) newErrors.gender = "Gender is required.";
     if (!formData.age) newErrors.age = "Age is required.";
     if (!formData.pincode) newErrors.pincode = "Pincode is required.";
-    else if (!/^\d{6}$/.test(formData.pincode)) newErrors.pincode = "Pincode must be 6 digits.";
+    else if (!/^\d{6}$/.test(formData.pincode))
+      newErrors.pincode = "Pincode must be 6 digits.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -25,21 +26,25 @@ const InsuranceForm = () => {
     // Calculate DOB from age
     const today = new Date();
     const birthYear = today.getFullYear() - parseInt(formData.age);
-    const dateOfBirth = `${birthYear}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const dateOfBirth = `${birthYear}-${String(today.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}-${String(today.getDate()).padStart(2, "0")}`;
 
     // Update context with form data
     handleInputChange("dateOfBirth", dateOfBirth);
 
     // Navigate to next page
-    router.push('/basic-details');
+    router.push("/basic-details");
   };
 
   return (
     <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <h2 className="text-purple-600 text-xl sm:text-2xl mb-4">
-          How much cover? Which Term Insurance is best?
-        </h2>
+        <p className=" text-purple-600 text-xl sm:text-xl mb-4 font-bold md:block">
+          <span className="hidden md:block">How much cover?</span>
+          <span>Which Term Insurance is best?</span>
+        </p>
         <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-6">
           Every question you have about buying Term Insurance answered in a
           personalized report

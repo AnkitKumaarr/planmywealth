@@ -4,7 +4,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { useApp } from "@/context/AppContext";
 import SettingSidebar from "@/components/SettingSidebar";
 import InsuranceForm from "@/components/InsuranceForm";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/dashboard/Navbar";
 
 export default function Home() {
   const { colors } = useTheme();
@@ -34,7 +34,6 @@ export default function Home() {
       >
         <InsuranceForm />
         {/* <SettingSidebar /> */}
-        
       </div>
     </div>
   );

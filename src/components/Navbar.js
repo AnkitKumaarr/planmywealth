@@ -1,12 +1,10 @@
 "use client";
 
-import { useTheme } from "@/context/ThemeContext";
 import { useState } from "react";
 import SignInDialog from "./SignInDialog";
 import Image from "next/image";
 
 export default function Navbar() {
-  const { colors } = useTheme();
   const [isSignInOpen, setIsSignInOpen] = useState(false);
 
   return (

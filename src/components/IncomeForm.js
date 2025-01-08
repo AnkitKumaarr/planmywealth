@@ -103,7 +103,7 @@ const IncomeForm = ({ data, onChange, errors, setErrors }) => {
                 </span>
                 <input
                   type="number"
-                  className={`w-full p-3 pl-8 pr-20 border ${
+                  className={`w-full p-3 pl-8 pr-24 border ${
                     errors[`${index}-amount`]
                       ? "border-red-500"
                       : "border-gray-300"
@@ -112,7 +112,7 @@ const IncomeForm = ({ data, onChange, errors, setErrors }) => {
                   value={source.amount}
                   onChange={(e) => handleAmountChange(index, e.target.value)}
                 />
-                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 pointer-events-none">
+                <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600 pointer-events-none">
                   per annum
                 </span>
               </div>
@@ -167,9 +167,13 @@ const IncomeForm = ({ data, onChange, errors, setErrors }) => {
       </div>
 
       <Dialog
-        isOpen={errors.length > 0 && errors?.SalaryWarning === true && data.incomeSources.length > 0}
-        onClose={()=> setErrors({ ...errors, SalaryWarning: false })}
-        onConfirm={()=> setErrors({ ...errors, SalaryWarning: false })}
+        isOpen={
+          errors.length > 0 &&
+          errors?.SalaryWarning === true &&
+          data.incomeSources.length > 0
+        }
+        onClose={() => setErrors({ ...errors, SalaryWarning: false })}
+        onConfirm={() => setErrors({ ...errors, SalaryWarning: false })}
         title="Have you entered your annual income?"
         message="Hey, would you like to recheck the annual income you've entered? Your range of choices with respect to the term plan will be limited for the current income you've entered."
       />

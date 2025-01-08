@@ -1,5 +1,5 @@
 const RetirementAgeForm = ({ data, onChange }) => {
-  const ageOptions = [40, 45, 50, 55, 60, 65, 70];
+  const ageOptions = [40, 45, 50, 55, 60, 65, 70, 80];
 
   return (
     <div className="space-y-6 px-4 sm:px-6 lg:px-8">
@@ -10,8 +10,8 @@ const RetirementAgeForm = ({ data, onChange }) => {
       <div className="max-w-xs mx-auto">
         <select
           className="w-full p-3 border border-gray-300 rounded-lg"
-          value={data.retirementAge || ''}
-          onChange={(e) => onChange('retirementAge', e.target.value)}
+          value={data.retirementAge || ""}
+          onChange={(e) => onChange("retirementAge", e.target.value)}
         >
           <option value="">Select Age</option>
           {ageOptions.map((age) => (
@@ -25,4 +25,4 @@ const RetirementAgeForm = ({ data, onChange }) => {
   );
 };
 
-export default RetirementAgeForm; 
+export default RetirementAgeForm;

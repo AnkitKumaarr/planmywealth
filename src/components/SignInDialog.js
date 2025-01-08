@@ -1,10 +1,15 @@
 import Image from "next/image";
 import { useState } from "react";
+import SignUpForm from "./SignUpForm";
+import Loader from "./Loader";
+import SignInForm from "./SignInForm";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SignInDialog({ isOpen, onClose }) {
-  const [email, setEmail] = useState("");
-  const [isFocused, setIsFocused] = useState(false);
+  const { handleGoogleLogin } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleToggleView = (e) => {
     e.preventDefault();
@@ -58,82 +63,62 @@ export default function SignInDialog({ isOpen, onClose }) {
               <p className="text-center text-xs text-gray-600 mb-4 font-semibold">
                 NO CHARGES. 100% FREE.
               </p>
-              <button className="w-10/12 h-10 p-3 mb-1 border border-gray-300 rounded flex items-center justify-center gap-2 cursor-pointer bg-white">
-                <img
-                  src="https://www.google.com/favicon.ico"
-                  alt="Google"
-                  className="w-5"
-                />
-                Continue with Google
-              </button>
-
-              <div className="text-center my-4">OR</div>
+              {!isVerified && (
+                <>
+                  <button
+                    onClick={handleGoogleLogin}
+                    className="w-10/12 h-10 p-3 mb-1 border border-gray-300 rounded flex items-center justify-center gap-2 cursor-pointer bg-white"
+                  >
+                    <img
+                      src="https://www.google.com/favicon.ico"
+                      alt="Google"
+                      className="w-5"
+                    />
+                    Continue with Google
+                  </button>
+                  <div className="text-center my-4">OR</div>
+                </>
+              )}
 
               {isSignUp ? (
                 <>
-                  <div className="flex w-full flex-col items-center">
-                    <input
-                      type="text"
-                      placeholder="Full Name"
-                      className="w-10/12 h-10 p-3 mb-4 border border-gray-300 rounded outline-none"
-                    />
-                    <input
-                      type="email"
-                      placeholder="Email"
-                      className="w-10/12 h-10 p-3 mb-4 border border-gray-300 rounded outline-none"
-                    />
-                    <input
-                      type="password"
-                      placeholder="Password"
-                      className="w-10/12 h-10 p-3 mb-4 border border-gray-300 rounded outline-none"
-                    />
-                    <button className="w-10/12 h-10 p-3 bg-green-500 text-white border-none rounded cursor-pointer">
-                      Sign up
-                    </button>
-                  </div>
+                  <SignUpForm
+                    isVerified={isVerified}
+                    setIsVerified={setIsVerified}
+                    setIsSignUp={setIsSignUp}
+                  />
                 </>
               ) : (
-                <div className="flex w-full flex-col items-center">
-                  <input
-                    type="text"
-                    placeholder="Enter Email/Mobile number"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
-                    className={`w-10/12 h-10 p-3 mb-4 border ${
-                      isFocused ? "border-green-500" : "border-gray-300"
-                    } rounded outline-none`}
-                  />
-
-                  <button className="w-10/12 text-center p-3 bg-green-500 text-white border-none rounded cursor-pointer">
-                    Sign in
-                  </button>
-                </div>
+                <SignInForm />
               )}
 
               <div className="text-center text-sm mt-4">
-                {isSignUp ? (
+                {!isVerified && (
                   <>
-                    Already have an account?{" "}
-                    <a
-                      href="#"
-                      onClick={handleToggleView}
-                      className="text-green-500"
-                    >
-                      Sign In
-                    </a>
-                  </>
-                ) : (
-                  <>
-                    New to PlanMyWealth?{" "}
-                    <a
-                      href="#"
-                      onClick={handleToggleView}
-                      className="text-green-500 "
-                    >
-                      Create Account
-                    </a>
+                    {" "}
+                    {isSignUp ? (
+                      <>
+                        Already have an account?{" "}
+                        <a
+                          href="#"
+                          onClick={handleToggleView}
+                          className="text-green-500"
+                        >
+                          Sign In
+                        </a>
+                      </>
+                    ) : (
+                      <>
+                        New to PlanMyWealth?{" "}
+                        <a
+                          href="#"
+                          onClick={handleToggleView}
+                          className="text-green-500 "
+                        >
+                          Create Account
+                        </a>
+                      </>
+                    )}
                   </>
                 )}
               </div>

@@ -2,6 +2,7 @@ import { ThemeProvider } from '@/context/ThemeContext';
 import { AppProvider } from '@/context/AppContext';
 import './globals.css';
 import { FormProvider } from '../context/FormContext';
+import { AuthProvider } from '@/context/AuthContext';
 
 export const metadata = {
   title: 'Your App',
@@ -12,13 +13,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <ThemeProvider>
-          <AppProvider>
-            <FormProvider>
-              {children}
-            </FormProvider>
-          </AppProvider>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            <AppProvider>
+              <FormProvider>
+                {children}
+              </FormProvider>
+            </AppProvider>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -56,16 +56,16 @@ export default function Navbar() {
             ) : user ? (
               <div className="flex items-center">
                 <button className="flex items-center space-x-3 focus:outline-none">
-                  <span className="text-gray-700">My Account</span>
-                  <div className="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center text-white">
+                  <div className="h-8 w-8 rounded-full bg-blue-800 flex items-center justify-center text-white">
                     {user?.name?.charAt(0)}
                   </div>
+                  <span className="text-gray-700">My Account</span>
                 </button>
 
                 <div className="hidden group-hover:block absolute right-0 mt-80 w-72 bg-white rounded-lg shadow-lg py-1 z-50">
                   <div className="px-6 py-4 border-b">
                     <div className="flex items-center space-x-3">
-                      <div className="h-12 w-12 rounded-full bg-green-500 flex items-center justify-center text-white text-xl">
+                      <div className="h-12 w-12 rounded-full bg-blue-800 flex items-center justify-center text-white text-xl">
                         {user?.name?.charAt(0)}
                       </div>
                       <div>

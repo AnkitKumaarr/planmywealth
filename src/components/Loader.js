@@ -3,7 +3,7 @@ import React from "react";
 const Loader = ({ size = "14px" }) => {
   const loaderStyle = {
     border: "2px solid #f3f3f3", // Light grey
-    borderTop: "2px solid #3498db", // Blue
+    borderTop: "4px solid #3498db", // Blue
     borderRadius: "50%",
     width: size,
     height: size,

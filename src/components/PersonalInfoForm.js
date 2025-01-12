@@ -127,11 +127,11 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
           onBlur={(e) => validateField("education", e.target.value)}
         >
           <option value="">Select</option>
-          <option value="graduateorabove">Graduate or Above</option>
-          <option value="12thpass">12th pass</option>
-          <option value="10thpass">10th pass</option>
-          <option value="below10th">Below 10th</option>
-          <option value="other">Other</option>
+          <option value="Graduate or Above">Graduate or Above</option>
+          <option value="12th Pass">12th Pass</option>
+          <option value="10th Pass">10th Pass</option>
+          <option value="Below 10th">Below 10th</option>
+          <option value="Other">Other</option>
         </select>
       </div>
     </div>

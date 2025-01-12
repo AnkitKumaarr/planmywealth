@@ -70,7 +70,7 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
                   errors.educationExpenses
                     ? "border-red-500"
                     : "border-gray-300"
-                } rounded-lg focus:ring-2 focus:ring-green-500 text-lg`}
+                } rounded-lg focus:ring-2 focus:outline-none focus:ring-green-500 text-lg`}
               />
               <p className="text-sm text-gray-500 mt-0 text-right">
                 {errors.educationExpenses ? (
@@ -109,7 +109,7 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
                 placeholder="Enter an estimate"
                 className={`w-full pl-8 p-3 border ${
                   errors.weddingExpenses ? "border-red-500" : "border-gray-300"
-                } rounded-lg focus:ring-2 focus:ring-green-500 text-lg`}
+                } rounded-lg focus:ring-2 focus:outline-none focus:ring-green-500 text-lg`}
               />
               <p className="text-sm text-gray-500 mt-0 text-right">
                 {errors.weddingExpenses ? (

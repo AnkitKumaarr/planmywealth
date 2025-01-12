@@ -1,9 +1,16 @@
 import { useState } from "react";
 import Dialog from "./Dialog";
 
-const IncomeForm = ({ data, onChange, errors, setErrors }) => {
+const IncomeForm = ({
+  data,
+  onChange,
+  errors,
+  setErrors,
+  handleSalaryWarning,
+}) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
+  console.log("errors 22", errors);
   const incomeTypes = [
     "Salary",
     "Business Income",
@@ -57,7 +64,7 @@ const IncomeForm = ({ data, onChange, errors, setErrors }) => {
   };
 
   return (
-    <div className="space-y-6 px-4 sm:px-6 lg:px-8">
+    <div className=" px-4 sm:px-6 lg:px-8">
       <h2 className="text-xl sm:text-2xl font-semibold text-center sm:text-left">
         What are your sources of income?
       </h2>
@@ -130,13 +137,15 @@ const IncomeForm = ({ data, onChange, errors, setErrors }) => {
         ))}
       </div>
 
-      <button
-        type="button"
-        onClick={addNewIncomeSource}
-        className="text-green-500 hover:text-green-600 flex items-center gap-2"
-      >
-        + Add More
-      </button>
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={addNewIncomeSource}
+          className="text-green-500 hover:text-green-600"
+        >
+          + Add More
+        </button>
+      </div>
 
       {calculateTotalIncome() > 0 && (
         <div className="bg-gray-50 p-4 rounded-lg">
@@ -167,13 +176,9 @@ const IncomeForm = ({ data, onChange, errors, setErrors }) => {
       </div>
 
       <Dialog
-        isOpen={
-          errors.length > 0 &&
-          errors?.SalaryWarning === true &&
-          data.incomeSources.length > 0
-        }
+        isOpen={errors?.SalaryWarning === true}
         onClose={() => setErrors({ ...errors, SalaryWarning: false })}
-        onConfirm={() => setErrors({ ...errors, SalaryWarning: false })}
+        onConfirm={handleSalaryWarning}
         title="Have you entered your annual income?"
         message="Hey, would you like to recheck the annual income you've entered? Your range of choices with respect to the term plan will be limited for the current income you've entered."
       />

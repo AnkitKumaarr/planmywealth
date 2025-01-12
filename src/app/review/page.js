@@ -23,13 +23,13 @@ export default function Review() {
 
   return (
     <div className="max-w-3xl mx-auto p-4">
-      <h1 className="text-2xl font-semibold text-center mb-4">
+      <h1 className="text-3xl font-bold text-center mb-4">
         Summary of your details
       </h1>
       <p className="text-center text-gray-600 mb-8">
         Please confirm if all the details shown below are correct. You will not
         be able to make
-        <span className="font-medium"> any</span> changes once the report is
+        <span className="font-bold"> any</span> changes once the report is
         generated.
       </p>
 

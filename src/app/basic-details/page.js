@@ -24,7 +24,7 @@ import Review from "@/components/Review";
 
 export default function BasicDetails() {
   const { formData, handleInputChange, errors, setErrors } = useFormData();
-  const [currentStep, setCurrentStep] = useState(16);
+  const [currentStep, setCurrentStep] = useState(1);
   const router = useRouter();
 
   const renderStep = () => {

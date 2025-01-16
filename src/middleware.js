@@ -7,7 +7,12 @@ export async function middleware(request) {
   const token = cookieStore.get("auth_token");
 
   // Paths that require authentication
-  const protectedPaths = ["/dashboard", "/profile", "/settings"];
+  const protectedPaths = [
+    "/dashboard",
+    "/profile",
+    "/settings",
+    "/generatereport",
+  ];
 
   if (
     protectedPaths.some((path) => request.nextUrl.pathname.startsWith(path))
@@ -17,7 +22,9 @@ export async function middleware(request) {
     }
 
     try {
-      const secret = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET);
+      const secret = new TextEncoder().encode(
+        process.env.NEXT_PUBLIC_JWT_SECRET
+      );
       const { payload } = await jwtVerify(token.value, secret);
       return NextResponse.next();
     } catch (error) {
@@ -30,5 +37,10 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/profile/:path*", "/settings/:path*"],
-}; 
+  matcher: [
+    "/dashboard/:path*",
+    "/profile/:path*",
+    "/settings/:path*",
+    "/generatereport/:path*",
+  ],
+};

@@ -11,7 +11,7 @@ export default function Review({ onBackStep, setCurrentStep }) {
   const { formData } = useFormData();
   const router = useRouter();
   const [isSignInOpen, setIsSignInOpen] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleEdit = (step) => {
     setCurrentStep(step);
   };
@@ -30,7 +30,29 @@ export default function Review({ onBackStep, setCurrentStep }) {
     if (!user) {
       setIsSignInOpen(true);
     } else {
-      router.push("/generatereport");
+      generateReport();
+      // call the API to store the whole data
+    }
+  };
+
+  const generateReport = async () => {
+    try {
+      const response = await fetch("/api/reports", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ formData }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        // router.push("/generatereport");
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error generating report:", error);
+      setIsLoading(false);
     }
   };
 

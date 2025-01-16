@@ -1,22 +1,5 @@
 const NomineeReactionForm = ({ data, onChange }) => {
-  const options = [
-    {
-      id: 'confident',
-      label: 'Will Be Able To Manage It Confidently - Without A Sweat'
-    },
-    {
-      id: 'reliable',
-      label: 'Will Have Reliable People To Depend On To Manage The Money'
-    },
-    {
-      id: 'nervous',
-      label: 'Is Likely To Get Nervous / Panic Without Support'
-    },
-    {
-      id: 'tricked',
-      label: 'Might Get Tricked Into Buying Unnecessary Financial Products'
-    }
-  ];
+
 
   const handleOptionSelect = (optionId) => {
     onChange('nomineeReaction', optionId);

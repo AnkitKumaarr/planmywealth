@@ -4,16 +4,17 @@ import SignUpForm from "./SignUpForm";
 import Loader from "./Loader";
 import SignInForm from "./SignInForm";
 import { useAuth } from "@/context/AuthContext";
+import ForgotPasswordForm from "./ForgotPasswordForm";
 
 export default function SignInDialog({ isOpen, onClose }) {
   const { handleGoogleLogin } = useAuth();
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [currentSection, setCurrentSection] = useState("Sign In");
   const [isVerified, setIsVerified] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleToggleView = (e) => {
+  const handleToggleView = (e, type) => {
     e.preventDefault();
-    setIsSignUp(!isSignUp);
+    setCurrentSection(type);
   };
 
   return (
@@ -58,12 +59,14 @@ export default function SignInDialog({ isOpen, onClose }) {
                 x
               </button>
               <h1 className="text-center text-xl sm:text-2xl font-bold mb-1">
-                {isSignUp ? "Sign up" : "Sign in"}
+                {currentSection}
               </h1>
-              <p className="text-center text-xs text-gray-600 mb-4 font-semibold">
-                NO CHARGES. 100% FREE.
-              </p>
-              {!isVerified && (
+              {currentSection !== "Forgot Password" && (
+                <p className="text-center text-xs text-gray-600 mb-4 font-semibold">
+                  NO CHARGES. 100% FREE.
+                </p>
+              )}
+              {currentSection !== "Forgot Password" && !isVerified && (
                 <>
                   <button
                     onClick={handleGoogleLogin}
@@ -80,42 +83,57 @@ export default function SignInDialog({ isOpen, onClose }) {
                 </>
               )}
 
-              {isSignUp ? (
+              {currentSection === "Sign Up" && (
                 <>
                   <SignUpForm
                     isVerified={isVerified}
                     setIsVerified={setIsVerified}
-                    setIsSignUp={setIsSignUp}
+                    setIsSignUp={setCurrentSection}
                   />
                 </>
-              ) : (
-                <SignInForm />
+              )}
+              {currentSection === "Sign In" && (
+                <SignInForm handleToggleView={handleToggleView} />
+              )}
+              {currentSection === "Forgot Password" && (
+                <ForgotPasswordForm onClose={onClose} />
               )}
 
               <div className="text-center text-sm mt-4">
                 {!isVerified && (
                   <>
                     {" "}
-                    {isSignUp ? (
+                    {currentSection === "Sign Up" && (
                       <>
                         Already have an account?{" "}
                         <a
                           href="#"
-                          onClick={handleToggleView}
+                          onClick={(e) => handleToggleView(e, "Sign In")}
                           className="text-green-500"
                         >
                           Sign In
                         </a>
                       </>
-                    ) : (
+                    )}
+                    {currentSection === "Sign In" && (
                       <>
                         New to PlanMyWealth?{" "}
                         <a
                           href="#"
-                          onClick={handleToggleView}
+                          onClick={(e) => handleToggleView(e, "Sign Up")}
                           className="text-green-500 "
                         >
                           Create Account
+                        </a>
+                      </>
+                    )}
+                    {currentSection === "Forgot Password" && (
+                      <>
+                        <a
+                          onClick={(e) => handleToggleView(e, "Sign In")}
+                          className="text-green-500  font-semibold cursor-pointer"
+                        >
+                          Back to Login
                         </a>
                       </>
                     )}

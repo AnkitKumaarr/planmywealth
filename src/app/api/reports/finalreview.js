@@ -3,7 +3,7 @@ import { authenticate } from "@/middleware/auth";
 import mysql from "@/utils/db.config";
 
 export async function GET() {
-  console.log("Ankit innnn");
+
   const authResponse = await authenticate(request);
   if (typeof authResponse !== "string") {
     return authResponse;

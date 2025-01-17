@@ -5,7 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-export default function SignInForm() {
+export default function SignInForm({ handleToggleView }) {
   const { login } = useAuth();
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -75,7 +75,7 @@ export default function SignInForm() {
       <div className="flex w-full flex-col items-center relative">
         <input
           type="text"
-          placeholder={errors.email || "Enter Email/Mobile number"}
+          placeholder={errors.email || "Enter Email"}
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           className={`w-10/12 h-10 p-3 mb-4 border ${
@@ -103,6 +103,7 @@ export default function SignInForm() {
         </div>
         <div className="flex w-10/12 justify-end  items-end mb-4">
           <button
+            onClick={(e) => handleToggleView(e, "Forgot Password")}
             type="button"
             className="text-sm text-green-500 cursor-pointer"
           >

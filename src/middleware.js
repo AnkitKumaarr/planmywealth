@@ -26,6 +26,15 @@ export async function middleware(request) {
         process.env.NEXT_PUBLIC_JWT_SECRET
       );
       const { payload } = await jwtVerify(token.value, secret);
+
+      // Check for roles in the payload
+      const userRole = payload.role;
+      const allowedRoles = ["admin", "manager", "user"];
+
+      if (!allowedRoles.includes(userRole)) {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+
       return NextResponse.next();
     } catch (error) {
       console.error("JWT verification failed:", error.message);

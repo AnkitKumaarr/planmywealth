@@ -24,13 +24,7 @@ export async function POST(req) {
     return NextResponse.json({ message: "Invalid token" }, { status: 400 });
   }
 
-  const verificationToken = jwt.sign(
-    { userEmail },
-    process.env.NEXT_PUBLIC_JWT_SECRET,
-    {
-      expiresIn: "24h",
-    }
-  );
+
 
   // campare both tokens
 
@@ -46,6 +40,14 @@ export async function POST(req) {
   if (token !== result[0].verification_token) {
     return NextResponse.json({ message: "Invalid token" }, { status: 400 });
   }
+
+  const verificationToken = jwt.sign(
+    { userEmail, role: result[0].role },
+    process.env.NEXT_PUBLIC_JWT_SECRET,
+    {
+      expiresIn: "24h",
+    }
+  );
 
   // Get a connection from the pool
   const connection = await mysql.getConnection();

@@ -9,6 +9,7 @@ import DocumentsContent from "@/components/dashboard/DocumentsContent";
 import QuotationsContent from "@/components/dashboard/QuotationsContent";
 import ReferContent from "@/components/dashboard/ReferContent";
 import AccountContent from "@/components/dashboard/AccountContent";
+import ReferralsData from "@/components/dashboard/ReferralsData";
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -33,6 +34,8 @@ export default function Dashboard() {
         return <ReferContent />;
       case "account":
         return <AccountContent />;
+      case "your-referrals":
+        return <ReferralsData />;
       default:
         return <DashboardContent />;
     }

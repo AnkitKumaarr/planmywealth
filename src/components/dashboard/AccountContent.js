@@ -9,7 +9,9 @@ export default function AccountContent() {
       <div className="bg-white rounded-lg shadow p-8">
         <div className="flex items-start gap-8">
           <div className="w-32 h-32 bg-teal-600 rounded-lg flex items-center justify-center">
-            <span className="text-6xl text-white">A</span>
+            <span className="text-6xl text-white">
+              {user?.name?.charAt(0).toUpperCase() || "X"}
+            </span>
           </div>
 
           <div className="space-y-6 flex-1">

@@ -17,11 +17,8 @@ export async function GET() {
     total_investments,
     additionalCoverNeeded
     FROM true_reports WHERE userEmail = ?`;
-    console.log("Ankit1");
     const result = await mysql.query(query, userEmail);
-    console.log("result", result);
     const data = result[0];
-    console.log("Ankit", data);
 
     return NextResponse.json({ success: true, status: 200, data: data });
   } catch (error) {

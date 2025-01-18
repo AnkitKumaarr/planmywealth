@@ -6,8 +6,6 @@ export async function POST(request) {
   try {
     const { token } = await request.json();
 
-    console.log("ankit", token);
-    
     if (!token) {
       return NextResponse.json(
         { error: "Verification token is required" },
@@ -27,14 +25,11 @@ export async function POST(request) {
         );
       }
 
-      console.log("decoded", decoded);
-      // Update user verification status
       const [[user]] = await mysql.query(
         "SELECT * FROM pmw_users WHERE email = ? AND verification_token = ?",
         [decoded.email, token]
       );
 
-      console.log("user", user);
       if (!user) {
         return NextResponse.json(
           { error: "Invalid verification token" },
@@ -49,7 +44,7 @@ export async function POST(request) {
         );
       }
       const verificationToken = jwt.sign(
-        { email },
+        { email: user.email, role: user.role },
         process.env.NEXT_PUBLIC_JWT_SECRET,
         {
           expiresIn: "7d",
@@ -58,9 +53,10 @@ export async function POST(request) {
 
       const result = await mysql.query(
         `UPDATE pmw_users 
-         SET is_verified = true
-         WHERE email = ? AND verification_token = ?`,
-        [decoded.email, verificationToken]
+         SET is_verified = true,
+         verification_token = ?
+         WHERE email = ? `,
+        [verificationToken, decoded.email]
       );
 
       if (result.affectedRows === 0) {

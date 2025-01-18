@@ -40,9 +40,10 @@ export async function POST(request) {
         { status: 400 }
       );
     }
+    const user = rows[0];
 
     const verificationToken = jwt.sign(
-      { email },
+      { email, role: user.role },
       process.env.NEXT_PUBLIC_JWT_SECRET,
       {
         expiresIn: "24h",

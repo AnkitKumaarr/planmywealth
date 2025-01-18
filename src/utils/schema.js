@@ -10,6 +10,9 @@ export async function initializeDatabase() {
         full_name VARCHAR(255) NOT NULL,
         password VARCHAR(255) NOT NULL,
         verification_token VARCHAR(255),
+        role VARCHAR(255) NOT NULL DEFAULT 'user',
+        user_referral_code VARCHAR(255),
+        referby_code VARCHAR(255),
         is_verified BOOLEAN DEFAULT false,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

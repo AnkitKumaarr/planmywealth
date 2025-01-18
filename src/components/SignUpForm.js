@@ -56,6 +56,7 @@ export default function SignUpForm({ isVerified, setIsVerified, setIsSignUp }) {
           fullName: formData.fullName,
           email: formData.email,
           password: formData.password,
+          referId: localStorage.getItem("referId") || "",
         }),
       });
 

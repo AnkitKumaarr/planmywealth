@@ -2,16 +2,19 @@
 import Loader from "@/components/Loader";
 import { useFormData } from "@/context/FormContext";
 import { useAuth } from "@/context/AuthContext";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FiDownload } from "react-icons/fi";
-
+import { useRouter } from "next/navigation";
 import ReportSection from "./ReportSection";
 import AdvisorProfileSection from "./AdvisorProfileSection";
 import RefillDialog from "./RefillDialog";
+import { usePDF } from "react-to-pdf";
 
 const GenerateReport = () => {
+  const router = useRouter();
+  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
   const [isLoading, setIsLoading] = useState(false);
   const [report, setReport] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -30,7 +33,6 @@ const GenerateReport = () => {
   const handleDialogClose = () => {
     setIsDialogOpen(false);
   };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,12 +55,22 @@ const GenerateReport = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["feature-recipe", "things-to-remember", "recommended-plans", "how-to-buy"];
-      const offsets = sections.map(section => document.getElementById(section)?.offsetTop || 0);
+      const sections = [
+        "feature-recipe",
+        "things-to-remember",
+        "recommended-plans",
+        "how-to-buy",
+      ];
+      const offsets = sections.map(
+        (section) => document.getElementById(section)?.offsetTop || 0
+      );
       const scrollPosition = window.scrollY + window.innerHeight / 2;
 
       for (let i = 0; i < sections.length; i++) {
-        if (scrollPosition >= offsets[i] && (i === sections.length - 1 || scrollPosition < offsets[i + 1])) {
+        if (
+          scrollPosition >= offsets[i] &&
+          (i === sections.length - 1 || scrollPosition < offsets[i + 1])
+        ) {
           setCurrentSection(sections[i]);
           break;
         }
@@ -94,7 +106,10 @@ const GenerateReport = () => {
         <>
           {/* Left Sidebar */}
           <div className="fixed left-0 top-0 h-full w-64 border-r border-gray-200 bg-white p-6">
-            <div className="mb-4">
+            <div
+              className="mb-4 cursor-pointer"
+              onClick={() => router.push("/")}
+            >
               <Image
                 width={210}
                 height={120}
@@ -113,26 +128,54 @@ const GenerateReport = () => {
             </Link>
             <nav className="space-y-6 border-dashed border-gray-200 border-l-2 ">
               <div className="flex items-center text-green-500 font-small hover:text-green-700 cursor-pointer">
-                <a onClick={() => handleClick("feature-recipe")} className="flex items-center">
-                  <span className={`w-2 h-2 ${getColor("feature-recipe")} rounded-full mr-2`}></span>
+                <a
+                  onClick={() => handleClick("feature-recipe")}
+                  className="flex items-center"
+                >
+                  <span
+                    className={`w-2 h-2 ${getColor(
+                      "feature-recipe"
+                    )} rounded-full mr-2`}
+                  ></span>
                   Feature Recipe
                 </a>
               </div>
               <div className="flex items-center text-green-500 font-small hover:text-green-700 cursor-pointer">
-                <a onClick={() => handleClick("things-to-remember")} className="flex items-center">
-                  <span className={`w-2 h-2 ${getColor("things-to-remember")} rounded-full mr-2`}></span>
+                <a
+                  onClick={() => handleClick("things-to-remember")}
+                  className="flex items-center"
+                >
+                  <span
+                    className={`w-2 h-2 ${getColor(
+                      "things-to-remember"
+                    )} rounded-full mr-2`}
+                  ></span>
                   Things to Remember
                 </a>
               </div>
               <div className="flex items-center text-green-500 font-small hover:text-green-700 cursor-pointer">
-                <a onClick={() => handleClick("recommended-plans")} className="flex items-center">
-                  <span className={`w-2 h-2 ${getColor("recommended-plans")} rounded-full mr-2`}></span>
+                <a
+                  onClick={() => handleClick("recommended-plans")}
+                  className="flex items-center"
+                >
+                  <span
+                    className={`w-2 h-2 ${getColor(
+                      "recommended-plans"
+                    )} rounded-full mr-2`}
+                  ></span>
                   Recommended Plans
                 </a>
               </div>
               <div className="flex items-center text-green-500 font-small hover:text-green-700 cursor-pointer">
-                <a onClick={() => handleClick("how-to-buy")} className="flex items-center">
-                  <span className={`w-2 h-2 ${getColor("how-to-buy")} rounded-full mr-2`}></span>
+                <a
+                  onClick={() => handleClick("how-to-buy")}
+                  className="flex items-center"
+                >
+                  <span
+                    className={`w-2 h-2 ${getColor(
+                      "how-to-buy"
+                    )} rounded-full mr-2`}
+                  ></span>
                   How to buy?
                 </a>
               </div>
@@ -161,7 +204,7 @@ const GenerateReport = () => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 ml-64 mr-80">
+          <div className="flex-1 ml-64 mr-80" ref={targetRef}>
             <div className="px-20 py-4" id="feature-recipe">
               {/* Header */}
               <div className="mb-8">
@@ -198,9 +241,13 @@ const GenerateReport = () => {
             {/* Top Navigation */}
             <div className="flex justify-end items-center px-6 py-4 border-b">
               <div className="flex gap-4">
-                <button className="flex items-center text-green-500 border border-green-500 rounded-lg px-4 py-2">
+                <button
+                  onClick={() => toPDF({ format: "a4", page: { margin: 10 } })}
+                  className="flex items-center text-green-500 border border-green-500 rounded-lg px-4 py-2"
+                >
                   <FiDownload className="mr-2" /> Report
                 </button>
+
                 <button className="flex items-center text-green-500 border border-green-500 rounded-lg px-4 py-2">
                   <FiDownload className="mr-2" /> Checklist
                 </button>

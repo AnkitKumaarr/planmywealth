@@ -1,17 +1,45 @@
+import { useAuth } from "@/context/AuthContext";
+
 export default function Sidebar({
   isOpen,
   setIsOpen,
   pathname,
   handlePathChange,
 }) {
-  const menuItems = [
+  const { user } = useAuth();
+  const menuItemsUser = [
     { title: "Overview", icon: "📊", path: "dashboard" },
     { title: "Reports", icon: "📈", path: "reports" },
     { title: "Documents", icon: "📁", path: "documents" },
     { title: "Quotations", icon: "💰", path: "quotations" },
-    { title: "Refer & Earn", icon: "🔊", path: "refer" },
     { title: "Account", icon: "🤵", path: "account" },
   ];
+  const menuItemsManager = [
+    { title: "Overview", icon: "📊", path: "dashboard" },
+    { title: "Reports", icon: "📈", path: "reports" },
+    { title: "Documents", icon: "📁", path: "documents" },
+    { title: "Quotations", icon: "💰", path: "quotations" },
+    { title: "Refer", icon: "🔊", path: "refer" },
+    { title: "Your Referrals", icon: "🔗", path: "your-referrals" },
+    { title: "Account", icon: "🤵", path: "account" },
+  ];
+
+  const menuItemsAdmin = [
+    { title: "Overview", icon: "📊", path: "dashboard" },
+    { title: "Reports", icon: "📈", path: "reports" },
+    { title: "Documents", icon: "📁", path: "documents" },
+    { title: "Quotations", icon: "💰", path: "quotations" },
+    { title: "Refer", icon: "🔊", path: "refer" },
+    { title: "Your Referrals", icon: "🔗", path: "your-referrals" },
+    { title: "Account", icon: "🤵", path: "account" },
+  ];
+
+  const menuItems =
+    user?.role === "admin"
+      ? menuItemsAdmin
+      : user?.role === "manager"
+      ? menuItemsManager
+      : menuItemsUser;
 
   return (
     <aside

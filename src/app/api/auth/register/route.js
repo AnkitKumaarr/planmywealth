@@ -7,7 +7,7 @@ import { sendVerificationEmail } from "@/utils/emailService";
 
 export async function POST(request) {
   try {
-    const { email, fullName, password } = await request.json();
+    const { email, fullName, password, referId } = await request.json();
 
     // Validate input
     if (!email || !fullName || !password) {
@@ -44,14 +44,6 @@ export async function POST(request) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const verificationToken = jwt.sign(
-      { email },
-      process.env.NEXT_PUBLIC_JWT_SECRET,
-      {
-        expiresIn: "24h",
-      }
-    );
-
     // Get a connection from the pool
     const connection = await mysql.getConnection();
 
@@ -59,11 +51,64 @@ export async function POST(request) {
       // Start a transaction
       await connection.beginTransaction();
 
+      let userReferralCode;
+      let isUnique = false;
+
+      // Generate a unique user referral code
+      while (!isUnique) {
+        userReferralCode =
+          Math.random().toString(36).substring(2, 5) +
+          Math.random().toString(36).substring(2, 5);
+
+        const [rows] = await mysql.query(
+          "SELECT * FROM pmw_users WHERE user_referral_code = ?",
+          [userReferralCode]
+        );
+
+        if (rows.length === 0) {
+          isUnique = true;
+        }
+      }
+
+      // find user referId
+      const [users] = await mysql.query(
+        "SELECT * FROM pmw_users WHERE referby_code = ?",
+        [referId]
+      );
+      let currentUserRole = "user";
+      if (users.length === 0) {
+        currentUserRole = "user";
+      } else {
+        const user = users[0];
+        currentUserRole =
+          user.role === "manager"
+            ? "user"
+            : user.role === "admin"
+            ? "manager"
+            : "user";
+      }
+
+      const verificationToken = jwt.sign(
+        { email, role: currentUserRole },
+        process.env.NEXT_PUBLIC_JWT_SECRET,
+        {
+          expiresIn: "24h",
+        }
+      );
+
       // Insert new user
       const result = await connection.query(
-        `INSERT INTO pmw_users (email, full_name, password, verification_token)
-         VALUES (?, ?, ?, ?)`,
-        [email, fullName, hashedPassword, verificationToken]
+        `INSERT INTO pmw_users (email, full_name, password,role, verification_token,user_referral_code, referby_code)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [
+          email,
+          fullName,
+          hashedPassword,
+          currentUserRole,
+          verificationToken,
+          userReferralCode,
+          referId || "",
+        ]
       );
 
       // Send verification email

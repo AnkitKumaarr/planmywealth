@@ -1,49 +1,46 @@
+import { useAuth } from "@/context/AuthContext";
+
 export default function ReferContent() {
+  const { user } = useAuth();
+  const url = `${(process.env.NEXT_PUBLIC_APP_URL).substring(7)}/referral/${user?.user_referral_code}`;
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold">Refer & Earn</h1>
-        <div className="bg-green-50 px-4 py-2 rounded-lg flex items-center">
-          <span className="mr-2">Amount Earned</span>
-          <span className="font-semibold">₹0</span>
+        <h1 className="text-2xl font-semibold">Refer</h1>
+        <div className="text-xl bg-green-50 px-4 py-2 rounded-lg flex items-center">
+          <span className="mr-2"> 🤵 Your Referrals</span>
+          <span className="font-bold">0</span>
         </div>
       </div>
-      
+
       <div className="bg-white rounded-lg shadow p-8 text-center">
         <div className="max-w-md mx-auto">
-          <img 
-            src="/refer-earn.png" 
+          <img
+            src="/Images/referImage.png"
             alt="Refer and Earn"
-            className="w-48 h-48 mx-auto mb-6"
+            className="w-48 h-48 mx-auto "
           />
-          <h2 className="text-2xl font-semibold mb-2">Refer and win ₹500</h2>
+          <h2 className="text-2xl font-bold mb-2">Refer your colleagues</h2>
           <p className="text-gray-600 mb-6">
-            Get ₹500 for <span className="font-semibold">every</span> policy bought through your referral link.
+            Share your referral link with your colleagues.
           </p>
-          
-          <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg mb-6">
+
+          <div className="flex items-center border border-green-500 gap-2 p-2 bg-gray-50 rounded-lg mb-20">
             <input
               type="text"
-              value="beshak.org/referral/L56wsa"
+              value={url || "https://planmywealth.com/referral/L56wsa"}
               className="flex-1 bg-transparent outline-none"
               readOnly
             />
-            <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
-              Share
+            <button
+              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+              onClick={() => navigator.clipboard.writeText(url)}
+            >
+              Copy
             </button>
-          </div>
-
-          <div className="text-center">
-            <p className="text-sm text-gray-500 mb-2">OR, SHARE VIA</p>
-            <div className="flex justify-center gap-4">
-              <button className="p-2 bg-blue-600 text-white rounded-lg">FB</button>
-              <button className="p-2 bg-black text-white rounded-lg">X</button>
-              <button className="p-2 bg-blue-500 text-white rounded-lg">Li</button>
-              <button className="p-2 bg-orange-500 text-white rounded-lg">Copy</button>
-            </div>
           </div>
         </div>
       </div>
     </div>
   );
-} 
+}

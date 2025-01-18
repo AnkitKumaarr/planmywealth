@@ -66,8 +66,8 @@ export async function GET(request) {
     if (rows.length > 0) {
       // Update token and name
       const [result] = await mysql.query(
-        "UPDATE pmw_users SET password = ?, verification_token = ?, is_verified = ? WHERE email = ?",
-        [access_token, verification_token, 1, userInfo.email]
+        "UPDATE pmw_users SET password = ?, verification_token = ?, role = ?, is_verified = ? WHERE email = ?",
+        [access_token, verification_token, "user", 1, userInfo.email]
       );
 
       if (result.affectedRows > 0) {

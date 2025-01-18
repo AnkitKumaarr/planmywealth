@@ -38,16 +38,21 @@ export async function GET(request) {
       // );
 
       const [[user]] = await mysql.query(
-        "SELECT full_name FROM pmw_users WHERE email = ?",
+        "SELECT full_name, role, user_referral_code FROM pmw_users WHERE email = ?",
         [decoded.email]
       );
-      const { full_name } = user;
+      const { full_name, role, user_referral_code } = user;
 
       return NextResponse.json({
         status: 200,
         success: true,
         message: "Email verified successfully",
-        data: { name: full_name, email: decoded.email },
+        data: {
+          name: full_name,
+          email: decoded.email,
+          role,
+          user_referral_code,
+        },
       });
     } catch (jwtError) {
       return NextResponse.json(

@@ -47,7 +47,7 @@ export default function Review({ onBackStep, setCurrentStep }) {
 
       const data = await response.json();
       if (data.success) {
-        // router.push("/generatereport");
+        router.push("/generatereport");
       }
       setIsLoading(false);
     } catch (error) {

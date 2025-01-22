@@ -72,7 +72,7 @@ export async function POST(request) {
 
       // find user referId
       const [users] = await mysql.query(
-        "SELECT * FROM pmw_users WHERE referby_code = ?",
+        "SELECT * FROM pmw_users WHERE user_referral_code = ?",
         [referId]
       );
       let currentUserRole = "user";

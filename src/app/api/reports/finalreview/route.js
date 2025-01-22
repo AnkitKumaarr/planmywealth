@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { authenticate } from "@/middleware/auth";
 import mysql from "@/utils/db.config";
 
-export async function GET(request) {
+export async function POST(request) {
+  const { uuid } = await request.json();
   const authResponse = await authenticate(request);
   if (typeof authResponse !== "string") {
     return authResponse;
@@ -39,14 +40,13 @@ export async function GET(request) {
   const userEmail = authResponse;
   try {
     // write the query to get the data from the database
-    const query = `SELECT retirement_age, nomineeReaction, 
+    const query = `SELECT uuid, retirement_age, nomineeReaction, 
     savings_amount, 
     total_investments,
     additionalCoverNeeded
-    FROM true_reports WHERE userEmail = ?`;
-    const [result] = await mysql.query(query, userEmail);
+    FROM true_reports WHERE userEmail = ? AND uuid = ?`;
+    const [result] = await mysql.query(query, [userEmail, uuid]);
     const data = result[0];
-
     const finalSavingAmount =
       parseFloat(data?.savings_amount) + parseFloat(data?.total_investments);
 
@@ -54,7 +54,7 @@ export async function GET(request) {
       age: data?.retirement_age,
       nomineeReaction: nomineeReactionOptions.find(
         (option) => option.id === data?.nomineeReaction
-      ).label,
+      )?.label,
       finalSavingAmount: formatToWords(finalSavingAmount),
       additionalCoverNeeded: formatToWords(data?.additionalCoverNeeded),
     };

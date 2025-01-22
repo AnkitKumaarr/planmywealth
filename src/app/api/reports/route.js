@@ -16,7 +16,7 @@ export async function POST(request) {
   const userEmail = authResponse;
 
   try {
-    const { formData } = await request.json();
+    const { formData, uuid } = await request.json();
 
     const {
       firstName,
@@ -98,6 +98,7 @@ export async function POST(request) {
         userEmail VARCHAR(255),
         first_name VARCHAR(255),
         last_name VARCHAR(255),
+        uuid VARCHAR(255),
         date_of_birth DATE,
         age INT,
         pincode VARCHAR(255),
@@ -141,14 +142,14 @@ export async function POST(request) {
     // Insert into database
     const query = `
       INSERT INTO true_reports (
-        userEmail, first_name, last_name, date_of_birth, age, pincode, gender, education, disease,
+        userEmail, first_name, last_name,uuid, date_of_birth, age, pincode, gender, education, disease,
         smoking, alcohol, total_income, income_stability, retirement_age,
         hasDependents, dependents, nomineeReaction, knowsLivingExpenses, monthly_expenses,
         hasLoans, loan_amount, hasSavings, savings_amount, knowsInvestments, total_investments,
         hasLifeCover, life_cover_amount, number_of_kids, education_expenses, wedding_expenses,
         hasEmergencyFund, emergency_fund_amount, emergency_fund_months, total_monthly_expenses,
         lifeInsuranceNeed, additionalCoverNeeded
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
+      ) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
     `;
 
     // Log the incoming data for debugging
@@ -159,6 +160,7 @@ export async function POST(request) {
       userEmail || "",
       firstName || "",
       lastName || "",
+      uuid || "",
       dateOfBirth || "",
       currentAge || 0,
       pincode || "",
@@ -194,7 +196,7 @@ export async function POST(request) {
       additionalCoverNeeded || 0,
     ];
 
-    const result = await mysql.query(query, values);
+    await mysql.query(query, values);
 
     return NextResponse.json({
       success: true,

@@ -6,6 +6,11 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isSignInOpen, setIsSignInOpen] = useState(false);
+
+  const handleSignInOpen = (value) => {
+    setIsSignInOpen(value);
+  };
 
   useEffect(() => {
     checkAuth();
@@ -95,7 +100,16 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, logout, handleGoogleLogin, handleGoogleCallback }}
+      value={{
+        user,
+        loading,
+        isSignInOpen,
+        handleSignInOpen,
+        login,
+        logout,
+        handleGoogleLogin,
+        handleGoogleCallback,
+      }}
     >
       {children}
     </AuthContext.Provider>

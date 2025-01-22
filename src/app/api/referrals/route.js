@@ -42,11 +42,16 @@ export async function GET(req) {
       const reportsData = [];
 
       reports.forEach((item) => {
-        const user = totalUsers.find((user) => user.email === item.userEmail);
+        const currentUserItem = totalUsers.filter(
+          (user) => user.email === item.userEmail
+        );
+        const user = totalUsers.find(
+          (user) => user.user_referral_code === currentUserItem[0].referby_code
+        );
         reportsData.push({
           ...item,
-          referby_email: user.email,
-          referby_name: user.full_name,
+          referby_email: user?.email || "N/A",
+          referby_name: user?.full_name || "N/A",
         });
       });
       return NextResponse.json({ status: 200, data: reportsData });

@@ -35,11 +35,19 @@ const GenerateReport = () => {
   };
 
   useEffect(() => {
+    // feth the url and if it has id, then remove the id from the url
+    const url = new URL(window.location.href);
+    const uuid = url.searchParams.get("uuid");
+
     const fetchData = async () => {
-      console.log("Ankit");
       try {
         setIsLoading(true);
-        const response = await fetch("/api/reports/finalreview");
+        const response = await fetch("/api/reports/finalreview", {
+          method: "POST",
+          body: JSON.stringify({
+            uuid: uuid,
+          }),
+        });
         const data = await response.json();
         const filteredData = data.result;
 
@@ -153,7 +161,7 @@ const GenerateReport = () => {
                   Things to Remember
                 </a>
               </div>
-              <div className="flex items-center text-green-500 font-small hover:text-green-700 cursor-pointer">
+              {/* <div className="flex items-center text-green-500 font-small hover:text-green-700 cursor-pointer">
                 <a
                   onClick={() => handleClick("recommended-plans")}
                   className="flex items-center"
@@ -178,7 +186,7 @@ const GenerateReport = () => {
                   ></span>
                   How to buy?
                 </a>
-              </div>
+              </div> */}
             </nav>
             <div className="absolute bottom-6 left-6 space-y-4">
               <button
@@ -209,7 +217,7 @@ const GenerateReport = () => {
               {/* Header */}
               <div className="mb-8">
                 <h2 className="text-xl font-bold">
-                  🎉 {user?.name.split(" ")[0]}! Your Report is Ready!
+                  🎉 {user?.name?.split(" ")[0]}! Your Report is Ready!
                 </h2>
               </div>
 

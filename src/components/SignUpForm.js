@@ -30,7 +30,8 @@ export default function SignUpForm({ isVerified, setIsVerified, setIsSignUp }) {
   };
 
   const handleVerification = () => {
-    setIsSignUp(false);
+    setIsSignUp("Sign In");
+    setIsVerified(false);
   };
 
   const togglePasswordVisibility = () => {
@@ -121,7 +122,7 @@ export default function SignUpForm({ isVerified, setIsVerified, setIsSignUp }) {
         />
         <div className="relative w-10/12 mb-4">
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder={errors.password || "Password"}
             className={`w-full h-10 p-3  border ${
               errors.password ? "border-red-500" : "border-gray-300"

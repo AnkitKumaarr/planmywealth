@@ -5,12 +5,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import SignInDialog from "./SignInDialog";
 import { useAuth } from "@/context/AuthContext";
+import { v4 as uuidv4 } from 'uuid';
+import Loader from "./Loader";
 
 export default function Review({ onBackStep, setCurrentStep }) {
-  const { user } = useAuth();
+  const { user, handleSignInOpen, isSignInOpen } = useAuth();
   const { formData } = useFormData();
   const router = useRouter();
-  const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const handleEdit = (step) => {
     setCurrentStep(step);
@@ -28,7 +29,7 @@ export default function Review({ onBackStep, setCurrentStep }) {
 
   const handleGenerateReport = () => {
     if (!user) {
-      setIsSignInOpen(true);
+      handleSignInOpen(true);
     } else {
       generateReport();
       // call the API to store the whole data
@@ -37,17 +38,19 @@ export default function Review({ onBackStep, setCurrentStep }) {
 
   const generateReport = async () => {
     try {
+      setIsLoading(true);
+      const uuid = uuidv4();
       const response = await fetch("/api/reports", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ formData }),
+        body: JSON.stringify({ formData, uuid }),
       });
 
       const data = await response.json();
       if (data.success) {
-        router.push("/generatereport");
+        router.push(`/generatereport?uuid=${uuid}`);
       }
       setIsLoading(false);
     } catch (error) {
@@ -61,7 +64,7 @@ export default function Review({ onBackStep, setCurrentStep }) {
       {isSignInOpen && (
         <SignInDialog
           isOpen={isSignInOpen}
-          onClose={() => setIsSignInOpen(false)}
+          onClose={() => handleSignInOpen(false)}
         />
       )}
       <div className="max-w-3xl mx-auto p-4">
@@ -219,11 +222,10 @@ export default function Review({ onBackStep, setCurrentStep }) {
 
           <div className="flex justify-center">
             <button
-              // onClick={() => router.push("/generate-report")}
               onClick={handleGenerateReport}
-              className="w-7/12  bg-green-500 text-white py-4 rounded-full hover:bg-green-600 transition-colors mt-8"
+              className="w-7/12  bg-green-500 text-white text-center py-4 rounded-full hover:bg-green-600 transition-colors mt-8"
             >
-              Confirm & Generate report
+              {isLoading ? <Loader size="24px" /> : "Confirm & Generate report"}
             </button>
           </div>
         </div>

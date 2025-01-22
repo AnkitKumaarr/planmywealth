@@ -1,11 +1,12 @@
 import React from "react";
 import { FaFileAlt, FaPhoneAlt, FaFolderOpen, FaWallet } from "react-icons/fa";
+import AdvisorProfileSection from "./AdvisorProfileSection";
 
 const ReportSection = ({ report }) => {
   console.log("report", report);
   return (
     <>
-      <section >
+      <section>
         <h2 className="text-md font-bold mb-4">
           1. Additional Term Insurance cover your family needs
         </h2>
@@ -67,6 +68,9 @@ const ReportSection = ({ report }) => {
           large payout on death, and then a monthly income every year.
         </p>
       </section>
+      <div className="mt-6 border-2 border-green-300 rounded-lg">
+        <AdvisorProfileSection flow={"horizontal"} />
+      </div>
       <section className="border-2 border-green-300 p-4 rounded-lg mt-6">
         <div className="flex flex-row justify-between items-center gap-2">
           <h2 className="text-lg font-bold text-green-600 mb-4">
@@ -239,6 +243,9 @@ const ReportSection = ({ report }) => {
           </div>
         </div>
       </section>
+      <div className="mt-6 border-2 border-green-300 rounded-lg">
+        <AdvisorProfileSection flow={"horizontal"} />
+      </div>
     </>
   );
 };

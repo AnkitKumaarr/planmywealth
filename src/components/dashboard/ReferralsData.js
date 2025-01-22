@@ -111,18 +111,18 @@ export default function ReferralsData() {
                   </tr>
                 </thead>
                 <tbody>
-                  {referralsData?.map((report) => (
+                  {referralsData?.map((report, index) => (
                     <tr key={report.id} className="">
                       <td className="border border-gray-400 text-center px-4 py-2">
-                        {report.id}
+                        {index + 1}
                       </td>
                       <td className="border border-gray-400 text-center px-4 py-2">
-                        {report.first_name.toUpperCase() +
+                        {report.first_name?.toUpperCase() +
                           " " +
-                          report.last_name.toUpperCase()}
+                          report.last_name?.toUpperCase()}
                       </td>
                       <td className="border border-gray-400 text-center px-4 py-2">
-                        {report.userEmail}
+                        {report.userEmail || "N/A"}
                       </td>
 
                       <td className="border border-gray-400 text-center px-4 py-2">

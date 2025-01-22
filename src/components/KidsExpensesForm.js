@@ -8,7 +8,7 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
       <div className="space-y-6 py-4 sm:py-6">
         <div className="text-center">
           <h2 className="text-2xl sm:text-3xl font-semibold mb-4">
-            What are your planned expenses for your kids?
+            What are your planned future expenses for your kids?
           </h2>
         </div>
 

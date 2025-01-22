@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 export default function SignInForm({ handleToggleView }) {
-  const { login } = useAuth();
+  const { login, handleSignInOpen } = useAuth();
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
@@ -44,7 +44,7 @@ export default function SignInForm({ handleToggleView }) {
     try {
       const response = await login(formData);
       if (response.success) {
-        setMessage("Login successful!");
+        // setMessage("Login successful!");
         toast.success("Successfully logged in!", {
           position: "bottom-center",
           autoClose: 2000,
@@ -55,7 +55,7 @@ export default function SignInForm({ handleToggleView }) {
           progress: undefined,
           theme: "colored",
         });
-        window.location.href = "/";
+        handleSignInOpen(false);
       } else {
         setMessage(response.error);
       }

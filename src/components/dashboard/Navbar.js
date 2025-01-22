@@ -11,8 +11,7 @@ import { FaUser, FaHeadset, FaSignOutAlt, FaComments } from "react-icons/fa";
 export default function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const router = useRouter();
-  const { user, loading, logout } = useAuth();
-  const [isSignInOpen, setIsSignInOpen] = useState(false);
+  const { user, loading, logout, isSignInOpen, handleSignInOpen } = useAuth();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
@@ -117,7 +116,7 @@ export default function Navbar() {
             ) : (
               <button
                 className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600"
-                onClick={() => setIsSignInOpen(true)}
+                onClick={() => handleSignInOpen(true)}
               >
                 Sign In
               </button>
@@ -127,7 +126,7 @@ export default function Navbar() {
       </div>
       <SignInDialog
         isOpen={isSignInOpen}
-        onClose={() => setIsSignInOpen(false)}
+        onClose={() => handleSignInOpen(false)}
       />
       <ToastContainer />
     </nav>

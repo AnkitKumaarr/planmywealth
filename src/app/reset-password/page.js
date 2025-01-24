@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -105,7 +105,7 @@ export default function ResetPasswordPage() {
   //   }, [token]);
 
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full bg-white py-4 shadow-md fixed top-0 left-0 flex ">
           <Image
@@ -182,6 +182,6 @@ export default function ResetPasswordPage() {
           </form>
         )}
       </div>
-    </>
+    </Suspense>
   );
 }

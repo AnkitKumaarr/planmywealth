@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 export default function VerificationStatus() {
   const searchParams = useSearchParams();
@@ -9,6 +10,7 @@ export default function VerificationStatus() {
   const errorMessage = searchParams.get("error");
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full bg-white py-4 shadow-md fixed top-0 left-0 flex ">
         <Image
@@ -52,5 +54,6 @@ export default function VerificationStatus() {
         )}
       </div>
     </div>
+    </Suspense>
   );
 }

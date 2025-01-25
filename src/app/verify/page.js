@@ -50,6 +50,7 @@ function VerifyContent() {
     }
   }, [token, router]);
 
+  // console.log("name changes");
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full bg-white py-4 shadow-md fixed top-0 left-0 flex ">

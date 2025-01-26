@@ -39,7 +39,7 @@ const InsuranceForm = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+    <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 pt-12">
       <div className="mb-8">
         <p className=" text-purple-600 text-xl sm:text-xl mb-4 font-bold md:block">
           <span className="hidden md:block">How much cover?</span>

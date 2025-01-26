@@ -22,7 +22,6 @@ export async function GET() {
 
     return NextResponse.json({ success: true, status: 200, data: data });
   } catch (error) {
-    console.log("Ankit2", error);
     console.error("Error generating report:", error);
   }
 }

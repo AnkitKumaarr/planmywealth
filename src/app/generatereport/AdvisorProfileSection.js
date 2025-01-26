@@ -3,7 +3,7 @@ import { CgProfile } from "react-icons/cg";
 
 const AdvisorProfileSection = ({ flow }) => {
   return (
-    <div className="bg-green-50 rounded-lg p-4 sm:p-6 ">
+    <div className="bg-blue-100 rounded-lg p-4 sm:p-6 ">
       <div
         className={`gap-6 ${
           flow === "horizontal" ? "lg:flex-row flex flex-col" : "flex flex-col"

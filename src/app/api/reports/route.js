@@ -152,8 +152,6 @@ export async function POST(request) {
       ) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
     `;
 
-    // Log the incoming data for debugging
-    console.log("Received formData:", formData);
 
     // Ensure all values are defined, using default values if necessary
     const values = [

@@ -22,7 +22,6 @@ export async function GET(request) {
 
       // Check if token is expired
       if (decoded.exp * 1000 < Date.now()) {
-        console.log("decoded", decoded.email);
         return NextResponse.json(
           { error: "Verification token has expired" },
           { status: 400 }

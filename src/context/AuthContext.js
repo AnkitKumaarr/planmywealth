@@ -22,10 +22,10 @@ export function AuthProvider({ children }) {
         method: "GET",
         credentials: "include",
       });
-      console.log("response", response);
+     
       if (response.status === 200) {
         const userData = await response.json();
-        console.log("userData", userData.data);
+      
         setUser(userData.data);
       }
     } catch (error) {
@@ -46,7 +46,6 @@ export function AuthProvider({ children }) {
 
       if (response.status === 200) {
         const data = await response.json();
-        console.log("data", data);
         setUser(data.user);
         return { success: true, message: "Login successful" };
       }

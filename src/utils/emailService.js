@@ -9,8 +9,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-console.log("transporter", transporter);
-
 export async function sendVerificationEmail(email, token) {
   const verificationLink = `${process.env.NEXT_PUBLIC_APP_URL}/verify?token=${token}`;
 
@@ -28,7 +26,6 @@ export async function sendVerificationEmail(email, token) {
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent:", info);
     return { success: true, info };
   } catch (error) {
     console.error("Email sending error:", error);
@@ -51,7 +48,6 @@ export async function sendResetPasswordEmail(email, token) {
   };
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent:", info);
     return { success: true, info };
   } catch (error) {
     console.error("Email sending error:", error);
@@ -71,7 +67,6 @@ export async function sendPasswordResetSuccessEmail(email) {
   };
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent:", info);
     return { success: true, info };
   } catch (error) {
     console.error("Email sending error:", error);

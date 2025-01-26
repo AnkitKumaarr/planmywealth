@@ -17,7 +17,6 @@ export default function Review({ onBackStep, setCurrentStep }) {
     setCurrentStep(step);
   };
 
-  console.log("formData", formData);
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-IN", {

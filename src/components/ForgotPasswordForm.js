@@ -37,7 +37,6 @@ const ForgotPasswordForm = ({onClose}) => {
         body: JSON.stringify({ email }),
       });
       const data = await response.json();
-      console.log(data);
       if (data.success) {
         setMessage(data.message);
         toast.success("We have sent you a reset link to your email.", {

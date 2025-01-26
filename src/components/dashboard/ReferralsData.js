@@ -17,7 +17,6 @@ export default function ReferralsData() {
         setIsLoading(true);
         const response = await fetch("/api/referrals/");
         const data = await response.json();
-        console.log("data", data);
         if (user && user.role === "manager") {
           setReferralsData(data.data);
         } else if (user && user.role === "admin") {
@@ -53,7 +52,6 @@ export default function ReferralsData() {
     setSelectedReport(null);
   };
 
-  console.log("referralsData", referralsData);
   return (
     <div className="">
       <div className="flex flex-col justify-start items-start">

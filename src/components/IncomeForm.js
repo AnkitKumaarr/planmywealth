@@ -9,8 +9,6 @@ const IncomeForm = ({
   handleSalaryWarning,
 }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
-
-  console.log("errors 22", errors);
   const incomeTypes = [
     "Salary",
     "Business Income",

@@ -1,20 +1,21 @@
 import nodemailer from "nodemailer";
-
 const transporter = nodemailer.createTransport({
   host: process.env.NEXT_PUBLIC_SMTP_HOST,
   port: process.env.NEXT_PUBLIC_SMTP_PORT,
   secure: true,
   auth: {
-    user: "kannojiya2ankit@gmail.com",
-    pass: "mxqjnzxwiuudthef",
+    user: process.env.NEXT_PUBLIC_SMTP_USER,
+    pass: process.env.NEXT_PUBLIC_SMTP_PASSWORD,
   },
 });
+
+console.log("transporter", transporter);
 
 export async function sendVerificationEmail(email, token) {
   const verificationLink = `${process.env.NEXT_PUBLIC_APP_URL}/verify?token=${token}`;
 
   const mailOptions = {
-    from: "kannojiya2ankit@gmail.com",
+    from: process.env.NEXT_PUBLIC_SMTP_USER,
     to: email,
     subject: "Verify Your Email - Plan My Wealth",
     html: `
@@ -39,7 +40,7 @@ export async function sendResetPasswordEmail(email, token) {
   const resetLink = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`;
 
   const mailOptions = {
-    from: "kannojiya2ankit@gmail.com",
+    from: process.env.NEXT_PUBLIC_SMTP_USER,
     to: email,
     subject: "Reset Your Password - Plan My Wealth",
     html: `
@@ -60,7 +61,7 @@ export async function sendResetPasswordEmail(email, token) {
 
 export async function sendPasswordResetSuccessEmail(email) {
   const mailOptions = {
-    from: "kannojiya2ankit@gmail.com",
+    from: process.env.NEXT_PUBLIC_SMTP_USER,
     to: email,
     subject: "Password Reset Success - Plan My Wealth",
     html: `

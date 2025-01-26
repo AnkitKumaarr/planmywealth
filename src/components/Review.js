@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import SignInDialog from "./SignInDialog";
 import { useAuth } from "@/context/AuthContext";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import Loader from "./Loader";
 
 export default function Review({ onBackStep, setCurrentStep }) {
@@ -16,6 +16,8 @@ export default function Review({ onBackStep, setCurrentStep }) {
   const handleEdit = (step) => {
     setCurrentStep(step);
   };
+
+  console.log("formData", formData);
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-IN", {
@@ -67,11 +69,11 @@ export default function Review({ onBackStep, setCurrentStep }) {
           onClose={() => handleSignInOpen(false)}
         />
       )}
-      <div className="max-w-3xl mx-auto p-4">
-        <h1 className="text-3xl font-bold text-center mb-4">
+      <div className="max-w-3xl mx-auto ">
+        <h2 className="text-2xl font-bold text-center mb-4">
           Summary of your details
-        </h1>
-        <p className="text-center text-gray-600 mb-8">
+        </h2>
+        <p className="text-center text-sm text-gray-600 mb-2 px-4">
           Please confirm if all the details shown below are correct. You will
           not be able to make
           <span className="font-bold"> any</span> changes once the report is
@@ -80,7 +82,7 @@ export default function Review({ onBackStep, setCurrentStep }) {
 
         <button
           onClick={onBackStep}
-          className="flex items-center text-gray-600 mb-6"
+          className="flex items-center text-gray-600 mb-6 px-4"
         >
           ← Back
         </button>
@@ -89,7 +91,7 @@ export default function Review({ onBackStep, setCurrentStep }) {
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="mb-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold text-green-600">1. BASIC</h2>
+              <h2 className="text-md font-semibold text-green-600">1. BASIC</h2>
               <button
                 onClick={() => handleEdit(1)}
                 className="text-gray-600 hover:text-gray-800"
@@ -125,7 +127,7 @@ export default function Review({ onBackStep, setCurrentStep }) {
           {/* Income */}
           <div className="mb-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold text-green-600">
+              <h2 className="text-md font-semibold text-green-600">
                 2. INCOME
               </h2>
               <button
@@ -154,7 +156,7 @@ export default function Review({ onBackStep, setCurrentStep }) {
           {/* Dependants */}
           <div className="mb-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold text-green-600">
+              <h2 className="text-md font-semibold text-green-600">
                 3. DEPENDANTS
               </h2>
               <button
@@ -177,9 +179,9 @@ export default function Review({ onBackStep, setCurrentStep }) {
           </div>
 
           {/* Assets & Liabilities */}
-          <div className="mb-6">
+          <div className="mb-24 sm:mb-0">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold text-green-600">
+              <h2 className="text-md font-semibold text-green-600">
                 4. ASSETS & LIABILITIES
               </h2>
               <button
@@ -217,10 +219,14 @@ export default function Review({ onBackStep, setCurrentStep }) {
                 </strong>{" "}
                 for <strong>{formData.numberOfKids}</strong> Kids
               </p>
+              <p>
+                Emergency fund: ₹{" "}
+                <strong>{formData.emergencyFundAmount}</strong>
+              </p>
             </div>
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center  w-full fixed bottom-0 left-0 right-0 sm:relative bg-white  sm:bg-transparent sm:p-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.3)] sm:shadow-none">
             <button
               onClick={handleGenerateReport}
               className="w-7/12  bg-green-500 text-white text-center py-4 rounded-full hover:bg-green-600 transition-colors mt-8"

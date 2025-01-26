@@ -37,7 +37,7 @@ export default function Navbar() {
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-full mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
+          <div className="flex items-center ">
             <Link href="/">
               <Image
                 width={200}
@@ -53,12 +53,14 @@ export default function Navbar() {
             {loading ? (
               <div className="animate-pulse h-8 w-24 bg-gray-200 rounded"></div>
             ) : user ? (
-              <div className="flex items-center">
-                <button className="flex items-center space-x-3 focus:outline-none">
+              <div className="flex items-center justify-center">
+                <button className="flex items-center space-x-3 focus:outline-none ">
                   <div className="h-8 w-8 rounded-full bg-blue-800 flex items-center justify-center text-white">
                     {user?.name?.charAt(0)}
                   </div>
-                  <span className="text-gray-700">My Account</span>
+                  <span className="text-gray-700 hidden sm:block">
+                    My Account
+                  </span>
                 </button>
 
                 <div className="hidden group-hover:block absolute right-0 mt-80 w-72 bg-white rounded-lg shadow-lg py-1 z-50">
@@ -79,7 +81,7 @@ export default function Navbar() {
                   <div className="py-2">
                     <Link
                       href="/dashboard"
-                      className="flex items-center space-x-3 px-6 py-3 text-gray-700 hover:bg-gray-50"
+                      className="flex items-center  space-x-3 px-6 py-3 text-gray-700 hover:bg-gray-50"
                     >
                       <FaUser className="text-gray-400" />
                       <span>My Account</span>

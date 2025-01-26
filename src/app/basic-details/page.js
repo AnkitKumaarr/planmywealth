@@ -24,7 +24,7 @@ import Review from "@/components/Review";
 
 export default function BasicDetails() {
   const { formData, handleInputChange, errors, setErrors } = useFormData();
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(1);
   const router = useRouter();
 
   const renderStep = () => {
@@ -413,12 +413,12 @@ export default function BasicDetails() {
                 )}
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row justify-between py-4 mt-2 items-center w-full fixed bottom-0 left-0 right-0 sm:relative bg-white sm:bg-transparent sm:p-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.3)] sm:shadow-none">
+            <div className="flex py-4 mt-2 items-center justify-center gap-16 px-4 w-full fixed bottom-0 left-0 right-0 sm:relative bg-white sm:bg-transparent sm:p-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.3)] sm:shadow-none">
               {(currentStep > 1 || currentStep === 16) && (
                 <button
                   type="button"
                   onClick={handlePrevious}
-                  className="text-gray-500 hover:text-gray-700  sm:mb-0 order-2 sm:order-1"
+                  className="text-gray-500 hover:text-gray-700  sm:mb-0 "
                 >
                   ← Previous
                 </button>
@@ -426,7 +426,7 @@ export default function BasicDetails() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="bg-green-500 text-white px-16 py-3 sm:px-8 sm:py-3 rounded-md hover:bg-green-600 transition-colors order-1 sm:order-2 sm:ml-auto  sm:mb-0"
+                className="bg-green-500 text-white ml-center px-16 py-3 sm:px-8 sm:py-3 rounded-md hover:bg-green-600 transition-colors order-1 sm:order-2 sm:ml-auto  sm:mb-0"
               >
                 {currentStep === 16 ? "Review" : "Next →"}
               </button>

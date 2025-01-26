@@ -3,7 +3,6 @@ import { FaFileAlt, FaPhoneAlt, FaFolderOpen, FaWallet } from "react-icons/fa";
 import AdvisorProfileSection from "./AdvisorProfileSection";
 
 const ReportSection = ({ report }) => {
-  console.log("report", report);
   return (
     <>
       <section>
@@ -11,7 +10,7 @@ const ReportSection = ({ report }) => {
           1. Additional Term Insurance cover your family needs
         </h2>
         <div className="bg-blue-100 p-6 rounded-lg">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col md:flex-row items-center gap-2">
             <div className="text-2xl font-bold border-b-4 border-green-600">
               {report?.additionalCoverNeeded}
             </div>
@@ -32,17 +31,15 @@ const ReportSection = ({ report }) => {
           2. You should keep your cover until
         </h2>
         <div className="bg-blue-100 p-6 rounded-lg">
-          <div className="flex flex-row items-center gap-2">
+          <div className="flex flex-col md:flex-row items-center gap-2">
             <div className="text-2xl font-bold border-b-4 border-green-600">
               {report?.age}yrs
             </div>
             <div className="flex flex-col ml-4">
               <p className="text-gray-600 text-xs">
                 You should stop your term insurance cover once you have or
-                accumulated enough wealth to take care fulfilled your
-              </p>
-              <p className="text-gray-600 text-xs">
-                financial responsibilities, of your family's future expenses.
+                accumulated enough wealth to take care fulfilled your financial
+                responsibilities, of your family's future expenses.
               </p>
             </div>
           </div>
@@ -56,9 +53,9 @@ const ReportSection = ({ report }) => {
         <h2 className="text-md font-bold mb-4">
           3. Plan how your nominee will receive the claim amount
         </h2>
-        <div className="bg-blue-100 p-6 rounded-lg">
+        <div className="bg-blue-100 flex flex-col md:flex-row items-center gap-2 p-6 rounded-lg">
           <div className="flex items-center gap-2">
-            <div className="text-2xl font-bold ">{report?.nomineeReaction}</div>
+            <div className="text-lg font-bold ">{report?.nomineeReaction}</div>
             <p className="text-gray-600 text-xs"></p>
           </div>
         </div>
@@ -72,7 +69,7 @@ const ReportSection = ({ report }) => {
         <AdvisorProfileSection flow={"horizontal"} />
       </div>
       <section className="border-2 border-green-300 p-4 rounded-lg mt-6">
-        <div className="flex flex-row justify-between items-center gap-2">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-2">
           <h2 className="text-lg font-bold text-green-600 mb-4">
             Suggested customizations
           </h2>
@@ -82,7 +79,7 @@ const ReportSection = ({ report }) => {
         </div>
         <div className=" p-4 rounded-lg mb-4">
           <h3 className="text-md font-semibold">Payment Mode</h3>
-          <div className="bg-blue-100 flex flex-row justify-between items-center p-6 rounded-lg mt-2">
+          <div className="bg-blue-100 flex flex-col md:flex-row justify-between items-center p-6 rounded-lg mt-2">
             <p className="font-bold flex-1">Monthly Mode / Annual Mode</p>
             <p className="text-gray-600 flex-1 text-xs">
               Don't rely on just your memory. Put standing instructions on your
@@ -98,7 +95,7 @@ const ReportSection = ({ report }) => {
 
         <div className=" p-4 rounded-lg mb-4">
           <h3 className="text-md font-semibold">Payment Mode Term</h3>
-          <div className="bg-blue-100 flex flex-row justify-between items-center p-6 rounded-lg mt-2">
+          <div className="bg-blue-100 flex flex-col md:flex-row justify-between items-center p-6 rounded-lg mt-2">
             <p className="font-bold flex-1 pr-4 ">
               Based on our research, people like you opt for 'Regular Pay'
             </p>
@@ -113,7 +110,7 @@ const ReportSection = ({ report }) => {
           <h3 className="text-md font-semibold">
             Opt for Accidental Death Benefit Rider.
           </h3>
-          <div className="bg-blue-100 flex flex-row justify-between items-center p-5 rounded-lg mt-2">
+          <div className="bg-blue-100 flex flex-col md:flex-row justify-between items-center p-5 rounded-lg mt-2">
             <p className="font-bold flex-1">
               Opt for the maximum cover available to you
             </p>

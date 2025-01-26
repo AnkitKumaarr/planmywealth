@@ -11,6 +11,13 @@ import ReportSection from "./ReportSection";
 import AdvisorProfileSection from "./AdvisorProfileSection";
 import RefillDialog from "./RefillDialog";
 import { usePDF } from "react-to-pdf";
+import { FaArrowLeft } from "react-icons/fa";
+
+// Create a reusable PDF configuration
+const pdfOptions = {
+  format: "a4",
+  page: { margin: 10 }
+};
 
 const GenerateReport = () => {
   const router = useRouter();
@@ -102,8 +109,13 @@ const GenerateReport = () => {
     document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Create a reusable download function
+  const handleDownloadPDF = () => {
+    toPDF(pdfOptions);
+  };
+
   return (
-    <div className="min-h-screen bg-white flex">
+    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
       {isLoading ? (
         <div className="min-h-screen flex flex-col w-full justify-center items-center">
           <Loader size="90px" />
@@ -112,8 +124,8 @@ const GenerateReport = () => {
         </div>
       ) : (
         <>
-          {/* Left Sidebar */}
-          <div className="fixed left-0 top-0 h-full w-64 border-r border-gray-200 bg-white p-6">
+          {/* Left Sidebar - Only visible on desktop */}
+          <div className="hidden lg:block fixed left-0 top-0 h-full w-64 border-r border-gray-200 bg-white p-6">
             <div
               className="mb-4 cursor-pointer"
               onClick={() => router.push("/")}
@@ -195,7 +207,7 @@ const GenerateReport = () => {
               >
                 <span className="mr-2">↻</span> Refill form
               </button>
-              <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="bg-gray-50 rounded-lg">
                 <h4 className="font-medium mb-2">FAQ's</h4>
                 <div className="space-y-2 text-gray-600">
                   <button className="flex items-center justify-between w-full">
@@ -203,7 +215,7 @@ const GenerateReport = () => {
                     <span>→</span>
                   </button>
                   <button className="flex items-center justify-between w-full">
-                    <span className="mr-2">💬</span> Why trust Beshak?{" "}
+                    <span className="mr-2">💬</span> Why trust PlanMyWealth?{" "}
                     <span>→</span>
                   </button>
                 </div>
@@ -211,9 +223,30 @@ const GenerateReport = () => {
             </div>
           </div>
 
+          {/* Mobile Header */}
+          <div className="lg:hidden fixed top-0 left-0 right-0 w-full border-b border-gray-200 px-4  bg-white shadow-[0_4px_6px_4px_rgba(0,0,0,0.1)]">
+            <div className="flex items-center justify-between">
+              <Link href="/" className="text-gray-500 font-medium">
+                <span className="m-2 ">
+                  <FaArrowLeft />
+                </span>
+              </Link>
+              <div className="flex items-center justify-center">
+                <Image
+                  width={150}
+                  height={80}
+                  src="/images/PlaneMyWealth.png"
+                  alt="planmywealth Logo"
+                />
+              </div>
+              {/* Empty div to maintain center alignment */}
+              <div className="w-[52px]"></div>
+            </div>
+          </div>
+
           {/* Main Content */}
-          <div className="flex-1 ml-64 mr-80" ref={targetRef}>
-            <div className="px-20 py-4" id="feature-recipe">
+          <div className="flex-1 lg:ml-64 lg:mr-80" ref={targetRef}>
+            <div className="px-4 lg:px-20 py-4 mt-16 lg:mt-0" id="feature-recipe">
               {/* Header */}
               <div className="mb-8">
                 <h2 className="text-xl font-bold">
@@ -236,21 +269,21 @@ const GenerateReport = () => {
                   refer to you only advisors who are credible, whom we have
                   personally interviewed, but at the same time you are free to
                   evaluate their services independently and decide whether you
-                  want to go ahead with them or not. Beshak won't be liable or
-                  responsible for the conversations, decisions happening between
-                  you and the advisor.
+                  want to go ahead with them or not. Plan My Wealth won't be
+                  liable or responsible for the conversations, decisions
+                  happening between you and the advisor.
                 </p>
               </div>
             </div>
           </div>
 
           {/* Right Sidebar */}
-          <div className="fixed right-0 top-0 h-full w-80 bg-white p-6 border-l">
+          <div className="hidden lg:block fixed right-0 top-0 h-full w-80 bg-white p-6 border-l">
             {/* Top Navigation */}
             <div className="flex justify-end items-center px-6 py-4 border-b">
               <div className="flex gap-4">
                 <button
-                  onClick={() => toPDF({ format: "a4", page: { margin: 10 } })}
+                  onClick={handleDownloadPDF}
                   className="flex items-center text-green-500 border border-green-500 rounded-lg px-4 py-2"
                 >
                   <FiDownload className="mr-2" /> Report
@@ -265,6 +298,21 @@ const GenerateReport = () => {
             {/* Advisor Section */}
             <AdvisorProfileSection />
           </div>
+
+          {/* Mobile Fixed Bottom Bar */}
+          <div className="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.3)] sm:shadow-none">
+            <div className="container mx-auto max-w-md">
+              <button
+                onClick={() => toPDF({ format: "a4", page: { margin: 10 } })}
+                className="w-full flex items-center justify-center text-green-500 border border-green-500 rounded-lg px-4 py-3 text-center"
+              >
+                <FiDownload className="mr-2" /> Download Report
+              </button>
+            </div>
+          </div>
+
+          {/* Add bottom padding on mobile to account for fixed bottom bar */}
+          <div className="h-20 lg:hidden"></div>
         </>
       )}
 

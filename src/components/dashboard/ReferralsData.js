@@ -55,15 +55,19 @@ export default function ReferralsData() {
 
   console.log("referralsData", referralsData);
   return (
-    <div className="space-y-4">
+    <div className="">
       <div className="flex flex-col justify-start items-start">
-        <h1 className="text-2xl font-bold mb-2">Your Referrals</h1>
-        <p className="text-black">Keep track of all your referrals.</p>
+        <h1 className="text-lg md:text-2xl lg:text-3xl font-bold mb-1 md:mb-2">
+          Your Referrals
+        </h1>
+        <p className="text-xs md:text-base text-black">
+          Keep track of all your referrals.
+        </p>
       </div>
 
-      <div className="flex flex-col items-center  h-[60vh] bg-white rounded-lg shadow p-8">
+      <div className="flex flex-col items-center bg-white min-h-[60vh] rounded-lg shadow p-1 md:p-4 lg:p-8">
         {isLoading ? (
-          <div className="flex justify-center items-center h-full">
+          <div className="flex justify-center items-center h-[60vh]">
             <Loader size="48px" />
           </div>
         ) : (
@@ -73,254 +77,211 @@ export default function ReferralsData() {
             referralsData === undefined ? (
               <EmptyState message="You don't have any referrals yet." />
             ) : (
-              <table className="min-w-full">
-                <thead>
-                  <tr className="bg-gray-200">
-                    <th className="py-2 text-center border border-gray-400">
-                      S.No
-                    </th>
-                    <th className="py-2 text-center border border-gray-400">
-                      Name
-                    </th>
-                    <th className="py-2 text-center border border-gray-400">
-                      Email
-                    </th>
-                    <th className="py-2 text-center border border-gray-400">
-                      Age
-                    </th>
-                    <th className="py-2 text-center border border-gray-400">
-                      Life Insurance Need
-                    </th>
-                    <th className="py-2 text-center border border-gray-400">
-                      Retirement Age
-                    </th>
-                    {user && user.role === "admin" && (
-                      <>
-                        <th className="py-2 text-center border border-gray-400">
-                          Referred by
-                        </th>
-                        <th className="py-2 text-center border border-gray-400">
-                          Referred by Email
-                        </th>
-                      </>
-                    )}
-                    <th className="py-2 text-center border border-gray-400">
-                      Action
-                    </th>
-                    {/* Add more headers as needed */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {referralsData?.map((report, index) => (
-                    <tr key={report.id} className="">
-                      <td className="border border-gray-400 text-center px-4 py-2">
-                        {index + 1}
-                      </td>
-                      <td className="border border-gray-400 text-center px-4 py-2">
-                        {report.first_name?.toUpperCase() +
-                          " " +
-                          report.last_name?.toUpperCase()}
-                      </td>
-                      <td className="border border-gray-400 text-center px-4 py-2">
-                        {report.userEmail || "N/A"}
-                      </td>
-
-                      <td className="border border-gray-400 text-center px-4 py-2">
-                        {report.age}
-                      </td>
-                      <td className="border border-gray-400 text-center px-4 py-2">
-                        {formatToWords(report.lifeInsuranceNeed)}
-                      </td>
-                      <td className="border border-gray-400 text-center px-4 py-2">
-                        {report.retirement_age}
-                      </td>
+              <div className="w-full overflow-x-auto">
+                <table className="min-w-full table-auto text-[10px] md:text-base">
+                  <thead>
+                    <tr className="bg-gray-200">
+                      <th className="py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
+                        S.No
+                      </th>
+                      <th className="py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
+                        Name
+                      </th>
+                      <th className="hidden md:table-cell py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
+                        Email
+                      </th>
+                      <th className="hidden md:table-cell py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
+                        Age
+                      </th>
+                      <th className="py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
+                        Life Insurance Need
+                      </th>
+                      <th className="hidden md:table-cell py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
+                        Retirement Age
+                      </th>
                       {user && user.role === "admin" && (
                         <>
-                          <td className="border border-gray-400 text-center px-4 py-2">
-                            {report.referby_name || "N/A"}
-                          </td>
-                          <td className="border border-gray-400 text-center px-4 py-2">
-                            {report.referby_email || "N/A"}
-                          </td>
+                          <th className="py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
+                            Referred by
+                          </th>
+                          <th className="hidden md:table-cell py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
+                            Referred by Email
+                          </th>
                         </>
                       )}
-                      <td className="border border-gray-400 text-center px-4 py-2">
-                        <button
-                          className="bg-blue-500 text-white px-4 py-2 rounded-md"
-                          onClick={() => handleViewReport(report)}
-                        >
-                          View Full Report
-                        </button>
-                      </td>
-                      {/* Add more data cells as needed */}
+                      <th className="py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
+                        Action
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {referralsData?.map((report, index) => (
+                      <tr key={report.id}>
+                        <td className="border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2 text-[10px] md:text-sm">
+                          {index + 1}
+                        </td>
+                        <td className="border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2 text-[10px] md:text-sm">
+                          {report.first_name?.toUpperCase() +
+                            " " +
+                            report.last_name?.toUpperCase()}
+                        </td>
+                        <td className="hidden md:table-cell border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2 text-[10px] md:text-sm">
+                          {report.userEmail || "N/A"}
+                        </td>
+                        <td className="hidden md:table-cell border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2 text-[10px] md:text-sm">
+                          {report.age}
+                        </td>
+                        <td className="border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2 text-[10px] md:text-sm">
+                          {formatToWords(report.lifeInsuranceNeed)}
+                        </td>
+                        <td className="hidden md:table-cell border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2 text-[10px] md:text-sm">
+                          {report.retirement_age}
+                        </td>
+                        {user && user.role === "admin" && (
+                          <>
+                            <td className="border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2 text-[10px] md:text-sm">
+                              {report.referby_name || "N/A"}
+                            </td>
+                            <td className="hidden md:table-cell border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2 text-[10px] md:text-sm">
+                              {report.referby_email || "N/A"}
+                            </td>
+                          </>
+                        )}
+                        <td className="border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2">
+                          <button
+                            className="bg-blue-500 text-white px-1.5 md:px-4 py-0.5 md:py-2 rounded text-[10px] md:text-sm"
+                            onClick={() => handleViewReport(report)}
+                          >
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </>
         )}
       </div>
-      {/* Modal */}
+
+      {/* Modal with smaller text for mobile */}
       {isModalOpen && selectedReport && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white rounded-lg shadow-lg  mx-4 p-6">
-            <div className="text-center">
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                {selectedReport.first_name.toUpperCase()}{" "}
-                {selectedReport.last_name.toUpperCase()}
-              </h3>
-              {user && user.role === "admin" && (
-                <>
-                  <p>
-                    Referred by:{" "}
-                    <span className="font-bold">
-                      {selectedReport.referby_name || "N/A"}
-                    </span>
-                  </p>
-                  <p>
-                    Referred person email:{" "}
-                    <span className="font-bold">
-                      {selectedReport.referby_email || "N/A"}
-                    </span>
-                  </p>
-                </>
-              )}
-              <div className="grid grid-cols-4 gap-4 space-y-2 text-left">
-                <p>
-                  <strong>Email:</strong> {selectedReport.userEmail}
-                </p>
-                <p>
-                  <strong>Date of Birth:</strong>{" "}
-                  {new Date(selectedReport.date_of_birth).toLocaleDateString()}
-                </p>
-                <p>
-                  <strong>Age:</strong> {selectedReport.age}
-                </p>
-                <p>
-                  <strong>Pincode:</strong> {selectedReport.pincode}
-                </p>
-                <p>
-                  <strong>Gender:</strong> {selectedReport.gender}
-                </p>
-                <p>
-                  <strong>Education:</strong> {selectedReport.education}
-                </p>
-                <p>
-                  <strong>Disease:</strong>{" "}
-                  {selectedReport.disease ? "Yes" : "No"}
-                </p>
-                <p>
-                  <strong>Smoking:</strong>{" "}
-                  {selectedReport.smoking ? "Yes" : "No"}
-                </p>
-                <p>
-                  <strong>Alcohol:</strong>{" "}
-                  {selectedReport.alcohol ? "Yes" : "No"}
-                </p>
-                <p>
-                  <strong>Total Income:</strong>{" "}
-                  {formatToWords(selectedReport.total_income)}
-                </p>
-                <p>
-                  <strong>Income Stability:</strong>{" "}
-                  {selectedReport.income_stability}
-                </p>
-                <p>
-                  <strong>Retirement Age:</strong>{" "}
-                  {selectedReport.retirement_age}
-                </p>
-                <p>
-                  <strong>Has Dependents:</strong>{" "}
-                  {selectedReport.hasDependents ? "Yes" : "No"}
-                </p>
-                <p>
-                  <strong>Dependents:</strong> {selectedReport.dependents}
-                </p>
-                <p>
-                  <strong>Nominee Reaction:</strong>{" "}
-                  {selectedReport.nomineeReaction}
-                </p>
-                <p>
-                  <strong>Knows Living Expenses:</strong>{" "}
-                  {selectedReport.knowsLivingExpenses ? "Yes" : "No"}
-                </p>
-                <p>
-                  <strong>Monthly Expenses:</strong>{" "}
-                  {formatToWords(selectedReport.monthly_expenses)}
-                </p>
-                <p>
-                  <strong>Has Loans:</strong>{" "}
-                  {selectedReport.hasLoans ? "Yes" : "No"}
-                </p>
-                <p>
-                  <strong>Loan Amount:</strong>{" "}
-                  {formatToWords(selectedReport.loan_amount)}
-                </p>
-                <p>
-                  <strong>Has Savings:</strong>{" "}
-                  {selectedReport.hasSavings ? "Yes" : "No"}
-                </p>
-                <p>
-                  <strong>Savings Amount:</strong>{" "}
-                  {formatToWords(selectedReport.savings_amount)}
-                </p>
-                <p>
-                  <strong>Knows Investments:</strong>{" "}
-                  {selectedReport.knowsInvestments ? "Yes" : "No"}
-                </p>
-                <p>
-                  <strong>Total Investments:</strong>{" "}
-                  {formatToWords(selectedReport.total_investments)}
-                </p>
-                <p>
-                  <strong>Has Life Cover:</strong>{" "}
-                  {selectedReport.hasLifeCover ? "Yes" : "No"}
-                </p>
-                <p>
-                  <strong>Life Cover Amount:</strong>{" "}
-                  {formatToWords(selectedReport.life_cover_amount)}
-                </p>
-                <p>
-                  <strong>Number of Kids:</strong>{" "}
-                  {selectedReport.number_of_kids}
-                </p>
-                <p>
-                  <strong>Education Expenses:</strong>{" "}
-                  {formatToWords(selectedReport.education_expenses)}
-                </p>
-                <p>
-                  <strong>Wedding Expenses:</strong>{" "}
-                  {formatToWords(selectedReport.wedding_expenses)}
-                </p>
-                <p>
-                  <strong>Has Emergency Fund:</strong>{" "}
-                  {selectedReport.hasEmergencyFund ? "Yes" : "No"}
-                </p>
-                <p>
-                  <strong>Emergency Fund Amount:</strong>{" "}
-                  {formatToWords(selectedReport.emergency_fund_amount)}
-                </p>
-                <p>
-                  <strong>Emergency Fund Months:</strong>{" "}
-                  {selectedReport.emergency_fund_months}
-                </p>
-                <p>
-                  <strong>Life Insurance Need:</strong>{" "}
-                  {formatToWords(selectedReport.lifeInsuranceNeed)}
-                </p>
-                <p>
-                  <strong>Additional Cover Needed:</strong>{" "}
-                  {formatToWords(selectedReport.additionalCoverNeeded)}
-                </p>
-              </div>
-              <div className="mt-6">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-2 md:p-4 z-50 overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-6xl max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white p-2 md:p-4 border-b z-10">
+              <div className="flex justify-between items-center">
+                <h3 className="text-sm md:text-xl lg:text-2xl font-semibold text-gray-800">
+                  {selectedReport.first_name?.toUpperCase()}{" "}
+                  {selectedReport.last_name?.toUpperCase()}
+                </h3>
                 <button
-                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors"
                   onClick={closeModal}
+                  className="text-gray-500 hover:text-gray-700"
+                  aria-label="Close modal"
                 >
-                  Close
+                  <svg
+                    className="w-4 h-4 md:w-6 md:h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
                 </button>
+              </div>
+            </div>
+
+            <div className="p-2 md:p-6">
+              {user && user.role === "admin" && (
+                <div className="mb-6 border-b pb-4">
+                  <h4 className="font-semibold text-xs text-blue-600 md:text-lg mb-2">Referral Information</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Referred by:</span> {selectedReport.referby_name || "N/A"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Referrer's Email:</span> {selectedReport.referby_email || "N/A"}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                {/* Personal Information Section */}
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">Personal Information</h4>
+                  <div className="space-y-1">
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Email:</span> {selectedReport.userEmail}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Date of Birth:</span> {new Date(selectedReport.date_of_birth).toLocaleDateString()}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Age:</span> {selectedReport.age}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Gender:</span> {selectedReport.gender}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Education:</span> {selectedReport.education}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Pincode:</span> {selectedReport.pincode}</p>
+                  </div>
+                </div>
+
+                {/* Health Information Section */}
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">Health Information</h4>
+                  <div className="space-y-1">
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Pre-existing Disease:</span> {selectedReport.disease ? "Yes" : "No"}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Smoking Habit:</span> {selectedReport.smoking ? "Yes" : "No"}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Alcohol Consumption:</span> {selectedReport.alcohol ? "Yes" : "No"}</p>
+                  </div>
+                </div>
+
+                {/* Financial Overview Section */}
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">Financial Overview</h4>
+                  <div className="space-y-1">
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Total Income:</span> {formatToWords(selectedReport.total_income)}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Income Stability:</span> {selectedReport.income_stability}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Retirement Age:</span> {selectedReport.retirement_age}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Monthly Expenses:</span> {formatToWords(selectedReport.monthly_expenses)}</p>
+                  </div>
+                </div>
+
+                {/* Dependents Information Section */}
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">Dependents Information</h4>
+                  <div className="space-y-1">
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Has Dependents:</span> {selectedReport.hasDependents ? "Yes" : "No"}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Number of Dependents:</span> {selectedReport.dependents}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Number of Kids:</span> {selectedReport.number_of_kids}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Education Expenses:</span> {formatToWords(selectedReport.education_expenses)}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Wedding Expenses:</span> {formatToWords(selectedReport.wedding_expenses)}</p>
+                  </div>
+                </div>
+
+                {/* Savings & Investments Section */}
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">Savings & Investments</h4>
+                  <div className="space-y-1">
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Has Savings:</span> {selectedReport.hasSavings ? "Yes" : "No"}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Savings Amount:</span> {formatToWords(selectedReport.savings_amount)}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Total Investments:</span> {formatToWords(selectedReport.total_investments)}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Emergency Fund:</span> {selectedReport.hasEmergencyFund ? "Yes" : "No"}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Emergency Fund Amount:</span> {formatToWords(selectedReport.emergency_fund_amount)}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Emergency Fund Duration:</span> {selectedReport.emergency_fund_months} months</p>
+                  </div>
+                </div>
+
+                {/* Insurance Details Section */}
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">Insurance Details</h4>
+                  <div className="space-y-1">
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Has Life Cover:</span> {selectedReport.hasLifeCover ? "Yes" : "No"}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Current Life Cover:</span> {formatToWords(selectedReport.life_cover_amount)}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Life Insurance Need:</span> {formatToWords(selectedReport.lifeInsuranceNeed)}</p>
+                    <p className="text-[10px] md:text-base"><span className="font-medium">Additional Cover Needed:</span> {formatToWords(selectedReport.additionalCoverNeeded)}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

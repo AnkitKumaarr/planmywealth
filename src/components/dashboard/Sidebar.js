@@ -43,28 +43,35 @@ export default function Sidebar({
 
   return (
     <aside
-      className={`fixed left-0 top-16 h-full bg-white shadow-md transition-all duration-300 ${
-        isOpen ? "w-64" : "w-0"
-      } overflow-hidden`}
+      className={`fixed  left-0 h-[calc(100vh-64px)] bg-white shadow-lg z-30
+        w-64 transform transition-transform duration-300 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        lg:relative lg:translate-x-0 lg:z-0`}
     >
-      <div className="py-2">
-        {menuItems.map((item, index) => (
-          <a
-            key={index}
-            className={`flex items-center px-6 py-3 cursor-pointer ${
-              pathname === item.path
-                ? "bg-gray text-green-600 font-semibold"
-                : "text-gray-700 hover:bg-gray-100"
-            }`}
-            onClick={() => {
-              handlePathChange(item.path);
-              localStorage.setItem("pmwcurrentPath", item.path);
-            }}
-          >
-            <span className="mr-3">{item.icon}</span>
-            <span>{item.title}</span>
-          </a>
-        ))}
+      <div className="h-full overflow-y-auto">
+        <div className="py-2">
+          {menuItems.map((item, index) => (
+            <a
+              key={index}
+              className={`flex items-center px-6 py-3 cursor-pointer transition-colors
+                hover:bg-gray-50 active:bg-gray-100
+                ${pathname === item.path
+                  ? "bg-green-50 text-green-600 font-semibold"
+                  : "text-gray-700"
+                }`}
+              onClick={() => {
+                handlePathChange(item.path);
+                localStorage.setItem("pmwcurrentPath", item.path);
+                if (window.innerWidth < 1024) {
+                  setIsOpen(false);
+                }
+              }}
+            >
+              <span className="mr-3 text-xl">{item.icon}</span>
+              <span className="text-sm">{item.title}</span>
+            </a>
+          ))}
+        </div>
       </div>
     </aside>
   );

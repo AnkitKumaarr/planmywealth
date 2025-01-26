@@ -8,7 +8,7 @@ import SignInDialog from "../SignInDialog";
 import { ToastContainer, toast } from "react-toastify";
 import { FaUser, FaHeadset, FaSignOutAlt, FaComments } from "react-icons/fa";
 
-export default function Navbar() {
+export default function Navbar({ sidebarOpen, setSidebarOpen }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const router = useRouter();
   const { user, loading, logout, isSignInOpen, handleSignInOpen } = useAuth();
@@ -34,21 +34,40 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
-      <div className="max-w-full mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center ">
-            <Link href="/">
-              <Image
-                width={200}
-                height={200}
-                src="/images/PlaneMyWealth.png"
-                alt="planmywealth Logo"
-                style={{ marginBottom: "1rem" }}
-              />
-            </Link>
-          </div>
+    <nav className="bg-white shadow-sm h-16 fixed w-full top-0 z-40">
+      <div className="h-full px-4 flex items-center justify-between">
+        {/* Menu button for mobile */}
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="lg:hidden p-2 rounded-md hover:bg-gray-100"
+        >
+          {sidebarOpen ? (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          )}
+        </button>
 
+        {/* Logo */}
+        <div className="flex items-center">
+          <Link href="/">
+            <Image
+              width={200}
+              height={200}
+              src="/images/PlaneMyWealth.png"
+              alt="planmywealth Logo"
+              style={{ marginBottom: "1rem" }}
+            />
+          </Link>
+        </div>
+
+        {/* Right side content */}
+        <div className="flex items-center space-x-4">
+          {/* Add your navbar items here */}
           <div className="relative group">
             {loading ? (
               <div className="animate-pulse h-8 w-24 bg-gray-200 rounded"></div>

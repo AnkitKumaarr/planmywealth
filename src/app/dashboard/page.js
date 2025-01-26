@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/dashboard/Navbar";
 import Sidebar from "@/components/dashboard/Sidebar";
 import DashboardContent from "@/components/dashboard/DashboardContent";
-import { usePathname } from "next/navigation";
 import ReportsContent from "@/components/dashboard/ReportsContent";
 import DocumentsContent from "@/components/dashboard/DocumentsContent";
 import QuotationsContent from "@/components/dashboard/QuotationsContent";
@@ -12,14 +11,17 @@ import AccountContent from "@/components/dashboard/AccountContent";
 import ReferralsData from "@/components/dashboard/ReferralsData";
 
 export default function Dashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
 
   useEffect(() => {
     const path = localStorage.getItem("pmwcurrentPath");
     setCurrentPath(path);
-  }, []);
 
+    if (window.innerWidth >= 1024) {
+      setSidebarOpen(true);
+    }
+  }, []);
   const CustomContent = () => {
     switch (currentPath) {
       case "dashboard":
@@ -42,19 +44,28 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200">
-      <Navbar />
-      <div className="flex">
+    <div className="min-h-screen bg-gray-100">
+      <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <div className="flex pt-16">
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 lg:hidden z-20"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+
         <Sidebar
           isOpen={sidebarOpen}
           setIsOpen={setSidebarOpen}
           pathname={currentPath}
           handlePathChange={setCurrentPath}
         />
+
         <main
-          className={`flex-1 p-8 ${
-            sidebarOpen ? "ml-64" : "ml-0"
-          } transition-all duration-300`}
+          className={`flex-1 transition-all duration-300 ease-in-out
+            min-h-[calc(100vh-64px)] w-full
+            ${sidebarOpen ? "" : "ml-0"}
+            p-4 lg:p-8`}
         >
           <CustomContent />
         </main>

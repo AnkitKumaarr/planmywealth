@@ -61,6 +61,7 @@ export function AuthProvider({ children }) {
       redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI,
       response_type: "code",
       scope: "openid email profile",
+      referId: localStorage.getItem("referId") || "",
     });
     window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
   };
@@ -75,7 +76,6 @@ export function AuthProvider({ children }) {
       if (response.status === 200) {
         const data = await response.json();
         setUser(data.data);
-        window.location.href = "/";
       }
     } catch (error) {
       console.error("Google login callback failed:", error);

@@ -9,7 +9,7 @@ export async function GET(request) {
   // Extract the code from the request URL
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
-
+  const referId = url.searchParams.get("referId");
   if (!code) {
     return NextResponse.json({ error: "Authorization code is missing" });
   }
@@ -62,12 +62,48 @@ export async function GET(request) {
       process.env.NEXT_PUBLIC_JWT_SECRET,
       { expiresIn: "7d" }
     );
+    let userReferralCode;
+    let isUnique = false;
+
+    // Generate a unique user referral code
+    while (!isUnique) {
+      userReferralCode =
+        Math.random().toString(36).substring(2, 5) +
+        Math.random().toString(36).substring(2, 5);
+
+      const [rows] = await mysql.query(
+        "SELECT * FROM pmw_users WHERE user_referral_code = ?",
+        [userReferralCode]
+      );
+
+      if (rows.length === 0) {
+        isUnique = true;
+      }
+    }
+
+    // find user referId
+    const [users] = await mysql.query(
+      "SELECT * FROM pmw_users WHERE user_referral_code = ?",
+      [referId]
+    );
+    let currentUserRole = "user";
+    if (users.length === 0) {
+      currentUserRole = "user";
+    } else {
+      const user = users[0];
+      currentUserRole =
+        user.role === "manager"
+          ? "user"
+          : user.role === "admin"
+          ? "manager"
+          : "user";
+    }
 
     if (rows.length > 0) {
       // Update token and name
       const [result] = await mysql.query(
-        "UPDATE pmw_users SET password = ?, verification_token = ?, role = ?, is_verified = ? WHERE email = ?",
-        [access_token, verification_token, "user", 1, userInfo.email]
+        "UPDATE pmw_users SET password = ?, verification_token = ?, is_verified = ? WHERE email = ?",
+        [access_token, verification_token, 1, userInfo.email]
       );
 
       if (result.affectedRows > 0) {
@@ -92,8 +128,17 @@ export async function GET(request) {
 
     // Save the data
     const [result] = await mysql.query(
-      "INSERT INTO pmw_users (full_name, email, password, verification_token, is_verified) VALUES (?, ?, ?, ?, ?)",
-      [userInfo.name, userInfo.email, access_token, verification_token, 1]
+      "INSERT INTO pmw_users (full_name, email, password, role, user_referral_code,referby_code, verification_token, is_verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      [
+        userInfo.name,
+        userInfo.email,
+        access_token,
+        currentUserRole,
+        userReferralCode,
+        referId,
+        verification_token,
+        1,
+      ]
     );
 
     if (result.affectedRows > 0) {

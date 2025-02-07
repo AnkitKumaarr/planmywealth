@@ -81,6 +81,28 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
           maxLength={6}
         />
       </div>
+      <div className="space-y-2">
+        <label className="block text-gray-700 font-medium">Age</label>
+        <select
+          className={`w-full p-2 sm:p-3 border border-1 rounded-lg  outline-none ${
+            data.age ? "border-gray-400" : "border-gray-400"
+          }`}
+          value={data.age}
+          onChange={(e) => {
+            setErrors({});
+            handleChange("age", e.target.value);
+          }}
+        >
+          <option value="">Select Age</option>
+
+          {[...Array(53)].map((_, i) => (
+            <option key={i + 18} value={i + 18}>
+              {i + 18} years
+            </option>
+          ))}
+        </select>
+        {errors.age && <p className="text-red-500">{errors.age}</p>}
+      </div>
 
       <div>
         <label className="block text-gray-700 mb-2">Gender</label>

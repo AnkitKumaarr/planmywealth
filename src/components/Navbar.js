@@ -32,7 +32,7 @@ export default function Navbar() {
           <Image
             width={200}
             height={200}
-            src="/images/PlaneMyWealth.png"
+            src="/images/PlanYourWealth.png"
             alt="planmywealth Logo"
             style={{ marginBottom: "1rem" }}
           />

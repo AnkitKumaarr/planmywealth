@@ -133,7 +133,7 @@ const GenerateReport = () => {
               <Image
                 width={210}
                 height={120}
-                src="/images/PlaneMyWealth.png"
+                src="/images/PlanYourWealth.png"
                 alt="planmywealth Logo"
               />
               <h1 className="text-3xl font-bold pl-4 text-green-500">
@@ -235,7 +235,7 @@ const GenerateReport = () => {
                 <Image
                   width={150}
                   height={80}
-                  src="/images/PlaneMyWealth.png"
+                  src="/images/PlanYourWealth.png"
                   alt="planmywealth Logo"
                 />
               </div>

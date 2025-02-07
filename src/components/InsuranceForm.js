@@ -39,16 +39,19 @@ const InsuranceForm = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 pt-12">
+    <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24  ">
       <div className="mb-8">
-        <p className=" text-purple-600 text-xl sm:text-xl mb-4 font-bold md:block">
-          <span className="hidden md:block">How much cover?</span>
-          <span>Which Term Insurance is best?</span>
+        <p className="text-purple-600  sm:text-md md:text-4xl mb-2 font-semibold">
+          Did you know that <span className=" font-bold mb-3">80% people</span>{" "}
+          who created their financial plan achieved their goals!
         </p>
-        <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-6">
-          Every question you have about buying Term Insurance answered in a
-          personalized report
-        </h1>
+
+        <div className="mt-6">
+          <span className="text-purple-600 text-lg sm:text-sm md:text-2xl  font-semibold bg-purple-50 px-6 py-1 rounded-full">
+            Start Your Journey Today!
+          </span>
+        </div>
+
       </div>
 
       <form
@@ -60,34 +63,36 @@ const InsuranceForm = () => {
             <label className="block text-gray-700 font-medium">
               Select your gender
             </label>
-            <div className="flex gap-2 sm:gap-4">
+            <div className="flex gap-3 flex-row justify-center items-center w-full">
               <button
                 type="button"
-                className={`flex-1 py-2 sm:py-3 px-2 sm:px-4 rounded-lg border ${
+                className={`flex-1 flex items-center justify-center gap-1 sm:gap-2 py-2 sm:py-[10px] px-2 sm:px-4 rounded-lg border border-1 transition-all duration-200 hover:shadow-md ${
                   formData.gender === "male"
-                    ? "border-green-500 bg-green-50"
-                    : "border-gray-300"
+                    ? "border-green-500 bg-green-50 text-green-700"
+                    : "border-gray-400 hover:border-gray-400"
                 }`}
                 onClick={() => {
                   setErrors({});
                   handleInputChange("gender", "male");
                 }}
               >
-                ♂️ Male
+                <span className="text-base sm:text-xl">♂️</span>
+                <span className="text-sm sm:text-base font-medium">Male</span>
               </button>
               <button
                 type="button"
-                className={`flex-1 py-2 sm:py-3 px-2 sm:px-4 rounded-lg border ${
+                className={`flex-1 flex items-center justify-center gap-1 sm:gap-2 py-2 sm:py-[10px] px-2 sm:px-4 rounded-lg border border-1 transition-all duration-200 hover:shadow-md ${
                   formData.gender === "female"
-                    ? "border-green-500 bg-green-50"
-                    : "border-gray-300"
+                    ? "border-green-500 bg-green-50 text-green-700"
+                    : "border-gray-400 hover:border-gray-400"
                 }`}
                 onClick={() => {
                   setErrors({});
                   handleInputChange("gender", "female");
                 }}
               >
-                ♀️ Female
+                <span className="text-base sm:text-xl">♀️</span>
+                <span className="text-sm sm:text-base font-medium">Female</span>
               </button>
             </div>
             {errors.gender && <p className="text-red-500">{errors.gender}</p>}
@@ -98,7 +103,9 @@ const InsuranceForm = () => {
               What's your Age?
             </label>
             <select
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg"
+              className={`w-full p-2 sm:p-3 border border-1 rounded-lg font-medium outline-none ${
+                formData.age ? "border-gray-400" : "border-gray-400"
+              }`}
               value={formData.age}
               onChange={(e) => {
                 setErrors({});
@@ -122,7 +129,9 @@ const InsuranceForm = () => {
             <input
               type="text"
               placeholder="Enter Pincode"
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg"
+              className={`w-full p-2 sm:p-3 border border-1 rounded-lg outline-none font-medium ${
+                formData.pincode ? "border-gray-400" : "border-gray-400"
+              }`}
               value={formData.pincode}
               onChange={(e) => {
                 setErrors({});

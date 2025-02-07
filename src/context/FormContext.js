@@ -32,6 +32,7 @@ export function FormProvider({ children }) {
     totalInvestments: 0,
     hasLifeCover: null,
     numberOfKids: 1,
+    children: [],
     educationExpenses: "",
     weddingExpenses: "",
     hasEmergencyFund: null,
@@ -46,6 +47,8 @@ export function FormProvider({ children }) {
       [field]: value,
     }));
   };
+
+  console.log(formData);
 
   return (
     <FormContext.Provider

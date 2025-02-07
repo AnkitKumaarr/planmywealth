@@ -18,7 +18,7 @@ function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -117,7 +117,7 @@ function ResetPasswordForm() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full bg-white py-4 shadow-md fixed top-0 left-0 flex ">
         <Image
-          src="/images/PlaneMyWealth.png"
+          src="/images/PlanYourWealth.png"
           alt="Plan My Wealth Logo"
           width={200}
           height={40}
@@ -166,9 +166,7 @@ function ResetPasswordForm() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className={`w-full h-10 p-3 border ${
-                  errors.confirmPassword
-                    ? "border-red-500"
-                    : "border-gray-300"
+                  errors.confirmPassword ? "border-red-500" : "border-gray-300"
                 } rounded outline-none focus:border-green-500 my-4`}
               />
               <span

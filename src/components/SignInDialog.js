@@ -26,9 +26,9 @@ export default function SignInDialog({ isOpen, onClose }) {
               <Image
                 width={200}
                 height={200}
-                src="/images/PlaneMyWealth.png"
+                src="/images/PlanYourWealth.png"
                 alt="planmywealth Logo"
-                className="mb-4 ml-0"
+                className=" ml-0"
               />
               <h3 className="text-lg sm:text-xl mb-4 font-bold">
                 Join The 1st Neutral <br /> Insurance Community Ever!

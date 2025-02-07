@@ -21,10 +21,11 @@ import { useRouter } from "next/navigation";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Navbar from "@/components/dashboard/Navbar";
 import Review from "@/components/Review";
+import RetakeButton from "@/components/RetakeButton";
 
 export default function BasicDetails() {
   const { formData, handleInputChange, errors, setErrors } = useFormData();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(15);
   const router = useRouter();
 
   const renderStep = () => {
@@ -345,7 +346,7 @@ export default function BasicDetails() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-200 ">
+    <div className="min-h-screen bg-white md:bg-gray-200">
       <div className="hidden md:flex md:flex-col">
         <Navbar />
       </div>
@@ -364,10 +365,12 @@ export default function BasicDetails() {
               <ProgressBar
                 currentSection={getCurrentSection().index}
                 sections={sections}
+                handleRetake={handleRetake}
+                currentStep={currentStep}
               />
             </div>
             <div className="max-w-3xl mx-auto   sm:px-6 lg:px-8">
-              <div className="h-1 md:h-2 bg-gray-300 rounded-md">
+              <div className=" hidden md:block h-1 md:h-2 bg-gray-300 rounded-md">
                 <div
                   className="h-1 md:h-2 bg-green-500 rounded-md transition-all duration-300"
                   style={{
@@ -381,36 +384,18 @@ export default function BasicDetails() {
                   }}
                 />
               </div>
-              <div className="bg-white rounded-md shadow-lg p-4 sm:p-6 lg:p-8">
+              <div className="bg-white rounded-md md:shadow-lg p-4 sm:p-6 lg:p-8">
                 <ProgressIndicator
                   currentStep={getRelativeStep()}
                   totalSteps={getCurrentSection().totalSteps}
                   title={getCurrentSection().title}
                 />
                 {renderStep()}
-                <div className="flex justify-between items-center  mt-4 sm:mt-8">
-                  {(currentStep > 1 || currentStep === 13) && (
-                    <button
-                      type="button"
-                      onClick={handleRetake}
-                      className="flex items-center text-gray-500 hover:text-gray-700 mb-4 sm:mb-0 text-sm"
-                    >
-                      <svg
-                        className="w-4 h-4 mr-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                        />
-                      </svg>
-                      Retake the test
-                    </button>
-                  )}
+                <div className="hidden md:block">
+                  <RetakeButton
+                    handleRetake={handleRetake}
+                    currentStep={currentStep}
+                  />
                 </div>
               </div>
               <div className="flex py-4 mt-2 items-center justify-center gap-16 px-4 w-full fixed bottom-0 left-0 right-0 sm:relative bg-white sm:bg-transparent sm:p-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.3)] sm:shadow-none">
@@ -420,7 +405,7 @@ export default function BasicDetails() {
                     onClick={handlePrevious}
                     className="text-gray-500 hover:text-gray-700  sm:mb-0 "
                   >
-                    ← Previous
+                    ←Previous
                   </button>
                 )}
                 <button
@@ -428,7 +413,7 @@ export default function BasicDetails() {
                   onClick={handleNext}
                   className="bg-green-500 text-white ml-center px-16 py-3 sm:px-8 sm:py-3 rounded-md hover:bg-green-600 transition-colors order-1 sm:order-2 sm:ml-auto  sm:mb-0"
                 >
-                  {currentStep === 16 ? "Review" : "Next →"}
+                  {currentStep === 16 ? "Review" : "Next→"}
                 </button>
               </div>
             </div>

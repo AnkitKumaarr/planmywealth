@@ -1,36 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
+import React from "react";
+import TotalExpensesSummary from "./TotalExpensesSummary";
 
-export default function KidsExpensesForm({ data, onChange, errors }) {
-  const [localChildren, setLocalChildren] = useState(data.children || []);
-
-  // Handle number of kids change
-  const handleNumberOfKidsChange = (newValue) => {
-    onChange("numberOfKids", parseInt(newValue));
-    
-    const newLocalChildren = Array(parseInt(newValue))
-      .fill(null)
-      .map((_, index) => localChildren[index] || {});
-    
-    setLocalChildren(newLocalChildren);
-  };
-
-  // Handle child field changes
-  const handleChildFieldChange = (index, field, value) => {
-    const updatedChildren = [...localChildren];
-    if (!updatedChildren[index]) {
-      updatedChildren[index] = {};
-    }
-    updatedChildren[index][field] = value;
-    console.log("updatedChildren", updatedChildren);
-    setLocalChildren(updatedChildren);
-    
-    // Update parent data
-    // onChange(`children[${index}].${field}`, value);
-  };
-
-  const InputField = ({ value, onChange, placeholder, error, isAmount }) => (
+const InputField = React.memo(
+  ({ value, onChange, placeholder, error, isAmount, name }) => (
     <div className="relative">
       {isAmount && (
         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
@@ -39,44 +14,55 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
       )}
       <input
         type="number"
+        min="0"
         value={value || ""}
-        onChange={(e) => onChange(Number(e.target.value))}
+        name={name}
+        onChange={(e) => {
+          const val = Number(e.target.value);
+          if (val >= 0) {
+            onChange(val);
+          }
+        }}
         placeholder={placeholder}
         className={`w-full p-2 border ${
           error ? "border-red-500" : "border-gray-300"
         } rounded-lg focus:ring-2 focus:outline-none focus:ring-green-500 text-sm
-        ${isAmount ? "pl-8" : ""}
-        `}
+      ${isAmount ? "pl-8" : ""}
+      `}
       />
       {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
     </div>
+  )
+);
+
+InputField.displayName = "InputField";
+
+const ChildRow = React.memo(({ index, childData, onFieldChange, errors }) => {
+  const handleChange = useCallback(
+    (field, value) => {
+      onFieldChange(index, field, value);
+    },
+    [index, onFieldChange]
   );
 
-  const TableHeader = () => (
-    <div className="grid grid-cols-5 gap-4 py-1 px-2 bg-gray-50 rounded-t-lg border-b border-gray-200 hidden md:grid">
-      {/* <div className="font-medium text-gray-700">Child</div> */}
-      <div className="font-medium text-gray-700">Age</div>
-      <div className="font-medium text-gray-700">Education Period</div>
-      <div className="font-medium text-gray-700">Education Expense</div>
-      <div className="font-medium text-gray-700">Wedding Age</div>
-      <div className="font-medium text-gray-700">Wedding Expense</div>
-    </div>
-  );
-
-  const ChildRow = ({ index }) => (
+  return (
     <div className="border-b border-gray-200 last:border-b-0">
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4 p-4">
         {/* Mobile Labels + Inputs */}
         <div className="md:hidden space-y-4">
+          <div className="font-medium text-gray-700 text-lg mb-2">
+            Child {index + 1}
+          </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Age
             </label>
             <InputField
-              value={localChildren[index]?.currentAge}
-              onChange={(val) => handleChildFieldChange(index, 'currentAge', val)}
+              value={childData?.currentAge}
+              onChange={(val) => handleChange("currentAge", val)}
               placeholder="Age"
               error={errors?.children?.[index]?.currentAge}
+              name={`child-${index}-age`}
             />
           </div>
           <div>
@@ -84,10 +70,11 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
               Education Period
             </label>
             <InputField
-              value={localChildren[index]?.educationAge}
-              onChange={(val) => handleChildFieldChange(index, 'educationAge', val)}
+              value={childData?.educationAge}
+              onChange={(val) => handleChange("educationAge", val)}
               placeholder="Education Period"
               error={errors?.children?.[index]?.educationAge}
+              name={`child-${index}-education-age`}
             />
           </div>
           <div>
@@ -95,11 +82,12 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
               Education Expense
             </label>
             <InputField
-              value={localChildren[index]?.educationExpenses}
-              onChange={(val) => handleChildFieldChange(index, 'educationExpenses', val)}
+              value={childData?.educationExpenses}
+              onChange={(val) => handleChange("educationExpenses", val)}
               placeholder="Amount"
               error={errors?.children?.[index]?.educationExpenses}
               isAmount
+              name={`child-${index}-education-expenses`}
             />
           </div>
           <div>
@@ -107,10 +95,11 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
               Wedding Age
             </label>
             <InputField
-              value={localChildren[index]?.weddingAge}
-              onChange={(val) => handleChildFieldChange(index, 'weddingAge', val)}
+              value={childData?.weddingAge}
+              onChange={(val) => handleChange("weddingAge", val)}
               placeholder="Wedding Age"
               error={errors?.children?.[index]?.weddingAge}
+              name={`child-${index}-wedding-age`}
             />
           </div>
           <div>
@@ -118,105 +107,147 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
               Wedding Expense
             </label>
             <InputField
-              value={localChildren[index]?.weddingExpenses}
-              onChange={(val) => handleChildFieldChange(index, 'weddingExpenses', val)}
+              value={childData?.weddingExpenses}
+              onChange={(val) => handleChange("weddingExpenses", val)}
               placeholder="Amount"
               error={errors?.children?.[index]?.weddingExpenses}
               isAmount
+              name={`child-${index}-wedding-expenses`}
             />
           </div>
         </div>
 
         {/* Desktop View */}
-        {/* <div className="hidden md:block font-medium text-gray-700">
-          Child {index + 1}
-        </div> */}
         <div className="hidden md:block">
           <InputField
-            value={localChildren[index]?.currentAge}
-            onChange={(val) => handleChildFieldChange(index, 'currentAge', val)}
+            value={childData?.currentAge}
+            onChange={(val) => handleChange("currentAge", val)}
             placeholder="Age"
             error={errors?.children?.[index]?.currentAge}
+            name={`child-${index}-age-desktop`}
           />
         </div>
         <div className="hidden md:block">
           <InputField
-            value={localChildren[index]?.educationAge}
-            onChange={(val) => handleChildFieldChange(index, 'educationAge', val)}
+            value={childData?.educationAge}
+            onChange={(val) => handleChange("educationAge", val)}
             placeholder="Education Period"
             error={errors?.children?.[index]?.educationAge}
+            name={`child-${index}-education-age-desktop`}
           />
         </div>
         <div className="hidden md:block">
           <InputField
-            value={localChildren[index]?.educationExpenses}
-            onChange={(val) => handleChildFieldChange(index, 'educationExpenses', val)}
+            value={childData?.educationExpenses}
+            onChange={(val) => handleChange("educationExpenses", val)}
             placeholder="Amount"
             error={errors?.children?.[index]?.educationExpenses}
             isAmount
+            name={`child-${index}-education-expenses-desktop`}
           />
         </div>
         <div className="hidden md:block">
           <InputField
-            value={localChildren[index]?.weddingAge}
-            onChange={(val) => handleChildFieldChange(index, 'weddingAge', val)}
+            value={childData?.weddingAge}
+            onChange={(val) => handleChange("weddingAge", val)}
             placeholder="Wedding Age"
             error={errors?.children?.[index]?.weddingAge}
+            name={`child-${index}-wedding-age-desktop`}
           />
         </div>
         <div className="hidden md:block">
           <InputField
-            value={localChildren[index]?.weddingExpenses}
-            onChange={(val) => handleChildFieldChange(index, 'weddingExpenses', val)}
+            value={childData?.weddingExpenses}
+            onChange={(val) => handleChange("weddingExpenses", val)}
             placeholder="Amount"
             error={errors?.children?.[index]?.weddingExpenses}
             isAmount
+            name={`child-${index}-wedding-expenses-desktop`}
           />
         </div>
       </div>
     </div>
   );
+});
 
-  const calculateTotals = () => {
-    if (!data.children || data.children.length === 0)
-      return { education: 0, wedding: 0 };
+ChildRow.displayName = "ChildRow";
 
-    return data.children.reduce(
-      (acc, child) => ({
-        education: acc.education + (Number(child?.educationExpenses) || 0),
-        wedding: acc.wedding + (Number(child?.weddingExpenses) || 0),
-      }),
-      { education: 0, wedding: 0 }
-    );
-  };
+const TableHeader = React.memo(() => (
+  <div className="grid grid-cols-5 gap-4 py-1 px-2 bg-gray-50 rounded-t-lg border-b border-gray-200 hidden md:grid">
+    <div className="font-medium text-gray-700">Age</div>
+    <div className="font-medium text-gray-700">Education Period</div>
+    <div className="font-medium text-gray-700">Education Expense</div>
+    <div className="font-medium text-gray-700">Wedding Age</div>
+    <div className="font-medium text-gray-700">Wedding Expense</div>
+  </div>
+));
 
-  const TotalExpensesSummary = () => {
-    const totals = calculateTotals();
+TableHeader.displayName = "TableHeader";
 
-    return (
-      <div className="mt-6 bg-gray-50 rounded-lg p-4 border border-gray-200">
-        <h3 className="text-lg font-medium text-gray-800 mb-4">
-          Total Expenses Summary
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="p-4 bg-white rounded-lg border border-green-100">
-            <div className="text-sm text-gray-600">
-              Total Education Expenses
-            </div>
-            <div className="text-xl font-semibold text-gray-800 mt-1">
-              ₹{totals.education.toLocaleString()}
-            </div>
-          </div>
-          <div className="p-4 bg-white rounded-lg border border-green-100">
-            <div className="text-sm text-gray-600">Total Wedding Expenses</div>
-            <div className="text-xl font-semibold text-gray-800 mt-1">
-              ₹{totals.wedding.toLocaleString()}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
+export default function KidsExpensesForm({ data, onChange, errors }) {
+  const [localChildren, setLocalChildren] = useState(data.children || []);
+  const [numberOfKids, setNumberOfKids] = useState(data.numberOfKids || 0);
+  const [totals, setTotals] = useState({ education: 0, wedding: 0 });
+
+  // Sync local state with props when data changes
+  useEffect(() => {
+    setLocalChildren(data.children || []);
+    setNumberOfKids(data.numberOfKids || 0);
+  }, [data.children, data.numberOfKids]);
+
+  // Handle number of kids change
+  const handleNumberOfKidsChange = useCallback(
+    (newValue) => {
+      const numKids = parseInt(newValue);
+      setNumberOfKids(numKids);
+
+      const newLocalChildren = Array(numKids)
+        .fill(null)
+        .map((_, index) => localChildren[index] || {});
+
+      setLocalChildren(newLocalChildren);
+
+      // Batch update to parent
+      requestAnimationFrame(() => {
+        onChange("numberOfKids", numKids);
+        onChange("children", newLocalChildren);
+      });
+    },
+    [localChildren, onChange]
+  );
+
+  // Handle child field changes
+  const handleChildFieldChange = useCallback(
+    (index, field, value) => {
+      setLocalChildren((prevChildren) => {
+        const updatedChildren = [...prevChildren];
+        if (!updatedChildren[index]) {
+          updatedChildren[index] = {};
+        }
+        updatedChildren[index][field] = value;
+
+        const totals = updatedChildren.reduce(
+          (acc, child) => ({
+            education: acc.education + (Number(child?.educationExpenses) || 0),
+            wedding: acc.wedding + (Number(child?.weddingExpenses) || 0),
+          }),
+          { education: 0, wedding: 0 }
+        );
+
+        setTotals(totals);
+
+        // Batch update to parent
+        requestAnimationFrame(() => {
+          onChange("children", updatedChildren);
+          onChange("educationExpenses", totals.education);
+          onChange("weddingExpenses", totals.wedding);
+        });
+
+        return updatedChildren;
+      });
+    },
+    [onChange]
+  );
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -226,13 +257,13 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
             What are your planned future expenses for your kids?
           </h2>
         </div>
-        {/* Number of Kids Selector */}
+
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
           <label className="text-lg font-medium text-gray-700 whitespace-nowrap">
             Number of Children
           </label>
           <select
-            value={data.numberOfKids || 0}
+            value={numberOfKids}
             onChange={(e) => handleNumberOfKidsChange(e.target.value)}
             className="w-full sm:w-32 outline-none p-2 border rounded-lg focus:ring-2 focus:ring-green-500 text-lg"
           >
@@ -244,19 +275,22 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
           </select>
         </div>
 
-        {data.numberOfKids > 0 && (
-          <>
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-              <TableHeader />
-              {Array.from({ length: data.numberOfKids }).map((_, index) => (
-                <ChildRow key={index} index={index} />
-              ))}
-            </div>
-
-            <TotalExpensesSummary />
-          </>
+        {numberOfKids > 0 && (
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <TableHeader />
+            {Array.from({ length: numberOfKids }).map((_, index) => (
+              <ChildRow
+                key={`child-row-${index}`}
+                index={index}
+                childData={localChildren[index]}
+                onFieldChange={handleChildFieldChange}
+                errors={errors}
+              />
+            ))}
+          </div>
         )}
       </div>
+      <TotalExpensesSummary totals={totals} />
     </div>
   );
 }

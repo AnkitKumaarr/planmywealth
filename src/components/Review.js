@@ -17,7 +17,6 @@ export default function Review({ onBackStep, setCurrentStep }) {
     setCurrentStep(step);
   };
 
-
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
@@ -230,7 +229,13 @@ export default function Review({ onBackStep, setCurrentStep }) {
               onClick={handleGenerateReport}
               className="w-7/12  bg-green-500 text-white text-center py-4 rounded-full hover:bg-green-600 transition-colors mt-8"
             >
-              {isLoading ? <Loader size="24px" /> : "Confirm & Generate report"}
+              {isLoading ? (
+                <div className="flex justify-center items-center">
+                  <Loader size="24px" />
+                </div>
+              ) : (
+                "Confirm & Generate report"
+              )}
             </button>
           </div>
         </div>

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Loader from "../Loader";
 import ReportItem from "./ReportItem";
 import AdvisorProfileSection from "@/app/generatereport/AdvisorProfileSection";
-
+import EmptyState from "./EmptyState";
 export default function DashboardContent() {
   const { user } = useAuth();
   const [reportsData, setReportsData] = useState([]);
@@ -46,25 +46,25 @@ export default function DashboardContent() {
           <div className="flex justify-center items-center h-full">
             <Loader size="48px" />
           </div>
-        ) : (
+        ) : reportsData.length > 0 ? (
           <div className="flex flex-col md:flex-row gap-4 min-h-[40vh]">
             <div className="">
               <div className="flex items-start mb-6">
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold mb-2">
+                  <h2 className="text-xl font-bold mb-2">
                     Hurray! Your term report is ready
                   </h2>
                 </div>
               </div>
               <div className="w-full overflow-x-auto">
-                {reportsData && (
-                  <ReportItem key={reportsData} report={reportsData[0]} />
-                )}
+                <ReportItem key={reportsData} report={reportsData[0]} />
               </div>
             </div>
 
             <AdvisorProfileSection />
           </div>
+        ) : (
+          <EmptyState message="No reports found" />
         )}
       </div>
     </div>

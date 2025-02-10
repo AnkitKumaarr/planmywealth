@@ -25,7 +25,7 @@ import RetakeButton from "@/components/RetakeButton";
 
 export default function BasicDetails() {
   const { formData, handleInputChange, errors, setErrors } = useFormData();
-  const [currentStep, setCurrentStep] = useState(15);
+  const [currentStep, setCurrentStep] = useState(1);
   const router = useRouter();
 
   const renderStep = () => {

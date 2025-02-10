@@ -57,11 +57,6 @@ export async function GET(request) {
       [userInfo.email]
     );
 
-    const verification_token = jwt.sign(
-      { email: userInfo.email },
-      process.env.NEXT_PUBLIC_JWT_SECRET,
-      { expiresIn: "7d" }
-    );
     let userReferralCode;
     let isUnique = false;
 
@@ -98,6 +93,12 @@ export async function GET(request) {
           ? "manager"
           : "user";
     }
+
+    const verification_token = jwt.sign(
+      { email: userInfo.email, role: currentUserRole },
+      process.env.NEXT_PUBLIC_JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
     if (rows.length > 0) {
       // Update token and name

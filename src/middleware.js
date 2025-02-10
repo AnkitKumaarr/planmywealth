@@ -26,7 +26,6 @@ export async function middleware(request) {
         process.env.NEXT_PUBLIC_JWT_SECRET
       );
       const { payload } = await jwtVerify(token.value, secret);
-
       // Check for roles in the payload
       const userRole = payload.role;
       const allowedRoles = ["admin", "manager", "user"];
@@ -47,7 +46,7 @@ export async function middleware(request) {
 
 export const config = {
   matcher: [
-    // "/dashboard/:path*",
+    "/dashboard/:path*",
     "/profile/:path*",
     "/settings/:path*",
     "/generatereport/:path*",

@@ -10,8 +10,7 @@ const connectionConfig = {
 export async function checkDatabaseConnection() {
   try {
     const connection = await mysql.createConnection(connectionConfig);
-    await connection.ping(); // Check if the connection is alive
-    console.log("Database connection successful");
+    await connection.ping(); 
     await connection.end();
     return true;
   } catch (error) {

@@ -35,8 +35,10 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
 
   return (
     <nav className="bg-white shadow-sm h-16 fixed w-full top-0 z-40">
-      <div className="h-full px-4 flex items-center justify-between">
+      <div className="h-full px-4 md:px-[96px] flex items-center justify-between">
         {/* Menu button for mobile */}
+
+
         {user && (
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}

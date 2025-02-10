@@ -57,7 +57,9 @@ export default function DashboardContent() {
                 </div>
               </div>
               <div className="w-full overflow-x-auto">
-                <ReportItem key={reportsData[0].uuid} report={reportsData[0]} />
+                {reportsData && (
+                  <ReportItem key={reportsData} report={reportsData[0]} />
+                )}
               </div>
             </div>
 

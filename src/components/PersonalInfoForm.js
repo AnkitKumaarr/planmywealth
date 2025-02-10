@@ -16,7 +16,35 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
     }
   };
 
+  const calculateAge = (birthDate) => {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  const calculateDateOfBirth = (age) => {
+    const today = new Date();
+    const year = today.getFullYear() - age;
+    return `${year}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(
+      today.getDate()
+    ).padStart(2, "0")}`;
+  };
+
   const handleChange = (field, value) => {
+    if (field === "age") {
+      const newDob = calculateDateOfBirth(parseInt(value));
+      onChange("dateOfBirth", newDob);
+    } else if (field === "dateOfBirth") {
+      const newAge = calculateAge(value);
+      if (newAge >= 18 && newAge <= 70) {
+        onChange("age", String(newAge));
+      }
+    }
     onChange(field, value);
     validateField(field, value);
   };
@@ -68,6 +96,7 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
           value={data.dateOfBirth || defaultDate()}
           onChange={(e) => handleChange("dateOfBirth", e.target.value)}
           onBlur={(e) => validateField("dateOfBirth", e.target.value)}
+          max={new Date().toISOString().split("T")[0]}
         />
         <input
           type="text"

@@ -63,13 +63,12 @@ const IncomeForm = ({
 
   return (
     <div className=" px-4 sm:px-6 lg:px-8">
-      <h2 className="text-xl sm:text-2xl font-semibold text-center sm:text-left">
+      <h2 className="text-2xl sm:text-2xl font-semibold text-center   sm:text-left">
         What are your sources of income?
       </h2>
-      <p className="text-gray-600 text-center sm:text-left">
-        Choose as many sources as applicable and the amount you earn from them.
-        Don't forget your passive incomes like rental income you receive,
-        interests on investments, etc.
+      <p className="text-gray-600 text-center sm:text-left mb-4">
+        Select income sources, both active (job) and passive (rental,
+        investments), and track earnings.
       </p>
 
       <div className="space-y-4">

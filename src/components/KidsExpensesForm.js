@@ -56,7 +56,7 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
     <div className="grid grid-cols-5 gap-4 py-1 px-2 bg-gray-50 rounded-t-lg border-b border-gray-200 hidden md:grid">
       {/* <div className="font-medium text-gray-700">Child</div> */}
       <div className="font-medium text-gray-700">Age</div>
-      <div className="font-medium text-gray-700">Education Age</div>
+      <div className="font-medium text-gray-700">Education Period</div>
       <div className="font-medium text-gray-700">Education Expense</div>
       <div className="font-medium text-gray-700">Wedding Age</div>
       <div className="font-medium text-gray-700">Wedding Expense</div>
@@ -81,12 +81,12 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Education Age
+              Education Period
             </label>
             <InputField
               value={localChildren[index]?.educationAge}
               onChange={(val) => handleChildFieldChange(index, 'educationAge', val)}
-              placeholder="Education Age"
+              placeholder="Education Period"
               error={errors?.children?.[index]?.educationAge}
             />
           </div>
@@ -143,7 +143,7 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
           <InputField
             value={localChildren[index]?.educationAge}
             onChange={(val) => handleChildFieldChange(index, 'educationAge', val)}
-            placeholder="Education Age"
+            placeholder="Education Period"
             error={errors?.children?.[index]?.educationAge}
           />
         </div>

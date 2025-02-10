@@ -10,6 +10,7 @@
 
 body {
   background-color: #f0faf0;
+  font-family: var(--font-poppins);
 }
 
 /* Add any additional global styles here */

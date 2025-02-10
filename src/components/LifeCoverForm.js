@@ -12,7 +12,7 @@ const LifeCoverForm = ({ data, onChange, errors }) => {
   return (
     <div className="space-y-6 px-4 sm:px-6 lg:px-8">
       <h2 className="text-2xl font-semibold text-center">
-        Do you have an existing Term insurance/ Life cover ?
+        Do you have an existing Term insurance/Life cover?
       </h2>
 
       <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">

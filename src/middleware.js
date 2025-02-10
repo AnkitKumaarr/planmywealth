@@ -47,7 +47,7 @@ export async function middleware(request) {
 
 export const config = {
   matcher: [
-    "/dashboard/:path*",
+    // "/dashboard/:path*",
     "/profile/:path*",
     "/settings/:path*",
     "/generatereport/:path*",

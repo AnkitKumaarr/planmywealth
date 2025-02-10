@@ -22,13 +22,13 @@ export default function SignInDialog({ isOpen, onClose }) {
       {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg w-[90%] sm:w-[85%] max-w-3xl relative flex flex-col sm:flex-row">
-            <div className="hidden sm:flex flex-col items-start flex-1 bg-[#bcf3f5] px-4 sm:px-8 py-8 sm:py-16 rounded-t-lg sm:rounded-l-lg">
+            <div className="hidden sm:flex flex-col items-start flex-1 bg-[#E2F6E9] px-4 sm:px-8 py-8 sm:py-16 rounded-t-lg sm:rounded-l-lg">
               <Image
                 width={200}
-                height={200}
+                height={70}
                 src="/images/PlanYourWealth.png"
                 alt="planmywealth Logo"
-                className=" ml-0"
+                className=" mb-4"
               />
               <h3 className="text-lg sm:text-xl mb-4 font-bold">
                 Join The 1st Neutral <br /> Insurance Community Ever!

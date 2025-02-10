@@ -398,7 +398,7 @@ export default function BasicDetails() {
                   />
                 </div>
               </div>
-              <div className="flex py-4 mt-2 items-center justify-center gap-16 px-4 w-full fixed bottom-0 left-0 right-0 sm:relative bg-white sm:bg-transparent sm:p-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.3)] sm:shadow-none">
+              <div className="flex py-4 mt-2 items-center justify-center gap-16 px-4 w-full fixed bottom-0 left-0 right-0 sm:relative bg-white sm:bg-transparent sm:p-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] sm:shadow-none">
                 {(currentStep > 1 || currentStep === 16) && (
                   <button
                     type="button"

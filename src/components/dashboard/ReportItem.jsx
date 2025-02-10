@@ -20,7 +20,7 @@ export default function ReportItem({ report }) {
               <div className="flex flex-col">
                 <p className="text-sm">Min Coverage</p>
                 <p className="font-bold text-md">
-                  {report.additionalCoverNeeded}
+                  {report?.additionalCoverNeeded}
                 </p>
               </div>
             </div>
@@ -41,7 +41,7 @@ export default function ReportItem({ report }) {
             </div>
             <div className="flex flex-col">
               <p className="text-sm">Members</p>
-              <p className="font-bold text-md">{report.name}</p>
+              <p className="font-bold text-md">{report?.name}</p>
             </div>
             <div className="flex flex-col">
               <p className="text-sm">Cover Type</p>
@@ -50,12 +50,12 @@ export default function ReportItem({ report }) {
             <div className="flex flex-col">
               <p className="text-sm">Min Coverage</p>
               <p className="font-bold text-md">
-                {report.additionalCoverNeeded}
+                {report?.additionalCoverNeeded}
               </p>
             </div>
             <div className="flex flex-col">
               <p className="text-sm">Retirement Age</p>
-              <h4 className="font-bold text-md">{report.retirementAge}</h4>
+              <h4 className="font-bold text-md">{report?.retirementAge}</h4>
             </div>
           </div>
         </div>

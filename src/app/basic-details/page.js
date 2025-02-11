@@ -390,7 +390,7 @@ export default function BasicDetails() {
                   totalSteps={getCurrentSection().totalSteps}
                   title={getCurrentSection().title}
                 />
-                {renderStep()}
+                <div className="pb-8">{renderStep()}</div>
                 <div className="hidden md:block">
                   <RetakeButton
                     handleRetake={handleRetake}

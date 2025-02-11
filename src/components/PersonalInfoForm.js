@@ -166,7 +166,7 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
       </div>
 
       <div>
-        <label className="block text-gray-700 mb-2">
+        <label className="block text-gray-700 mb-6">
           Your Highest Education
         </label>
         <select

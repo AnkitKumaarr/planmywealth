@@ -77,8 +77,8 @@ const InsuranceForm = () => {
                   handleInputChange("gender", "male");
                 }}
               >
-                <span className="text-base sm:text-xl">♂️</span>
-                <span className="text-sm sm:text-base font-medium">Male</span>
+                <span className="text-base sm:text-xl flex items-center">♂️</span>
+                <span className="text-sm sm:text-base font-medium flex items-center">Male</span>
               </button>
               <button
                 type="button"
@@ -92,8 +92,8 @@ const InsuranceForm = () => {
                   handleInputChange("gender", "female");
                 }}
               >
-                <span className="text-base sm:text-xl">♀️</span>
-                <span className="text-sm sm:text-base font-medium">Female</span>
+                <span className="text-base sm:text-xl flex items-center">♀️</span>
+                <span className="text-sm sm:text-base font-medium flex items-center">Female</span>
               </button>
             </div>
             {errors.gender && <p className="text-red-500">{errors.gender}</p>}

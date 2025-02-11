@@ -47,7 +47,7 @@ const ChildRow = React.memo(({ index, childData, onFieldChange, errors }) => {
 
   return (
     <div className="border-b border-gray-200 last:border-b-0">
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 p-4">
+      <div className="flex flex-col md:flex-row gap-4 p-4">
         {/* Mobile Labels + Inputs */}
         <div className="md:hidden space-y-4">
           <div className="font-medium text-gray-700 text-lg mb-2">
@@ -67,12 +67,12 @@ const ChildRow = React.memo(({ index, childData, onFieldChange, errors }) => {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Education Period
+              Age of Higher Education{" "}
             </label>
             <InputField
               value={childData?.educationAge}
               onChange={(val) => handleChange("educationAge", val)}
-              placeholder="Education Period"
+              placeholder="Age of Higher Education"
               error={errors?.children?.[index]?.educationAge}
               name={`child-${index}-education-age`}
             />
@@ -118,7 +118,7 @@ const ChildRow = React.memo(({ index, childData, onFieldChange, errors }) => {
         </div>
 
         {/* Desktop View */}
-        <div className="hidden md:block">
+        <div className="hidden md:block w-[12%]">
           <InputField
             value={childData?.currentAge}
             onChange={(val) => handleChange("currentAge", val)}
@@ -127,16 +127,16 @@ const ChildRow = React.memo(({ index, childData, onFieldChange, errors }) => {
             name={`child-${index}-age-desktop`}
           />
         </div>
-        <div className="hidden md:block">
+        <div className="hidden md:block w-[12%]">
           <InputField
             value={childData?.educationAge}
             onChange={(val) => handleChange("educationAge", val)}
-            placeholder="Education Period"
+            placeholder="Age of Higher Education"
             error={errors?.children?.[index]?.educationAge}
             name={`child-${index}-education-age-desktop`}
           />
         </div>
-        <div className="hidden md:block">
+        <div className="hidden md:block flex-1">
           <InputField
             value={childData?.educationExpenses}
             onChange={(val) => handleChange("educationExpenses", val)}
@@ -146,7 +146,7 @@ const ChildRow = React.memo(({ index, childData, onFieldChange, errors }) => {
             name={`child-${index}-education-expenses-desktop`}
           />
         </div>
-        <div className="hidden md:block">
+        <div className="hidden md:block w-[12%]">
           <InputField
             value={childData?.weddingAge}
             onChange={(val) => handleChange("weddingAge", val)}
@@ -155,7 +155,7 @@ const ChildRow = React.memo(({ index, childData, onFieldChange, errors }) => {
             name={`child-${index}-wedding-age-desktop`}
           />
         </div>
-        <div className="hidden md:block">
+        <div className="hidden md:block flex-1">
           <InputField
             value={childData?.weddingExpenses}
             onChange={(val) => handleChange("weddingExpenses", val)}
@@ -173,12 +173,14 @@ const ChildRow = React.memo(({ index, childData, onFieldChange, errors }) => {
 ChildRow.displayName = "ChildRow";
 
 const TableHeader = React.memo(() => (
-  <div className="grid grid-cols-5 gap-4 py-1 px-2 bg-gray-50 rounded-t-lg border-b border-gray-200 hidden md:grid">
-    <div className="font-medium text-gray-700">Age</div>
-    <div className="font-medium text-gray-700">Education Period</div>
-    <div className="font-medium text-gray-700">Education Expense</div>
-    <div className="font-medium text-gray-700">Wedding Age</div>
-    <div className="font-medium text-gray-700">Wedding Expense</div>
+  <div className="hidden md:flex items-center gap-6 py-1 px-2 bg-gray-50 rounded-t-lg border-b border-gray-200">
+    <div className="font-medium text-gray-700 w-[12%]">Age</div>
+    <div className="font-medium text-gray-700 w-[12%]">
+      Age of Higher Education
+    </div>
+    <div className="font-medium text-gray-700 flex-1">Education Expense</div>
+    <div className="font-medium text-gray-700 w-[12%]">Wedding Age</div>
+    <div className="font-medium text-gray-700 flex-1">Wedding Expense</div>
   </div>
 ));
 
@@ -266,6 +268,7 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
             value={numberOfKids}
             onChange={(e) => handleNumberOfKidsChange(e.target.value)}
             className="w-full sm:w-32 outline-none p-2 border rounded-lg focus:ring-2 focus:ring-green-500 text-lg"
+            aria-label="Select number of children"
           >
             {[0, 1, 2, 3, 4, 5].map((num) => (
               <option key={num} value={num}>
@@ -291,6 +294,20 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
         )}
       </div>
       <TotalExpensesSummary totals={totals} />
+      <div className="grid md:grid-cols-2 gap-4 my-8">
+        <div className="bg-orange-50 p-4 rounded-lg border border-orange-100">
+          <p className="text-gray-700 text-sm">
+            <span className="text-3xl font-bold text-green-600 mb-2">40% </span>
+            of parents use their retirement fund for their children's education
+          </p>
+        </div>
+        <div className="bg-red-50 p-4 rounded-lg border border-red-100">
+          <p className="text-gray-700 text-sm">
+            <span className="text-3xl font-bold text-green-600 mb-2">75% </span>
+            of parents use their retirement fund for their children's marriage
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

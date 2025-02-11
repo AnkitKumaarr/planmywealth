@@ -111,11 +111,19 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
                       <div className="h-12 w-12 rounded-full bg-blue-800 flex items-center justify-center text-white text-xl">
                         {user?.name?.charAt(0)}
                       </div>
-                      <div>
-                        <p className="text-base font-semibold text-gray-800">
+                      <div className="min-w-0 flex-1">
+                        <p 
+                          className="text-base font-semibold text-gray-800 truncate pr-2 hover:cursor-pointer" 
+                          title={user.name}
+                        >
                           {user.name}
                         </p>
-                        <p className="text-sm text-gray-500">{user.email}</p>
+                        <p 
+                          className="text-sm text-gray-500 truncate pr-2 hover:cursor-pointer"
+                          title={user.email}
+                        >
+                          {user.email}
+                        </p>
                       </div>
                     </div>
                   </div>

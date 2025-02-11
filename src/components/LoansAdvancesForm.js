@@ -115,7 +115,7 @@ const LoansAdvancesForm = ({ data, onChange, errors }) => {
           <div className="bg-gray-100 p-4 rounded-lg flex justify-between items-center">
             <span className="font-medium">Total Loan Amount:</span>
             <span className="font-medium">
-              {formatToIndianCurrency(data.totalLoanAmount)}
+              {formatToIndianCurrency(data.loanAmount)}
             </span>
           </div>
         </div>

@@ -48,8 +48,6 @@ export function FormProvider({ children }) {
     }));
   };
 
-  console.log(formData);
-
   return (
     <FormContext.Provider
       value={{ formData, handleInputChange, errors, setErrors }}

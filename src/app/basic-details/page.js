@@ -233,9 +233,9 @@ export default function BasicDetails() {
         }
         break;
       case 12:
-        if (formData.hasSavings === null) newErrors.hasSavings = true;
-        if (formData.hasSavings === true && !formData.savingsAmount) {
-          newErrors.savingsAmount = true;
+        if (formData.hasMajorExpenses === null) newErrors.hasMajorExpenses = true;
+        if (formData.hasMajorExpenses === true && !formData.majorExpensesAmount) {
+          newErrors.majorExpensesAmount = true;
         }
         break;
       case 13:

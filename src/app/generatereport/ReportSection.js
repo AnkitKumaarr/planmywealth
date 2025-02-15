@@ -5,6 +5,7 @@ import AdvisorProfileSection from "./AdvisorProfileSection";
 const ReportSection = ({ report }) => {
   return (
     <>
+      {/* 1st section */}
       <section>
         <h2 className="text-md font-bold mb-4">
           1. Additional Term Insurance cover your family needs
@@ -26,6 +27,7 @@ const ReportSection = ({ report }) => {
           disrupted.
         </p>
       </section>
+      {/* 2nd section */}
       <section>
         <h2 className="text-md font-bold mb-4">
           2. You should keep your cover until
@@ -49,6 +51,7 @@ const ReportSection = ({ report }) => {
           term insurance cover
         </p>
       </section>
+      {/* 3rd section */}
       <section>
         <h2 className="text-md font-bold mb-4">
           3. Plan how your nominee will receive the claim amount
@@ -65,6 +68,52 @@ const ReportSection = ({ report }) => {
           large payout on death, and then a monthly income every year.
         </p>
       </section>
+      {/* 4th section children education inflation */}
+      <section>
+        <h2 className="text-md font-bold mb-4">
+          4. Children education inflation
+        </h2>
+        <div className="bg-blue-100 p-6 rounded-lg">
+          <div className="flex flex-col md:flex-row items-center gap-2">
+            <div className="text-2xl font-bold border-b-4 border-green-600">
+              {report?.educationInflation}
+            </div>
+            <div className="flex flex-col ml-4">
+              <p className="text-gray-600 text-xs">
+                This is the future value of your children's education expenses, calculated at 6% inflation rate. 
+                Planning ahead helps ensure your children's educational aspirations aren't compromised.
+              </p>
+            </div>
+          </div>
+        </div>
+        <p className="mt-2 text-sm text-gray-600">
+          Education costs tend to rise faster than general inflation. Starting early gives you the advantage of long-term planning.
+        </p>
+      </section>
+
+      {/* 5th section wedding expenses inflation */}
+      <section>
+        <h2 className="text-md font-bold mb-4">
+          5. Wedding expenses inflation
+        </h2>
+        <div className="bg-blue-100 p-6 rounded-lg">
+          <div className="flex flex-col md:flex-row items-center gap-2">
+            <div className="text-2xl font-bold border-b-4 border-green-600">
+              {report?.weddingInflation}
+            </div>
+            <div className="flex flex-col ml-4">
+              <p className="text-gray-600 text-xs">
+                This is the future value of wedding expenses, calculated at 6% inflation rate. 
+                Planning for this significant life event ensures financial readiness when the time comes.
+              </p>
+            </div>
+          </div>
+        </div>
+        <p className="mt-2 text-sm text-gray-600">
+          Wedding expenses can be substantial. Early planning helps distribute the financial burden over time.
+        </p>
+      </section>
+
       <div className="mt-6 border-2 border-green-300 rounded-lg">
         <AdvisorProfileSection flow={"horizontal"} />
       </div>

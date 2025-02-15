@@ -198,13 +198,17 @@ export default function ReferralsData() {
             <div className="p-2 md:p-6">
               {user && user.role === "admin" && (
                 <div className="mb-6 border-b pb-4">
-                  <h4 className="font-semibold text-xs text-blue-600 md:text-lg mb-2">Referral Information</h4>
+                  <h4 className="font-semibold text-xs text-blue-600 md:text-lg mb-2">
+                    Referral Information
+                  </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <p className="text-[10px] md:text-base">
-                      <span className="font-medium">Referred by:</span> {selectedReport.referby_name || "N/A"}
+                      <span className="font-medium">Referred by:</span>{" "}
+                      {selectedReport.referby_name || "N/A"}
                     </p>
                     <p className="text-[10px] md:text-base">
-                      <span className="font-medium">Referrer's Email:</span> {selectedReport.referby_email || "N/A"}
+                      <span className="font-medium">Referrer's Email:</span>{" "}
+                      {selectedReport.referby_email || "N/A"}
                     </p>
                   </div>
                 </div>
@@ -213,71 +217,183 @@ export default function ReferralsData() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {/* Personal Information Section */}
                 <div className="space-y-2">
-                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">Personal Information</h4>
+                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">
+                    Personal Information
+                  </h4>
                   <div className="space-y-1">
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Email:</span> {selectedReport.userEmail}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Date of Birth:</span> {new Date(selectedReport.date_of_birth).toLocaleDateString()}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Age:</span> {selectedReport.age}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Gender:</span> {selectedReport.gender}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Education:</span> {selectedReport.education}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Pincode:</span> {selectedReport.pincode}</p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Email:</span>{" "}
+                      {selectedReport.userEmail}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Date of Birth:</span>{" "}
+                      {new Date(
+                        selectedReport.date_of_birth
+                      ).toLocaleDateString()}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Age:</span>{" "}
+                      {selectedReport.age}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Gender:</span>{" "}
+                      {selectedReport.gender}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Education:</span>{" "}
+                      {selectedReport.education}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Pincode:</span>{" "}
+                      {selectedReport.pincode}
+                    </p>
                   </div>
                 </div>
 
                 {/* Health Information Section */}
                 <div className="space-y-2">
-                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">Health Information</h4>
+                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">
+                    Health Information
+                  </h4>
                   <div className="space-y-1">
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Pre-existing Disease:</span> {selectedReport.disease ? "Yes" : "No"}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Smoking Habit:</span> {selectedReport.smoking ? "Yes" : "No"}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Alcohol Consumption:</span> {selectedReport.alcohol ? "Yes" : "No"}</p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Pre-existing Disease:</span>{" "}
+                      {selectedReport.disease ? "Yes" : "No"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Smoking Habit:</span>{" "}
+                      {selectedReport.smoking ? "Yes" : "No"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Alcohol Consumption:</span>{" "}
+                      {selectedReport.alcohol ? "Yes" : "No"}
+                    </p>
                   </div>
                 </div>
 
                 {/* Financial Overview Section */}
                 <div className="space-y-2">
-                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">Financial Overview</h4>
+                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">
+                    Financial Overview
+                  </h4>
                   <div className="space-y-1">
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Total Income:</span> {formatToWords(selectedReport.total_income)}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Income Stability:</span> {selectedReport.income_stability}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Retirement Age:</span> {selectedReport.retirement_age}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Monthly Expenses:</span> {formatToWords(selectedReport.monthly_expenses)}</p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Total Income:</span>{" "}
+                      {formatToWords(selectedReport.total_income)}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Income Stability:</span>{" "}
+                      {selectedReport.income_stability}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Retirement Age:</span>{" "}
+                      {selectedReport.retirement_age}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Monthly Expenses:</span>{" "}
+                      {formatToWords(selectedReport.monthly_expenses)}
+                    </p>
                   </div>
                 </div>
 
                 {/* Dependents Information Section */}
                 <div className="space-y-2">
-                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">Dependents Information</h4>
+                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">
+                    Dependents Information
+                  </h4>
                   <div className="space-y-1">
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Has Dependents:</span> {selectedReport.hasDependents ? "Yes" : "No"}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Number of Dependents:</span> {selectedReport.dependents}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Number of Kids:</span> {selectedReport.number_of_kids}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Education Expenses:</span> {formatToWords(selectedReport.education_expenses)}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Wedding Expenses:</span> {formatToWords(selectedReport.wedding_expenses)}</p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Has Dependents:</span>{" "}
+                      {selectedReport.hasDependents ? "Yes" : "No"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Number of Dependents:</span>{" "}
+                      {selectedReport.dependents}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Number of Kids:</span>{" "}
+                      {selectedReport.number_of_kids}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Education Expenses:</span>{" "}
+                      {formatToWords(selectedReport.education_expenses)}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Education Inflation:</span>{" "}
+                      {formatToWords(selectedReport.education_inflation)}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Wedding Expenses:</span>{" "}
+                      {formatToWords(selectedReport.wedding_expenses)}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Wedding Inflation:</span>{" "}
+                      {formatToWords(selectedReport.wedding_inflation)}
+                    </p>
                   </div>
                 </div>
 
                 {/* Savings & Investments Section */}
                 <div className="space-y-2">
-                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">Savings & Investments</h4>
+                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">
+                    Savings & Investments
+                  </h4>
                   <div className="space-y-1">
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Has Savings:</span> {selectedReport.hasSavings ? "Yes" : "No"}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Savings Amount:</span> {formatToWords(selectedReport.savings_amount)}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Total Investments:</span> {formatToWords(selectedReport.total_investments)}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Emergency Fund:</span> {selectedReport.hasEmergencyFund ? "Yes" : "No"}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Emergency Fund Amount:</span> {formatToWords(selectedReport.emergency_fund_amount)}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Emergency Fund Duration:</span> {selectedReport.emergency_fund_months} months</p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Has Savings:</span>{" "}
+                      {selectedReport.hasSavings ? "Yes" : "No"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Savings Amount:</span>{" "}
+                      {formatToWords(selectedReport.savings_amount)}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Total Investments:</span>{" "}
+                      {formatToWords(selectedReport.total_investments)}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Emergency Fund:</span>{" "}
+                      {selectedReport.hasEmergencyFund ? "Yes" : "No"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">
+                        Emergency Fund Amount:
+                      </span>{" "}
+                      {formatToWords(selectedReport.emergency_fund_amount)}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">
+                        Emergency Fund Duration:
+                      </span>{" "}
+                      {selectedReport.emergency_fund_months} months
+                    </p>
                   </div>
                 </div>
 
                 {/* Insurance Details Section */}
                 <div className="space-y-2">
-                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">Insurance Details</h4>
+                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">
+                    Insurance Details
+                  </h4>
                   <div className="space-y-1">
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Has Life Cover:</span> {selectedReport.hasLifeCover ? "Yes" : "No"}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Current Life Cover:</span> {formatToWords(selectedReport.life_cover_amount)}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Life Insurance Need:</span> {formatToWords(selectedReport.lifeInsuranceNeed)}</p>
-                    <p className="text-[10px] md:text-base"><span className="font-medium">Additional Cover Needed:</span> {formatToWords(selectedReport.additionalCoverNeeded)}</p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Has Life Cover:</span>{" "}
+                      {selectedReport.hasLifeCover ? "Yes" : "No"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Current Life Cover:</span>{" "}
+                      {formatToWords(selectedReport.life_cover_amount)}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Life Insurance Need:</span>{" "}
+                      {formatToWords(selectedReport.lifeInsuranceNeed)}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">
+                        Additional Cover Needed:
+                      </span>{" "}
+                      {formatToWords(selectedReport.additionalCoverNeeded)}
+                    </p>
                   </div>
                 </div>
               </div>

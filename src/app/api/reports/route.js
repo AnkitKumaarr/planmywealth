@@ -29,6 +29,7 @@ export async function POST(request) {
       disease,
       smoking,
       alcohol,
+      children,
       incomeSources,
       incomeStability,
       retirementAge,
@@ -111,6 +112,33 @@ export async function POST(request) {
     // Convert dependents array to a count
     const dependentsCount = Array.isArray(dependents) ? dependents.length : 0;
 
+    // Calculate inflation-adjusted expenses for each child
+    const calculateInflationAdjustedAmount = (amount, years) => {
+        const inflationRate = 0.06; // 6% inflation rate
+        return amount * Math.pow(1 + inflationRate, years);
+    };
+
+    // Calculate total inflation-adjusted expenses
+    let totalEducationInflation = 0;
+    let totalWeddingInflation = 0;
+
+    children.forEach(child => {
+        const yearsToEducation = child.educationAge - child.currentAge;
+        const yearsToWedding = child.weddingAge - child.currentAge;
+
+        const educationInflation = calculateInflationAdjustedAmount(
+            child.educationExpenses,
+            yearsToEducation
+        );
+        const weddingInflation = calculateInflationAdjustedAmount(
+            child.weddingExpenses,
+            yearsToWedding
+        );
+
+        totalEducationInflation += educationInflation;
+        totalWeddingInflation += weddingInflation;
+    });
+
     // Check if the table exists, if not, create it
     const createTableQuery = `
       CREATE TABLE IF NOT EXISTS true_reports (
@@ -154,7 +182,9 @@ export async function POST(request) {
         recommended_coverage DECIMAL(15, 2),
         total_monthly_expenses DECIMAL(15, 2),
         lifeInsuranceNeed DECIMAL(15, 2),
-        additionalCoverNeeded DECIMAL(15, 2)
+        additionalCoverNeeded DECIMAL(15, 2),
+        education_inflation DECIMAL(15, 2),
+        wedding_inflation DECIMAL(15, 2)
       );
     `;
 
@@ -168,8 +198,8 @@ export async function POST(request) {
         hasLoans, loan_amount, hasSavings, savings_amount, knowsInvestments, total_investments,
         hasLifeCover, life_cover_amount, number_of_kids, education_expenses, wedding_expenses,
         hasEmergencyFund, emergency_fund_amount, emergency_fund_months, total_monthly_expenses,
-        lifeInsuranceNeed, additionalCoverNeeded
-      ) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
+        lifeInsuranceNeed, additionalCoverNeeded, education_inflation, wedding_inflation
+      ) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)
     `;
 
     // Ensure all values are defined, using default values if necessary
@@ -211,6 +241,8 @@ export async function POST(request) {
       totalMonthlyExpenses || 0,
       lifeInsuranceNeed || 0,
       additionalCoverNeeded || 0,
+      totalEducationInflation || 0,
+      totalWeddingInflation || 0,
     ];
 
     await mysql.query(query, values);

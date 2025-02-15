@@ -43,7 +43,9 @@ export async function POST(request) {
     const query = `SELECT uuid, retirement_age, nomineeReaction, 
     savings_amount, 
     total_investments,
-    additionalCoverNeeded
+    additionalCoverNeeded,
+    education_inflation,
+    wedding_inflation
     FROM true_reports WHERE userEmail = ? AND uuid = ?`;
     const [result] = await mysql.query(query, [userEmail, uuid]);
     const data = result[0];
@@ -57,6 +59,8 @@ export async function POST(request) {
       )?.label,
       finalSavingAmount: formatToWords(finalSavingAmount),
       additionalCoverNeeded: formatToWords(data?.additionalCoverNeeded),
+      educationInflation: formatToWords(data?.education_inflation),
+      weddingInflation: formatToWords(data?.wedding_inflation),
     };
     return NextResponse.json({
       success: true,

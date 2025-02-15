@@ -5,9 +5,11 @@ import Loader from "./Loader";
 import SignInForm from "./SignInForm";
 import { useAuth } from "@/context/AuthContext";
 import ForgotPasswordForm from "./ForgotPasswordForm";
+import { useFormData } from "@/context/FormContext";
 
 export default function SignInDialog({ isOpen, onClose }) {
   const { handleGoogleLogin } = useAuth();
+  const { formData } = useFormData();
   const [currentSection, setCurrentSection] = useState("Sign In");
   const [isVerified, setIsVerified] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +17,11 @@ export default function SignInDialog({ isOpen, onClose }) {
   const handleToggleView = (e, type) => {
     e.preventDefault();
     setCurrentSection(type);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await handleGoogleLogin(formData);
   };
 
   return (
@@ -69,7 +76,7 @@ export default function SignInDialog({ isOpen, onClose }) {
               {currentSection !== "Forgot Password" && !isVerified && (
                 <>
                   <button
-                    onClick={handleGoogleLogin}
+                    onClick={(e) => handleSubmit(e)}
                     className="w-10/12 h-10 p-3 mb-1 border border-gray-300 rounded flex items-center justify-center gap-2 cursor-pointer bg-white"
                   >
                     <img

@@ -1,9 +1,12 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
+import { useFormData } from "@/context/FormContext";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
+  const { formData } = useFormData();
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
@@ -22,10 +25,10 @@ export function AuthProvider({ children }) {
         method: "GET",
         credentials: "include",
       });
-     
+
       if (response.status === 200) {
         const userData = await response.json();
-      
+
         setUser(userData.data);
       }
     } catch (error) {
@@ -56,12 +59,19 @@ export function AuthProvider({ children }) {
   };
 
   const handleGoogleLogin = async () => {
+    localStorage.setItem("formData", JSON.stringify(formData));
+    localStorage.setItem("currentStep", JSON.stringify(17));
+    const currentPath = window.location.pathname + window.location.search;
+    const stateData = {
+      redirect_path: currentPath,
+      referId: localStorage.getItem("referId") || "",
+    };
     const params = new URLSearchParams({
       client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
       redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI,
       response_type: "code",
       scope: "openid email profile",
-      referId: localStorage.getItem("referId") || "",
+      state: encodeURIComponent(JSON.stringify(stateData)),
     });
     window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
   };

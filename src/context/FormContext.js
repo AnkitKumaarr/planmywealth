@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const FormContext = createContext();
 
@@ -39,7 +39,34 @@ export function FormProvider({ children }) {
     emergencyFundAmount: "",
     emergencyFundMonths: "",
   });
+  const [currentStep, setCurrentStep] = useState(14);
   const [errors, setErrors] = useState({});
+
+  // Restore data from localStorage when component mounts
+  useEffect(() => {
+    const savedFormData = localStorage.getItem("formData");
+    const savedCurrentStep = localStorage.getItem("currentStep");
+
+    if (savedFormData) {
+      try {
+        const parsedFormData = JSON.parse(savedFormData);
+        setFormData(parsedFormData);
+        localStorage.removeItem("formData"); // Clear after restoring
+      } catch (error) {
+        console.error("Error parsing saved form data:", error);
+      }
+    }
+
+    if (savedCurrentStep) {
+      try {
+        const parsedStep = JSON.parse(savedCurrentStep);
+        setCurrentStep(parsedStep);
+        localStorage.removeItem("currentStep"); // Clear after restoring
+      } catch (error) {
+        console.error("Error parsing saved step:", error);
+      }
+    }
+  }, []);
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({
@@ -48,10 +75,17 @@ export function FormProvider({ children }) {
     }));
   };
 
-  console.log(formData);
   return (
     <FormContext.Provider
-      value={{ formData, handleInputChange, errors, setErrors }}
+      value={{
+        formData,
+        handleInputChange,
+        errors,
+        setErrors,
+        setFormData,
+        currentStep,
+        setCurrentStep,
+      }}
     >
       {children}
     </FormContext.Provider>

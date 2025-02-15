@@ -24,8 +24,15 @@ import Review from "@/components/Review";
 import RetakeButton from "@/components/RetakeButton";
 
 export default function BasicDetails() {
-  const { formData, handleInputChange, errors, setErrors } = useFormData();
-  const [currentStep, setCurrentStep] = useState(1);
+  const {
+    formData,
+    handleInputChange,
+    errors,
+    setErrors,
+    currentStep,
+    setCurrentStep,
+  } = useFormData();
+
   const router = useRouter();
 
   const renderStep = () => {
@@ -233,8 +240,12 @@ export default function BasicDetails() {
         }
         break;
       case 12:
-        if (formData.hasMajorExpenses === null) newErrors.hasMajorExpenses = true;
-        if (formData.hasMajorExpenses === true && !formData.majorExpensesAmount) {
+        if (formData.hasMajorExpenses === null)
+          newErrors.hasMajorExpenses = true;
+        if (
+          formData.hasMajorExpenses === true &&
+          !formData.majorExpensesAmount
+        ) {
           newErrors.majorExpensesAmount = true;
         }
         break;
@@ -346,7 +357,7 @@ export default function BasicDetails() {
   ];
 
   return (
-    <div className="min-h-screen bg-white md:bg-gray-200">
+    <div className="min-h-screen bg-white md:bg-[#E2F6E9] ">
       <div className="hidden md:flex md:flex-col">
         <Navbar />
       </div>

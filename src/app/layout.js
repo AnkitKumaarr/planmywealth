@@ -12,21 +12,21 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "Your App",
-  description: "Your app description",
+  title: "Plan your wealth",
+  description: "Plan your wealth",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${poppins.variable}`}>
       <body>
-        <AuthProvider>
-          <ThemeProvider>
-            <AppProvider>
-              <FormProvider>{children}</FormProvider>
-            </AppProvider>
-          </ThemeProvider>
-        </AuthProvider>
+        <ThemeProvider>
+          <AppProvider>
+            <FormProvider>
+              <AuthProvider>{children}</AuthProvider>
+            </FormProvider>
+          </AppProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

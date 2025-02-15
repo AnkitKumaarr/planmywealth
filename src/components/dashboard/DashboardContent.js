@@ -6,6 +6,7 @@ import Loader from "../Loader";
 import ReportItem from "./ReportItem";
 import AdvisorProfileSection from "@/app/generatereport/AdvisorProfileSection";
 import EmptyState from "./EmptyState";
+import InsuranceHead from "./InsuranceHead";
 export default function DashboardContent() {
   const { user } = useAuth();
   const [reportsData, setReportsData] = useState([]);
@@ -64,7 +65,10 @@ export default function DashboardContent() {
             <AdvisorProfileSection />
           </div>
         ) : (
-          <EmptyState message="No reports found" />
+          <div className="flex flex-col md:flex-row gap-4 min-h-[40vh]">
+            <InsuranceHead />
+            <AdvisorProfileSection />
+          </div>
         )}
       </div>
     </div>

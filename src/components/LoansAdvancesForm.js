@@ -3,7 +3,7 @@ import { useState } from "react";
 const LoansAdvancesForm = ({ data, onChange, errors }) => {
   const [loans, setLoans] = useState({
     homeLoan: "",
-    carLoan: "",
+    vehicleLoan: "",
     personalLoan: "",
     businessLoan: "",
     other: "",
@@ -29,7 +29,7 @@ const LoansAdvancesForm = ({ data, onChange, errors }) => {
 
   const loanCategories = [
     { id: "homeLoan", label: "Home Loan" },
-    { id: "carLoan", label: "Car Loan" },
+    { id: "vehicleLoan", label: "Vehicle Loan" },
     { id: "personalLoan", label: "Personal Loan" },
     { id: "businessLoan", label: "Business Loan" },
     { id: "other", label: "Other Loans" },

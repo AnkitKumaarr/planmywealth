@@ -9,7 +9,21 @@ export async function GET(request) {
   // Extract the code from the request URL
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
-  const referId = url.searchParams.get("referId");
+  const state = url.searchParams.get("state");
+
+  let referId = null;
+  let redirect_path = null;
+
+  if (state) {
+    try {
+      const stateData = JSON.parse(decodeURIComponent(state));
+      referId = stateData.referId;
+      redirect_path = stateData.redirect_path;
+    } catch (error) {
+      console.error("Error parsing state:", error);
+    }
+  }
+
   if (!code) {
     return NextResponse.json({ error: "Authorization code is missing" });
   }
@@ -108,16 +122,22 @@ export async function GET(request) {
       );
 
       if (result.affectedRows > 0) {
-        // Set cookie
         const cookieStore = await cookies();
-        cookieStore.set("auth_token", verification_token, {
+        await cookieStore.set("auth_token", verification_token, {
           httpOnly: true,
           secure: true,
           sameSite: "strict",
           maxAge: 7 * 24 * 60 * 60, // 7 days
           path: "/",
         });
-        return NextResponse.redirect(new URL("/", request.url));
+
+        const baseUrl =
+          process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+        const finalRedirectUrl = redirect_path?.startsWith("http")
+          ? redirect_path
+          : `${baseUrl}${redirect_path || "/"}`;
+
+        return NextResponse.redirect(finalRedirectUrl);
       } else {
         return NextResponse.json({
           status: 500,
@@ -144,14 +164,21 @@ export async function GET(request) {
 
     if (result.affectedRows > 0) {
       const cookieStore = await cookies();
-      cookieStore.set("auth_token", verification_token, {
+      await cookieStore.set("auth_token", verification_token, {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
         maxAge: 7 * 24 * 60 * 60, // 7 days
         path: "/",
       });
-      return NextResponse.redirect(new URL("/", request.url));
+
+      const baseUrl =
+        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+      const finalRedirectUrl = redirect_path?.startsWith("http")
+        ? redirect_path
+        : `${baseUrl}${redirect_path || "/"}`;
+
+      return NextResponse.redirect(finalRedirectUrl);
     } else {
       return NextResponse.json({
         status: 500,

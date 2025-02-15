@@ -174,7 +174,7 @@ ChildRow.displayName = "ChildRow";
 
 const TableHeader = React.memo(() => (
   <div className="hidden md:flex items-center gap-6 py-1 px-2 bg-gray-50 rounded-t-lg border-b border-gray-200">
-    <div className="font-medium text-gray-700 w-[12%]">Age</div>
+    <div className="font-medium text-gray-700 w-[12%]"> Current Age</div>
     <div className="font-medium text-gray-700 w-[12%]">
       Age of Higher Education
     </div>
@@ -270,7 +270,7 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
             className="w-full sm:w-32 outline-none p-2 border rounded-lg focus:ring-2 focus:ring-green-500 text-lg"
             aria-label="Select number of children"
           >
-            {[0, 1, 2, 3, 4, 5].map((num) => (
+            {[0, 1, 2, 3, 4, 5, 6].map((num) => (
               <option key={num} value={num}>
                 {num}
               </option>

@@ -132,7 +132,7 @@ export async function GET(request) {
         });
 
         const baseUrl =
-          process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+          process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
         const finalRedirectUrl = redirect_path?.startsWith("http")
           ? redirect_path
           : `${baseUrl}${redirect_path || "/"}`;
@@ -173,7 +173,7 @@ export async function GET(request) {
       });
 
       const baseUrl =
-        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+        process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
       const finalRedirectUrl = redirect_path?.startsWith("http")
         ? redirect_path
         : `${baseUrl}${redirect_path || "/"}`;

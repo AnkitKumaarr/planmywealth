@@ -65,6 +65,13 @@ export async function POST(request) {
       0
     );
 
+    const salaryBusinessIncome = incomeSources.reduce((total, source) => {
+      if (source.type === "Salary" || source.type === "Business Income") {
+        return total + parseFloat(source.amount || 0);
+      }
+      return total;
+    }, 0);
+
     // 3. Calculate Years to Retirement
     const yearsToRetirement = retirementAge - currentAge;
 
@@ -84,7 +91,20 @@ export async function POST(request) {
 
     // 5. Calculate Life Insurance Need
 
-    const lifeInsuranceNeed = totalIncome + liabilities - totalSavings;
+    // Get multiplier based on age
+    const getMultiplier = (age) => {
+      if (age >= 18 && age <= 35) return 30;
+      if (age >= 36 && age <= 40) return 25;
+      if (age >= 41 && age <= 45) return 20;
+      if (age >= 46 && age <= 50) return 15;
+      if (age >= 51 && age <= 55) return 10;
+      if (age >= 56 && age <= 65) return 5;
+      return 0; // Default case for ages outside the ranges
+    };
+
+    // Replace the static multiplier with dynamic one based on age
+    const multiplier = getMultiplier(currentAge);
+    const lifeInsuranceNeed = (salaryBusinessIncome * multiplier) - lifeCoverAmount;
 
     const additionalCoverNeeded = Math.max(lifeInsuranceNeed, 0);
 
@@ -151,7 +171,6 @@ export async function POST(request) {
         lifeInsuranceNeed, additionalCoverNeeded
       ) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
     `;
-
 
     // Ensure all values are defined, using default values if necessary
     const values = [

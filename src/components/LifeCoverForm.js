@@ -3,6 +3,7 @@ import { useState } from "react";
 const LifeCoverForm = ({ data, onChange, errors }) => {
   const [policies, setPolicies] = useState({
     termInsurance: "",
+    personalAccidentInsurance: "",
     groupInsurance: "",
     traditionalInsurance: "",
     ulipInsurance: "",
@@ -25,6 +26,7 @@ const LifeCoverForm = ({ data, onChange, errors }) => {
 
   const policyCategories = [
     { id: "termInsurance", label: "Term Insurance" },
+    { id: "personalAccidentInsurance", label: "Personal Accident Insurance" },
     { id: "groupInsurance", label: "Group Insurance", subtitle: "(Employer provided)" },
     { id: "traditionalInsurance", label: "Traditional Insurance", subtitle: "(Endowment, Money Back, etc.)" },
     { id: "ulipInsurance", label: "ULIP Insurance" },

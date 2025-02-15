@@ -39,7 +39,7 @@ export function FormProvider({ children }) {
     emergencyFundAmount: "",
     emergencyFundMonths: "",
   });
-  const [currentStep, setCurrentStep] = useState(14);
+  const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState({});
 
   // Restore data from localStorage when component mounts
@@ -75,6 +75,7 @@ export function FormProvider({ children }) {
     }));
   };
 
+  console.log("formData", formData);
   return (
     <FormContext.Provider
       value={{

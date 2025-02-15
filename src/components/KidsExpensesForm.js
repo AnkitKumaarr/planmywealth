@@ -258,6 +258,9 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
           <h2 className="text-2xl sm:text-3xl font-semibold mb-4">
             What are your planned future expenses for your kids?
           </h2>
+          <p className="text-gray-600 mt-2">
+            Please enter estimated costs based on current market rates.
+          </p>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">

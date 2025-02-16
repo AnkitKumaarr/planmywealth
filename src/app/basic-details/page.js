@@ -31,6 +31,8 @@ export default function BasicDetails() {
     setErrors,
     currentStep,
     setCurrentStep,
+    sidebarOpen,
+    setSidebarOpen,
   } = useFormData();
 
   const router = useRouter();

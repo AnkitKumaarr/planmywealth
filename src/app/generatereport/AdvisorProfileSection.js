@@ -15,7 +15,11 @@ const AdvisorProfileSection = ({ flow }) => {
             👤 Advisor Matched To You
           </span>
           <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-2 rounded-full overflow-hidden bg-gray-100">
-            <CgProfile className="w-full h-full text-gray-400" />
+            <img 
+              src="/images/harshiteimage.jpeg" 
+              alt="Advisor Harshit"
+              className="w-full h-full object-cover"
+            />
           </div>
           <div className="text-green-500 text-sm mb-2 flex items-center gap-1">
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -23,7 +27,7 @@ const AdvisorProfileSection = ({ flow }) => {
             </svg>
             VERIFIED
           </div>
-          <h3 className="text-xl font-bold mb-1 text-center">Manish</h3>
+          <h3 className="text-xl font-bold mb-1 text-center">Harshit</h3>
           <p className="text-gray-600 mb-4 text-center">Perfect Consultant</p>
         </div>
 

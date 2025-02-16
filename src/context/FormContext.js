@@ -41,6 +41,8 @@ export function FormProvider({ children }) {
   });
   const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState({});
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
 
   // Restore data from localStorage when component mounts
   useEffect(() => {
@@ -85,6 +87,8 @@ export function FormProvider({ children }) {
         setFormData,
         currentStep,
         setCurrentStep,
+        sidebarOpen,
+        setSidebarOpen,
       }}
     >
       {children}

@@ -1,18 +1,22 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import SignInDialog from "../SignInDialog";
 import { ToastContainer, toast } from "react-toastify";
 import { FaUser, FaHeadset, FaSignOutAlt, FaComments } from "react-icons/fa";
+import { useFormData } from "@/context/FormContext";
 
-export default function Navbar({ sidebarOpen, setSidebarOpen }) {
+export default function Navbar() {
+  const { sidebarOpen, setSidebarOpen } = useFormData();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const router = useRouter();
   const { user, loading, logout, isSignInOpen, handleSignInOpen } = useAuth();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const pathname = usePathname();
+  const isDashboardPath = pathname?.startsWith('/dashboard');
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -37,9 +41,7 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
     <nav className="bg-white shadow-sm h-16 fixed w-full top-0 z-40">
       <div className="h-full px-4 md:px-[96px] flex items-center justify-between">
         {/* Menu button for mobile */}
-
-
-        {user && (
+        {user && isDashboardPath && (
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="lg:hidden p-2 rounded-md hover:bg-gray-100"
@@ -112,13 +114,13 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
                         {user?.name?.charAt(0)}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p 
-                          className="text-base font-semibold text-gray-800 truncate pr-2 hover:cursor-pointer" 
+                        <p
+                          className="text-base font-semibold text-gray-800 truncate pr-2 hover:cursor-pointer"
                           title={user.name}
                         >
                           {user.name}
                         </p>
-                        <p 
+                        <p
                           className="text-sm text-gray-500 truncate pr-2 hover:cursor-pointer"
                           title={user.email}
                         >
@@ -147,7 +149,7 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
 
                     <div className="flex items-center space-x-3 px-6 py-3 text-gray-700">
                       <FaHeadset className="text-gray-400" />
-                      <span>Support: +91 8369547450</span>
+                      <span>Support: +91 7891015165</span>
                     </div>
 
                     <div className="border-t mt-2">

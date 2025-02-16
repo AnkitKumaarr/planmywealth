@@ -136,9 +136,9 @@ const GenerateReport = () => {
                 src="/images/PlanYourWealth.png"
                 alt="planmywealth Logo"
               />
-              <h1 className="text-3xl font-bold pl-4 text-green-500">
+              {/* <h1 className="text-3xl font-bold pl-4 text-green-500">
                 <span className="text-black">Tru</span>Match
-              </h1>
+              </h1> */}
             </div>
             <Link
               href="/"
@@ -207,7 +207,7 @@ const GenerateReport = () => {
               >
                 <span className="mr-2">↻</span> Refill form
               </button>
-              <div className="bg-gray-50 rounded-lg">
+              {/* <div className="bg-gray-50 rounded-lg">
                 <h4 className="font-medium mb-2">FAQ's</h4>
                 <div className="space-y-2 text-gray-600">
                   <button className="flex items-center justify-between w-full">
@@ -219,7 +219,7 @@ const GenerateReport = () => {
                     <span>→</span>
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 

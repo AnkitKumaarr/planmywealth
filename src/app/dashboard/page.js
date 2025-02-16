@@ -9,9 +9,10 @@ import QuotationsContent from "@/components/dashboard/QuotationsContent";
 import ReferContent from "@/components/dashboard/ReferContent";
 import AccountContent from "@/components/dashboard/AccountContent";
 import ReferralsData from "@/components/dashboard/ReferralsData";
+import { useFormData } from "@/context/FormContext";
 
 export default function Dashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { sidebarOpen, setSidebarOpen } = useFormData();
   const [currentPath, setCurrentPath] = useState("");
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <Navbar /> 
       <div className="flex pt-16">
         {sidebarOpen && (
           <div

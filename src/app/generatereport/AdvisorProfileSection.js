@@ -2,6 +2,8 @@ import React from "react";
 import { CgProfile } from "react-icons/cg";
 
 const AdvisorProfileSection = ({ flow }) => {
+  const [imageError, setImageError] = React.useState(false);
+
   return (
     <div className="bg-blue-100 rounded-lg p-4 sm:p-6 ">
       <div
@@ -15,11 +17,18 @@ const AdvisorProfileSection = ({ flow }) => {
             👤 Advisor Matched To You
           </span>
           <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-2 rounded-full overflow-hidden bg-gray-100">
-            <img 
-              src="/images/harshiteimage.jpeg" 
-              alt="Advisor Harshit"
-              className="w-full h-full object-cover"
-            />
+            {!imageError ? (
+              <img
+                src={
+                  process.env.NEXT_PUBLIC_APP_URL + "/images/harshiteimage.jpeg"
+                }
+                alt="Advisor Harshit"
+                className="w-full h-full object-cover"
+                onError={() => setImageError(true)}
+              />
+            ) : (
+              <CgProfile className="w-full h-full text-gray-400" />
+            )}
           </div>
           <div className="text-green-500 text-sm mb-2 flex items-center gap-1">
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">

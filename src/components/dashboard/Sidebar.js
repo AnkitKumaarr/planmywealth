@@ -1,4 +1,5 @@
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 
 export default function Sidebar({
   isOpen,
@@ -45,7 +46,7 @@ export default function Sidebar({
     <aside
       className={`fixed  left-0 h-[calc(100vh-64px)] bg-white shadow-lg z-30
         w-64 transform transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}
         lg:relative lg:translate-x-0 lg:z-0`}
     >
       <div className="h-full overflow-y-auto">
@@ -55,9 +56,10 @@ export default function Sidebar({
               key={index}
               className={`flex items-center px-6 py-3 cursor-pointer transition-colors
                 hover:bg-gray-50 active:bg-gray-100
-                ${pathname === item.path
-                  ? "bg-green-50 text-green-600 font-semibold"
-                  : "text-gray-700"
+                ${
+                  pathname === item.path
+                    ? "bg-green-50 text-green-600 font-semibold"
+                    : "text-gray-700"
                 }`}
               onClick={() => {
                 handlePathChange(item.path);
@@ -71,6 +73,11 @@ export default function Sidebar({
               <span className="text-sm">{item.title}</span>
             </a>
           ))}
+        </div>
+        <div className="absolute bottom-6 left-6 space-y-4">
+          <Link href={"/"} className="flex items-center text-green-600">
+            <span className="mr-2">←</span> Go Back
+          </Link>
         </div>
       </div>
     </aside>

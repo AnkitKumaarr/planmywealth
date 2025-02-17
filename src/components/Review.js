@@ -67,7 +67,7 @@ export default function Review({ onBackStep, setCurrentStep }) {
           onClose={() => handleSignInOpen(false)}
         />
       )}
-      <div className="max-w-3xl mx-auto ">
+      <div className="max-w-3xl mx-auto pt-8">
         <h2 className="text-2xl font-bold text-center mb-4">
           Summary of your details
         </h2>
@@ -227,7 +227,7 @@ export default function Review({ onBackStep, setCurrentStep }) {
           <div className="flex justify-center  w-full fixed bottom-0 left-0 right-0 sm:relative bg-white  sm:bg-transparent sm:p-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.3)] sm:shadow-none">
             <button
               onClick={handleGenerateReport}
-              className="w-7/12  bg-green-500 text-white text-center p-4 rounded-full hover:bg-green-600 transition-colors mt-8"
+              className="w-7/12  bg-green-500 text-white text-center p-4 rounded-full hover:bg-green-600 transition-colors mt-8 mb-4"
             >
               {isLoading ? (
                 <div className="flex justify-center items-center">

@@ -84,7 +84,7 @@ export default function Navbar() {
             <Image
               width={200}
               height={70}
-              src="/images/PlanYourWealth.png"
+              src="/images/pmw_logo.png"
               alt="planmywealth Logo"
             />
           </Link>

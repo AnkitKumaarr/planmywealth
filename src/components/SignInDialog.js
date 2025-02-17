@@ -33,7 +33,7 @@ export default function SignInDialog({ isOpen, onClose }) {
               <Image
                 width={200}
                 height={70}
-                src="/images/PlanYourWealth.png"
+                src="/images/pmw_logo.png"
                 alt="planmywealth Logo"
                 className=" mb-4"
               />

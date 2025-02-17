@@ -13,7 +13,7 @@ function VerificationStatusContent() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full bg-white py-4 shadow-md fixed top-0 left-0 flex ">
         <Image
-          src="/images/PlanYourWealth.png"
+          src="/images/pmw_logo.png"
           alt="Plan My Wealth Logo"
           width={200}
           height={40}

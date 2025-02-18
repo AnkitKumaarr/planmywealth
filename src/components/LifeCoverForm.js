@@ -1,14 +1,9 @@
 import { useState } from "react";
 
 const LifeCoverForm = ({ data, onChange, errors }) => {
-  const [policies, setPolicies] = useState({
-    termInsurance: "",
-    personalAccidentInsurance: "",
-    groupInsurance: "",
-    traditionalInsurance: "",
-    ulipInsurance: "",
-    other: "",
-  });
+  const [policies, setPolicies] = useState([
+    { id: 1, name: "", amount: "" }
+  ]);
 
   const formatToWords = (num) => {
     if (!num || isNaN(num)) return "";
@@ -24,22 +19,35 @@ const LifeCoverForm = ({ data, onChange, errors }) => {
     return `₹ ${num.toLocaleString("en-IN")}`;
   };
 
-  const policyCategories = [
-    { id: "termInsurance", label: "Term Insurance" },
-    { id: "personalAccidentInsurance", label: "Personal Accident Insurance" },
-    { id: "groupInsurance", label: "Group Insurance", subtitle: "(Employer provided)" },
-    { id: "traditionalInsurance", label: "Traditional Insurance", subtitle: "(Endowment, Money Back, etc.)" },
-    { id: "ulipInsurance", label: "ULIP Insurance" },
-    { id: "other", label: "Other" },
-  ];
+  const handleAddPolicy = () => {
+    setPolicies([...policies, { 
+      id: policies.length + 1, 
+      name: "", 
+      amount: "" 
+    }]);
+  };
 
-  const handlePolicyChange = (category, value) => {
-    const newPolicies = { ...policies, [category]: value };
+  const handleRemovePolicy = (id) => {
+    if (policies.length > 1) {
+      const newPolicies = policies.filter(policy => policy.id !== id);
+      setPolicies(newPolicies);
+      updateTotal(newPolicies);
+    }
+  };
+
+  const handlePolicyChange = (id, field, value) => {
+    const newPolicies = policies.map(policy => 
+      policy.id === id ? { ...policy, [field]: value } : policy
+    );
     setPolicies(newPolicies);
+    if (field === 'amount') {
+      updateTotal(newPolicies);
+    }
+  };
 
-    // Calculate total
-    const total = Object.values(newPolicies).reduce(
-      (sum, val) => sum + (Number(val) || 0),
+  const updateTotal = (newPolicies) => {
+    const total = newPolicies.reduce(
+      (sum, policy) => sum + (Number(policy.amount) || 0),
       0
     );
     onChange("lifeCoverAmount", total);
@@ -79,20 +87,21 @@ const LifeCoverForm = ({ data, onChange, errors }) => {
 
       {data.hasLifeCover && (
         <div className="space-y-4 mt-6">
-          {policyCategories.map((category) => (
-            <div key={category.id} className="flex flex-col sm:flex-row gap-4">
+          {policies.map((policy) => (
+            <div key={policy.id} className="flex flex-col sm:flex-row gap-4">
               <div className="w-full sm:w-1/2">
-                <div className="bg-gray-200 p-4 rounded-lg">
-                  <div className="font-medium">{category.label}</div>
-                  {category.subtitle && (
-                    <div className="text-sm text-gray-600">
-                      {category.subtitle}
-                    </div>
-                  )}
+                <div className="relative bg-white rounded-lg border border-gray-400">
+                  <input
+                    type="text"
+                    className="w-full p-4 outline-none rounded-lg"
+                    placeholder="Enter insurance type..."
+                    value={policy.name}
+                    onChange={(e) => handlePolicyChange(policy.id, 'name', e.target.value)}
+                  />
                 </div>
               </div>
-              <div className="w-full sm:w-1/2">
-                <div className="relative bg-white rounded-lg border border-gray-200">
+              <div className="w-full sm:w-1/2 flex gap-2">
+                <div className="relative bg-white rounded-lg border border-gray-400 flex-1">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                     ₹
                   </span>
@@ -100,18 +109,28 @@ const LifeCoverForm = ({ data, onChange, errors }) => {
                     type="text"
                     className="w-full p-4 pl-7 outline-none rounded-lg"
                     placeholder="Enter amount..."
-                    value={policies[category.id]}
-                    onChange={(e) => handlePolicyChange(category.id, e.target.value)}
+                    value={policy.amount}
+                    onChange={(e) => handlePolicyChange(policy.id, 'amount', e.target.value)}
                   />
                 </div>
-                {policies[category.id] && Number(policies[category.id]) > 0 && (
-                  <div className="text-sm text-gray-500 mt-1 text-right">
-                    {formatToWords(policies[category.id])}
-                  </div>
-                )}
+                <button
+                  type="button"
+                  onClick={() => handleRemovePolicy(policy.id)}
+                  className="p-4 text-red-500 hover:text-red-700"
+                >
+                  ✕
+                </button>
               </div>
             </div>
           ))}
+
+          <button
+            type="button"
+            onClick={handleAddPolicy}
+            className="w-full p-3 border border-gray-400 rounded-lg text-gray-600 hover:bg-gray-50"
+          >
+            + Add Another Policy
+          </button>
 
           <div className="bg-gray-100 p-4 rounded-lg flex justify-between items-center">
             <span className="font-medium">Total Life Cover:</span>

@@ -32,6 +32,7 @@ export async function GET(req) {
         uuid: report?.uuid,
         name: report.first_name + " " + report.last_name,
         retirementAge: report.retirement_age,
+        createdAt: report.created_at,
         additionalCoverNeeded: formatToWords(report.additionalCoverNeeded),
       };
     });

@@ -22,6 +22,9 @@ export default function ReportItem({ report }) {
                 <p className="font-bold text-md">
                   {report?.additionalCoverNeeded}
                 </p>
+                <p className="text-xs text-gray-500">
+                  {new Date(report?.createdAt).toLocaleString()}
+                </p>
               </div>
             </div>
             <button
@@ -34,7 +37,7 @@ export default function ReportItem({ report }) {
           </div>
 
           {/* Desktop view */}
-          <div className="hidden md:grid grid-cols-5 gap-4">
+          <div className="hidden md:grid grid-cols-6 gap-4">
             <div className="flex flex-col">
               <p className="text-sm">Insurance Type</p>
               <p className="font-bold text-md">Term Insurance</p>
@@ -43,10 +46,10 @@ export default function ReportItem({ report }) {
               <p className="text-sm">Members</p>
               <p className="font-bold text-md">{report?.name}</p>
             </div>
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <p className="text-sm">Cover Type</p>
               <p className="font-bold text-md">Individual</p>
-            </div>
+            </div> */}
             <div className="flex flex-col">
               <p className="text-sm">Min Coverage</p>
               <p className="font-bold text-md">
@@ -56,6 +59,12 @@ export default function ReportItem({ report }) {
             <div className="flex flex-col">
               <p className="text-sm">Retirement Age</p>
               <h4 className="font-bold text-md">{report?.retirementAge}</h4>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-sm">Created On</p>
+              <p className="font-bold text-md">
+                {new Date(report?.createdAt).toLocaleString()}
+              </p>
             </div>
           </div>
         </div>

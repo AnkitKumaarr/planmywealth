@@ -15,7 +15,11 @@ const SavingsInvestmentsForm = ({ data, onChange, errors }) => {
     return `₹ ${(value / 10000000).toFixed(1)} crore`;
   };
 
-  const [expenses, setExpenses] = useState(data.expenses || []);
+  const [expenses, setExpenses] = useState(data.expenses || [{
+    id: Date.now(),
+    description: '',
+    amount: ''
+  }]);
 
   const handleAddExpense = () => {
     const newExpense = {

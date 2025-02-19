@@ -18,6 +18,7 @@ export async function POST(request) {
     if (value < 10000000) return `₹ ${(value / 100000).toFixed(1)} lakh`;
     return `₹ ${(value / 10000000).toFixed(1)} crore`;
   };
+  
   const nomineeReactionOptions = [
     {
       id: "confident",
@@ -63,8 +64,8 @@ export async function POST(request) {
       additionalCoverNeeded: formatToWords(data?.additionalCoverNeeded),
       educationInflation: formatToWords(data?.education_inflation),
       weddingInflation: formatToWords(data?.wedding_inflation),
-      termInsuranceAmount: formatToWords(data?.term_insurance_amount),
-      healthInsuranceAmount: formatToWords(data?.health_insurance_amount),
+      termInsuranceAmount: formatToWords(data?.term_insurance_amount || 0),
+      healthInsuranceAmount: formatToWords(data?.health_insurance_amount || 0),
     };
     return NextResponse.json({
       success: true,

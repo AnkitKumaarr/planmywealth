@@ -63,7 +63,7 @@ export default function ReportItem({ report }) {
       {/* Desktop button - hidden on mobile */}
       <button
         onClick={routeToGenerateReport}
-        className="hidden md:flex text-green-500 items-center gap-2 mt-4 md:mt-0"
+        className="hidden md:flex text-green-500 items-center gap-0 mt-4 md:mt-0"
       >
         <BsBoxArrowUpRight />
         View Report

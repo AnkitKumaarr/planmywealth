@@ -195,7 +195,8 @@ export async function POST(request) {
         lifeInsuranceNeed DECIMAL(15, 2),
         additionalCoverNeeded DECIMAL(15, 2),
         education_inflation DECIMAL(15, 2),
-        wedding_inflation DECIMAL(15, 2)
+        wedding_inflation DECIMAL(15, 2),
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `;
 
@@ -209,8 +210,8 @@ export async function POST(request) {
         hasLoans, loan_amount, hasSavings, savings_amount, knowsInvestments, total_investments,
         hasLifeCover, life_cover_amount, term_insurance_amount, health_insurance_amount, number_of_kids, education_expenses, wedding_expenses,
         hasEmergencyFund, emergency_fund_amount, emergency_fund_months, total_monthly_expenses,
-        lifeInsuranceNeed, additionalCoverNeeded, education_inflation, wedding_inflation
-      ) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?)
+        lifeInsuranceNeed, additionalCoverNeeded, education_inflation, wedding_inflation, timestamp
+      ) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?)
     `;
 
     // Ensure all values are defined, using default values if necessary
@@ -257,6 +258,7 @@ export async function POST(request) {
       additionalCoverNeeded || 0,
       totalEducationInflation || 0,
       totalWeddingInflation || 0,
+      new Date().toISOString()
     ];
 
     await mysql.query(query, values);

@@ -18,7 +18,9 @@ const ReportSection = ({ report }) => {
             <p className="text-gray-600 text-xs">
               Minimum Term Insurance cover your family needs{" "}
               {report?.additionalCoverNeeded} - Cover you already have{" "}
-              {report?.termInsuranceAmount}
+              {report?.termInsuranceAmount === ""
+                ? "₹ 0"
+                : report?.termInsuranceAmount}
             </p>
           </div>
         </div>
@@ -80,14 +82,16 @@ const ReportSection = ({ report }) => {
             </div>
             <div className="flex flex-col ml-4">
               <p className="text-gray-600 text-xs">
-                This is the future value of your children's education expenses, calculated at 6% inflation rate. 
-                Planning ahead helps ensure your children's educational aspirations aren't compromised.
+                This is the future value of your children's education expenses,
+                calculated at 6% inflation rate. Planning ahead helps ensure
+                your children's educational aspirations aren't compromised.
               </p>
             </div>
           </div>
         </div>
         <p className="mt-2 text-sm text-gray-600">
-          Education costs tend to rise faster than general inflation. Starting early gives you the advantage of long-term planning.
+          Education costs tend to rise faster than general inflation. Starting
+          early gives you the advantage of long-term planning.
         </p>
       </section>
 
@@ -103,14 +107,16 @@ const ReportSection = ({ report }) => {
             </div>
             <div className="flex flex-col ml-4">
               <p className="text-gray-600 text-xs">
-                This is the future value of wedding expenses, calculated at 6% inflation rate. 
-                Planning for this significant life event ensures financial readiness when the time comes.
+                This is the future value of wedding expenses, calculated at 6%
+                inflation rate. Planning for this significant life event ensures
+                financial readiness when the time comes.
               </p>
             </div>
           </div>
         </div>
         <p className="mt-2 text-sm text-gray-600">
-          Wedding expenses can be substantial. Early planning helps distribute the financial burden over time.
+          Wedding expenses can be substantial. Early planning helps distribute
+          the financial burden over time.
         </p>
       </section>
 

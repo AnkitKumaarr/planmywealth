@@ -18,7 +18,7 @@ const ReportSection = ({ report }) => {
             <p className="text-gray-600 text-xs">
               Minimum Term Insurance cover your family needs{" "}
               {report?.additionalCoverNeeded} - Cover you already have{" "}
-              {report?.finalSavingAmount}
+              {report?.termInsuranceAmount}
             </p>
           </div>
         </div>

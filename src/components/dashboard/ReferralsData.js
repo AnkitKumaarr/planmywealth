@@ -225,12 +225,12 @@ export default function ReferralsData() {
                       <span className="font-medium">Email:</span>{" "}
                       {selectedReport.userEmail}
                     </p>
-                    <p className="text-[10px] md:text-base">
+                    {/* <p className="text-[10px] md:text-base">
                       <span className="font-medium">Date of Birth:</span>{" "}
                       {new Date(
                         selectedReport.date_of_birth
                       ).toLocaleDateString()}
-                    </p>
+                    </p> */}
                     <p className="text-[10px] md:text-base">
                       <span className="font-medium">Age:</span>{" "}
                       {selectedReport.age}
@@ -380,6 +380,21 @@ export default function ReferralsData() {
                       <span className="font-medium">Has Life Cover:</span>{" "}
                       {selectedReport.hasLifeCover ? "Yes" : "No"}
                     </p>
+                    {(selectedReport.hasLifeCover === true ||
+                      selectedReport.hasLifeCover === "yes") && (
+                      <p className="text-[10px] md:text-base">
+                        <span className="font-medium">Term Insurance:</span>{" "}
+                        {formatToWords(selectedReport.termInsuranceAmount)}
+                      </p>
+                    )}
+                    {(selectedReport.hasLifeCover === true ||
+                      selectedReport.hasLifeCover === "yes") && (
+                      <p className="text-[10px] md:text-base">
+                        <span className="font-medium">Health Insurance:</span>{" "}
+                        {formatToWords(selectedReport.healthInsuranceAmount)}
+                      </p>
+                    )}
+
                     <p className="text-[10px] md:text-base">
                       <span className="font-medium">Current Life Cover:</span>{" "}
                       {formatToWords(selectedReport.life_cover_amount)}

@@ -43,6 +43,8 @@ export async function POST(request) {
     const query = `SELECT uuid, retirement_age, nomineeReaction, 
     savings_amount, 
     total_investments,
+    term_insurance_amount,
+    health_insurance_amount,
     additionalCoverNeeded,
     education_inflation,
     wedding_inflation
@@ -61,6 +63,8 @@ export async function POST(request) {
       additionalCoverNeeded: formatToWords(data?.additionalCoverNeeded),
       educationInflation: formatToWords(data?.education_inflation),
       weddingInflation: formatToWords(data?.wedding_inflation),
+      termInsuranceAmount: formatToWords(data?.term_insurance_amount),
+      healthInsuranceAmount: formatToWords(data?.health_insurance_amount),
     };
     return NextResponse.json({
       success: true,

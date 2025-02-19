@@ -105,14 +105,14 @@ const LivingExpensesForm = ({ data, onChange, errors }) => {
                 ₹
               </span>
               <input
-                type="text"
-                className={`w-full p-3 pl-7 border rounded-lg ${
+                type="number"
+                className={`w-full p-3 pl-7 border rounded-lg appearance-none [&::-webkit-inner-spin-button]:appearance-auto [&::-webkit-inner-spin-button]:h-[80%] [&::-webkit-outer-spin-button]:appearance-auto [&::-webkit-outer-spin-button]:h-[80%] ${
                   errors?.monthlyExpenses ? "border-red-500" : "border-gray-200"
                 }`}
                 placeholder="15000"
                 value={data.monthlyExpenses || ""}
                 onChange={(e) =>
-                  onChange("monthlyExpenses", Number(e.target.value))
+                  onChange("monthlyExpenses", e.target.value)
                 }
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">

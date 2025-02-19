@@ -22,6 +22,7 @@ import ProgressIndicator from "@/components/ProgressIndicator";
 import Navbar from "@/components/dashboard/Navbar";
 import Review from "@/components/Review";
 import RetakeButton from "@/components/RetakeButton";
+import Disease from "@/components/Disease";
 
 export default function BasicDetails() {
   const {
@@ -50,12 +51,11 @@ export default function BasicDetails() {
         );
       case 2:
         return (
-          <HabitsQuestion
-            type="disease"
-            value={formData.disease}
+          <Disease
+            data={formData}
             onChange={handleInputChange}
-            question="Do you have any existing diseases?"
-            hint="Say 'Yes' if you have any existing diseases."
+            errors={errors}
+            setErrors={setErrors}
           />
         );
       case 3:
@@ -177,14 +177,15 @@ export default function BasicDetails() {
     switch (currentStep) {
       case 1:
         if (!formData.firstName) newErrors.firstName = true;
-        if (!formData.lastName) newErrors.lastName = true;
-        if (!formData.dateOfBirth) newErrors.dateOfBirth = true;
+        // if (!formData.lastName) newErrors.lastName = true;
+        // if (!formData.dateOfBirth) newErrors.dateOfBirth = true;
         if (!formData.pincode) newErrors.pincode = true;
         if (!formData.gender) newErrors.gender = true;
         if (!formData.education) newErrors.education = true;
         break;
       case 2:
         if (!formData.disease) newErrors.disease = true;
+        if (!formData.userDisease) newErrors.userDisease = true;
         break;
       case 3:
         if (!formData.smoking) newErrors.smoking = true;

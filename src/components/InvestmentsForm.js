@@ -98,16 +98,14 @@ const InvestmentsForm = ({ data, onChange, errors }) => {
               </span>
               <input
                 type="text"
-                className={`w-full p-3 pl-7 border rounded-lg ${
+                className={`w-full p-3 pl-7 border rounded-lg appearance-none [&::-webkit-inner-spin-button]:appearance-auto [&::-webkit-inner-spin-button]:h-[80%] [&::-webkit-outer-spin-button]:appearance-auto [&::-webkit-outer-spin-button]:h-[80%] ${
                   errors?.totalInvestments
                     ? "border-red-500"
                     : "border-gray-200"
                 }`}
                 placeholder="Enter total investments amount..."
                 value={data.totalInvestments || ""}
-                onChange={(e) =>
-                  onChange("totalInvestments", Number(e.target.value))
-                }
+                onChange={(e) => onChange("totalInvestments", e.target.value)}
               />
             </div>
           </div>

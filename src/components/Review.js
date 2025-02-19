@@ -104,15 +104,23 @@ export default function Review({ onBackStep, setCurrentStep }) {
                   {formData.firstName} {formData.lastName}
                 </strong>
               </p>
-              <p>
+              {/* <p>
                 Date of birth: <strong>{formData.dateOfBirth}</strong>
-              </p>
+              </p> */}
               <p>
                 Gender: <strong>{formData.gender}</strong>
               </p>
               <p>
                 Highest Education: <strong>{formData.education}</strong>
               </p>
+              <p>
+                Disease: <strong>{formData.disease}</strong>
+              </p>
+              {formData?.userDisease && (
+                <p>
+                  User Disease: <strong>{formData?.userDisease}</strong>
+                </p>
+              )}
               <p>
                 Smoke or chew tobacco: <strong>{formData.smoking}</strong>
               </p>

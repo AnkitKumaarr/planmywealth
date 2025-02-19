@@ -15,13 +15,52 @@ const SavingsInvestmentsForm = ({ data, onChange, errors }) => {
     return `₹ ${(value / 10000000).toFixed(1)} crore`;
   };
 
+  const [expenses, setExpenses] = useState(data.expenses || []);
+
+  const handleAddExpense = () => {
+    const newExpense = {
+      id: Date.now(),
+      description: '',
+      amount: ''
+    };
+    const updatedExpenses = [...expenses, newExpense];
+    setExpenses(updatedExpenses);
+    onChange('expenses', updatedExpenses);
+    onChange('majorExpensesAmount', calculateTotalAmount(updatedExpenses));
+  };
+
+  const handleRemoveExpense = (id) => {
+    const updatedExpenses = expenses.filter(expense => expense.id !== id);
+    setExpenses(updatedExpenses);
+    onChange('expenses', updatedExpenses);
+    onChange('majorExpensesAmount', calculateTotalAmount(updatedExpenses));
+  };
+
+  const handleExpenseChange = (id, field, value) => {
+    const updatedExpenses = expenses.map(expense => {
+      if (expense.id === id) {
+        return { ...expense, [field]: value };
+      }
+      return expense;
+    });
+    setExpenses(updatedExpenses);
+    onChange('expenses', updatedExpenses);
+    if (field === 'amount') {
+      onChange('majorExpensesAmount', calculateTotalAmount(updatedExpenses));
+    }
+  };
+
+  const calculateTotalAmount = (expensesList) => {
+    return expensesList.reduce((sum, expense) => sum + (Number(expense.amount) || 0), 0);
+  };
+
   return (
     <div className="space-y-6 px-4 sm:px-6 lg:px-8">
       <h2 className="text-2xl font-semibold text-center">
         Do you have any major upcoming expenses?
       </h2>
       <p className="text-center text-gray-500">
-        Large expenses like spouse's higher education, sibling’s higher
+        Large expenses like spouse's higher education, sibling's higher
         education or wedding, paying off some financial liability on your
         family, etc.
       </p>
@@ -53,32 +92,59 @@ const SavingsInvestmentsForm = ({ data, onChange, errors }) => {
       </div>
 
       {data.hasMajorExpenses === true && (
-        <div className="max-w-md mx-auto mt-6">
-          <div className="flex items-center gap-2">
-            <div className="flex-1 relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2">
-                ₹
-              </span>
-              <input
-                type="text"
-                className={`w-full p-3 pl-7 border rounded-lg ${
-                  errors?.majorExpensesAmount ? "border-red-500" : "border-gray-200"
-                }`}
-                placeholder="Enter total expenses amount..."
-                value={data.majorExpensesAmount || ""}
-                onChange={(e) =>
-                  onChange("majorExpensesAmount", Number(e.target.value))
-                }
-              />
+        <div className="space-y-4 mt-6">
+          {expenses.map((expense) => (
+            <div key={expense.id} className="flex flex-col sm:flex-row gap-4">
+              <div className="w-full sm:w-1/2">
+                <div className="relative bg-white rounded-lg border border-gray-200">
+                  <input
+                    type="text"
+                    className="w-full p-4 outline-none rounded-lg"
+                    placeholder="Enter expense description..."
+                    value={expense.description}
+                    onChange={(e) => handleExpenseChange(expense.id, 'description', e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 flex gap-2">
+                <div className="relative bg-white rounded-lg border border-gray-200 flex-1">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2">₹</span>
+                  <input
+                    type="text"
+                    className="w-full p-4 pl-7 outline-none rounded-lg"
+                    placeholder="Enter amount..."
+                    value={expense.amount}
+                    onChange={(e) => handleExpenseChange(expense.id, 'amount', e.target.value)}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveExpense(expense.id)}
+                  className="p-4 text-red-500 hover:text-red-700"
+                >
+                  ✕
+                </button>
+              </div>
             </div>
+          ))}
+
+          <button
+            type="button"
+            onClick={handleAddExpense}
+            className="w-full p-3 border border-gray-400 rounded-lg text-gray-600 hover:bg-gray-50"
+          >
+            + Add Another Expense
+          </button>
+
+          <div className="bg-gray-100 p-4 rounded-lg flex justify-between items-center">
+            <span className="font-medium">Total Expenses:</span>
+            <span className="font-medium">
+              {formatToIndianCurrency(data.majorExpensesAmount)}
+            </span>
           </div>
+
           {errors?.majorExpensesAmount && (
-            <div className="text-red-500 text-sm mt-1">Enter your expense</div>
-          )}
-          {data.majorExpensesAmount > 0 && (
-            <div className="text-sm text-gray-500 mt-2 text-right">
-              {formatToWords(data.majorExpensesAmount)}
-            </div>
+            <div className="text-red-500 text-sm">Please enter at least one expense amount</div>
           )}
         </div>
       )}

@@ -31,6 +31,9 @@ export function FormProvider({ children }) {
     knowsInvestments: null,
     totalInvestments: 0,
     hasLifeCover: null,
+    lifeCoverAmount: 0,
+    termInsuranceAmount: 0,
+    healthInsuranceAmount: 0,
     numberOfKids: 1,
     children: [],
     educationExpenses: "",
@@ -42,7 +45,6 @@ export function FormProvider({ children }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
 
   // Restore data from localStorage when component mounts
   useEffect(() => {
@@ -69,6 +71,8 @@ export function FormProvider({ children }) {
       }
     }
   }, []);
+
+  console.log(formData);
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({

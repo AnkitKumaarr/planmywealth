@@ -27,6 +27,7 @@ export async function POST(request) {
       gender,
       education,
       disease,
+      userDisease,
       smoking,
       alcohol,
       children,
@@ -45,6 +46,9 @@ export async function POST(request) {
       knowsInvestments,
       totalInvestments,
       hasLifeCover,
+      lifeCoverAmount,
+      termInsuranceAmount,
+      healthInsuranceAmount,
       numberOfKids,
       educationExpenses,
       weddingExpenses,
@@ -52,7 +56,6 @@ export async function POST(request) {
       emergencyFundAmount,
       emergencyFundMonths,
       totalMonthlyExpenses,
-      lifeCoverAmount,
     } = formData;
 
     // 1. Calculate Current Age
@@ -67,7 +70,11 @@ export async function POST(request) {
     );
 
     const salaryBusinessIncome = incomeSources.reduce((total, source) => {
-      if (source.type === "Salary" || source.type === "Business Income") {
+      if (
+        source.type === "Salary" ||
+        source.type === "Business Income" ||
+        source.type === "Professional Fees"
+      ) {
         return total + parseFloat(source.amount || 0);
       }
       return total;
@@ -105,7 +112,8 @@ export async function POST(request) {
 
     // Replace the static multiplier with dynamic one based on age
     const multiplier = getMultiplier(currentAge);
-    const lifeInsuranceNeed = (salaryBusinessIncome * multiplier) - lifeCoverAmount;
+    const lifeInsuranceNeed =
+      salaryBusinessIncome * multiplier - termInsuranceAmount;
 
     const additionalCoverNeeded = Math.max(lifeInsuranceNeed, 0);
 
@@ -114,29 +122,29 @@ export async function POST(request) {
 
     // Calculate inflation-adjusted expenses for each child
     const calculateInflationAdjustedAmount = (amount, years) => {
-        const inflationRate = 0.06; // 6% inflation rate
-        return amount * Math.pow(1 + inflationRate, years);
+      const inflationRate = 0.06; // 6% inflation rate
+      return amount * Math.pow(1 + inflationRate, years);
     };
 
     // Calculate total inflation-adjusted expenses
     let totalEducationInflation = 0;
     let totalWeddingInflation = 0;
 
-    children.forEach(child => {
-        const yearsToEducation = child.educationAge - child.currentAge;
-        const yearsToWedding = child.weddingAge - child.currentAge;
+    children.forEach((child) => {
+      const yearsToEducation = child.educationAge - child.currentAge;
+      const yearsToWedding = child.weddingAge - child.currentAge;
 
-        const educationInflation = calculateInflationAdjustedAmount(
-            child.educationExpenses,
-            yearsToEducation
-        );
-        const weddingInflation = calculateInflationAdjustedAmount(
-            child.weddingExpenses,
-            yearsToWedding
-        );
+      const educationInflation = calculateInflationAdjustedAmount(
+        child.educationExpenses,
+        yearsToEducation
+      );
+      const weddingInflation = calculateInflationAdjustedAmount(
+        child.weddingExpenses,
+        yearsToWedding
+      );
 
-        totalEducationInflation += educationInflation;
-        totalWeddingInflation += weddingInflation;
+      totalEducationInflation += educationInflation;
+      totalWeddingInflation += weddingInflation;
     });
 
     // Check if the table exists, if not, create it
@@ -153,6 +161,7 @@ export async function POST(request) {
         gender VARCHAR(50),
         education VARCHAR(255),
         disease BOOLEAN,
+        user_disease VARCHAR(255),
         smoking BOOLEAN,
         alcohol BOOLEAN,
         total_income DECIMAL(15, 2),
@@ -171,6 +180,8 @@ export async function POST(request) {
         total_investments DECIMAL(15, 2),
         hasLifeCover BOOLEAN,
         life_cover_amount DECIMAL(15, 2),
+        term_insurance_amount DECIMAL(15, 2),
+        health_insurance_amount DECIMAL(15, 2),
         number_of_kids INT,
         education_expenses DECIMAL(15, 2),
         wedding_expenses DECIMAL(15, 2),
@@ -192,14 +203,14 @@ export async function POST(request) {
     // Insert into database
     const query = `
       INSERT INTO true_reports (
-        userEmail, first_name, last_name,uuid, date_of_birth, age, pincode, gender, education, disease,
+        userEmail, first_name, last_name,uuid, date_of_birth, age, pincode, gender, education, disease, user_disease,
         smoking, alcohol, total_income, income_stability, retirement_age,
         hasDependents, dependents, nomineeReaction, knowsLivingExpenses, monthly_expenses,
         hasLoans, loan_amount, hasSavings, savings_amount, knowsInvestments, total_investments,
-        hasLifeCover, life_cover_amount, number_of_kids, education_expenses, wedding_expenses,
+        hasLifeCover, life_cover_amount, term_insurance_amount, health_insurance_amount, number_of_kids, education_expenses, wedding_expenses,
         hasEmergencyFund, emergency_fund_amount, emergency_fund_months, total_monthly_expenses,
         lifeInsuranceNeed, additionalCoverNeeded, education_inflation, wedding_inflation
-      ) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)
+      ) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?)
     `;
 
     // Ensure all values are defined, using default values if necessary
@@ -213,9 +224,10 @@ export async function POST(request) {
       pincode || "",
       gender || "",
       education || "",
-      disease === "yes",
-      smoking === "yes",
-      alcohol === "yes",
+      disease === "no",
+      userDisease || "",
+      smoking === "no",
+      alcohol === "no",
       totalIncome || 0,
       incomeStability || "",
       retirementAge || 0,
@@ -232,6 +244,8 @@ export async function POST(request) {
       totalInvestments || 0,
       hasLifeCover !== undefined ? hasLifeCover : false,
       lifeCoverAmount || 0,
+      termInsuranceAmount || 0,
+      healthInsuranceAmount || 0,
       numberOfKids || 0,
       educationExpenses || 0,
       weddingExpenses || 0,

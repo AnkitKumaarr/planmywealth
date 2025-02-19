@@ -21,7 +21,10 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
     const birth = new Date(birthDate);
     let age = today.getFullYear() - birth.getFullYear();
     const monthDiff = today.getMonth() - birth.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birth.getDate())
+    ) {
       age--;
     }
     return age;
@@ -79,7 +82,7 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
           type="text"
           placeholder="Last Name"
           className={`p-3 border ${
-            errors.lastName ? "border-red-500" : "border-gray-300"
+            errors.lastName && false ? "border-red-500" : "border-gray-300"
           } rounded-lg w-full`}
           value={data.lastName}
           onChange={(e) => handleChange("lastName", e.target.value)}
@@ -88,7 +91,7 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <input
+        {/* <input
           type="date"
           className={`p-3 border ${
             errors.dateOfBirth ? "border-red-500" : "border-gray-300"
@@ -97,7 +100,29 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
           onChange={(e) => handleChange("dateOfBirth", e.target.value)}
           onBlur={(e) => validateField("dateOfBirth", e.target.value)}
           max={new Date().toISOString().split("T")[0]}
-        />
+        /> */}
+        <div className="">
+          {/* <label className="block text-gray-700 font-medium">Age</label> */}
+          <select
+            className={`w-full p-2 sm:p-3 border border-1 rounded-lg  outline-none ${
+              data.age ? "border-gray-400" : "border-gray-400"
+            }`}
+            value={data.age}
+            onChange={(e) => {
+              setErrors({});
+              handleChange("age", e.target.value);
+            }}
+          >
+            <option value="">Select Age</option>
+
+            {[...Array(53)].map((_, i) => (
+              <option key={i + 18} value={i + 18}>
+                {i + 18} years
+              </option>
+            ))}
+          </select>
+          {errors.age && <p className="text-red-500">{errors.age}</p>}
+        </div>
         <input
           type="text"
           placeholder="Pincode"
@@ -110,7 +135,7 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
           maxLength={6}
         />
       </div>
-      <div className="space-y-2">
+      {/* <div className="space-y-2">
         <label className="block text-gray-700 font-medium">Age</label>
         <select
           className={`w-full p-2 sm:p-3 border border-1 rounded-lg  outline-none ${
@@ -131,7 +156,7 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
           ))}
         </select>
         {errors.age && <p className="text-red-500">{errors.age}</p>}
-      </div>
+      </div> */}
 
       <div>
         <label className="block text-gray-700 mb-2">Gender</label>

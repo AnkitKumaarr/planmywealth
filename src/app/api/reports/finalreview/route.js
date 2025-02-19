@@ -18,7 +18,7 @@ export async function POST(request) {
     if (value < 10000000) return `₹ ${(value / 100000).toFixed(1)} lakh`;
     return `₹ ${(value / 10000000).toFixed(1)} crore`;
   };
-  
+
   const nomineeReactionOptions = [
     {
       id: "confident",
@@ -47,8 +47,18 @@ export async function POST(request) {
     term_insurance_amount,
     health_insurance_amount,
     additionalCoverNeeded,
+    education_expenses,
+    wedding_expenses,
     education_inflation,
-    wedding_inflation
+    wedding_inflation,
+    emergency_fund_amount,
+    healthInsuranceNeed,
+    additionalHealthCoverNeeded,
+    knowsLivingExpenses,
+    monthly_expenses,
+    total_monthly_expenses,
+    monthly_expenses_inflation,
+    retirement_monthly_expenses_inflation
     FROM true_reports WHERE userEmail = ? AND uuid = ?`;
     const [result] = await mysql.query(query, [userEmail, uuid]);
     const data = result[0];
@@ -62,10 +72,26 @@ export async function POST(request) {
       )?.label,
       finalSavingAmount: formatToWords(finalSavingAmount),
       additionalCoverNeeded: formatToWords(data?.additionalCoverNeeded),
+      educationExpenses: formatToWords(data?.education_expenses || 0),
+      weddingExpenses: formatToWords(data?.wedding_expenses || 0),
       educationInflation: formatToWords(data?.education_inflation),
       weddingInflation: formatToWords(data?.wedding_inflation),
       termInsuranceAmount: formatToWords(data?.term_insurance_amount || 0),
       healthInsuranceAmount: formatToWords(data?.health_insurance_amount || 0),
+      emergencyFundAmount: formatToWords(data?.emergency_fund_amount || 0),
+      healthInsuranceNeed: formatToWords(data?.healthInsuranceNeed || 0),
+      additionalHealthCoverNeeded: formatToWords(
+        data?.additionalHealthCoverNeeded || 0
+      ),
+      knowsLivingExpenses: data?.knowsLivingExpenses,
+      monthlyExpenses: formatToWords(data?.monthly_expenses || 0),
+      totalMonthlyExpenses: formatToWords(data?.total_monthly_expenses || 0),
+      monthlyExpensesInflation: formatToWords(
+        data?.monthly_expenses_inflation || 0
+      ),
+      retirementMonthlyExpensesInflation: formatToWords(
+        data?.retirement_monthly_expenses_inflation || 0
+      ),
     };
     return NextResponse.json({
       success: true,

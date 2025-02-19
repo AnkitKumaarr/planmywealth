@@ -52,11 +52,12 @@ const ReportSection = ({ report }) => {
         <div className="bg-blue-100 p-6 rounded-lg">
           <div className="flex flex-col md:flex-row items-center gap-2">
             <div className="text-2xl font-bold border-b-4 border-green-600 mr-8">
-              {report?.healthInsuranceAmount || "₹0"}
+              {report?.additionalHealthCoverNeeded || "₹0"}
             </div>
             <p className="text-gray-600 text-xs ">
               Minimum Sum Insured cover your family needs{" "}
-              {report?.healthInsuranceAmount || "₹ 0"} Cover you already have{" "}
+              {report?.additionalHealthCoverNeeded || "₹ 0"} Cover you already
+              have{" "}
               {report?.healthInsuranceAmount === ""
                 ? "₹ 0"
                 : report?.healthInsuranceAmount}{" "}
@@ -75,7 +76,7 @@ const ReportSection = ({ report }) => {
               emergencies can be, potentially leading to financial strain.
               Without health insurance, your savings and wealth could be at risk
               during a medical crisis. Based on your income, a minimum cover of
-              {report?.healthInsuranceAmount || " ₹ 0"} is recommended
+              {report?.additionalHealthCoverNeeded || " ₹ 0"} is recommended
             </li>
           </ul>
         </div>
@@ -146,7 +147,7 @@ const ReportSection = ({ report }) => {
         <div className="bg-blue-100 p-6 rounded-lg">
           <div className="flex flex-col md:flex-row items-center gap-2">
             <div className="text-2xl font-bold border-b-4 border-green-600">
-              {report?.emergencyFund || "₹ 0"}
+              {report?.emergencyFundAmount || "₹ 0"}
             </div>
             <p className="text-gray-600 text-xs">
               Most of us have fixed monthly commitments like EMIs, Household
@@ -217,7 +218,7 @@ const ReportSection = ({ report }) => {
         </div>
       </section>
 
-      {/* 7th section children education inflation */}
+      {/* 7th section children wedding inflation */}
       <section>
         <h2 className="text-md font-bold mb-4">
           7. Build fund for child Wedding
@@ -263,21 +264,24 @@ const ReportSection = ({ report }) => {
         </div>
       </section>
 
-      {/* 8th section children education inflation */}
+      {/* 8th section expenses inflation */}
       <section>
         <h2 className="text-md font-bold mb-4">8. Build fund for Retirement</h2>
         <div className="bg-blue-100 p-6 rounded-lg">
           <div className="flex flex-col md:flex-row items-center">
             <div className="flex flex-col items-start mr-4">
               <div className="text-sm text-gray-600">
-                Current Cost: {report?.monthlyExpenses || "0"}
+                Current Cost:{" "}
+                {report?.knowsLivingExpenses
+                  ? report?.monthlyExpenses
+                  : report?.totalMonthlyExpenses || "0"}
               </div>
               <div className="text-sm text-gray-600">
-                Future Cost: {report?.monthlyExpensesInflation || "0"}
+                Future Cost: {report?.monthlyExpensesInflation || "0"} per month
               </div>
 
               <p className=" text-gray-600 mt-2 text-2xl font-bold border-b-4 border-green-600">
-                {report?.yearlyExpensesInflation || "0"}
+                {report?.retirementMonthlyExpensesInflation || "0"}
               </p>
             </div>
             <div className="flex flex-col flex-1">

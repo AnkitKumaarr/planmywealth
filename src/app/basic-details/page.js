@@ -184,8 +184,8 @@ export default function BasicDetails() {
         if (!formData.education) newErrors.education = true;
         break;
       case 2:
-        if (!formData.disease) newErrors.disease = true;
-        if (!formData.userDisease) newErrors.userDisease = true;
+        if (formData.disease === null || formData.disease === undefined) newErrors.disease = true;
+        if (formData.disease === true && !formData.userDisease) newErrors.userDisease = true;
         break;
       case 3:
         if (!formData.smoking) newErrors.smoking = true;

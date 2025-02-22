@@ -5,7 +5,7 @@ import { useFormData } from "@/context/FormContext";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const { formData } = useFormData();
+  const { formData, currentStep } = useFormData();
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -60,18 +60,19 @@ export function AuthProvider({ children }) {
 
   const handleGoogleLogin = async () => {
     localStorage.setItem("formData", JSON.stringify(formData));
-    localStorage.setItem("currentStep", JSON.stringify(17));
+    localStorage.setItem("currentStep", JSON.stringify(currentStep));
     const currentPath = window.location.pathname + window.location.search;
     const stateData = {
-      redirect_path: currentPath,
+      redirect_path: currentPath || "/",
       referId: localStorage.getItem("referId") || "",
+      currentStep: currentStep || 17,
     };
     const params = new URLSearchParams({
       client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
       redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI,
       response_type: "code",
       scope: "openid email profile",
-      state: encodeURIComponent(JSON.stringify(stateData)),
+      state: JSON.stringify(stateData),
     });
     window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
   };

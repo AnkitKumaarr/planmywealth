@@ -16,9 +16,13 @@ export async function GET(request) {
 
   if (state) {
     try {
-      const stateData = JSON.parse(decodeURIComponent(state));
-      referId = stateData.referId;
-      redirect_path = stateData.redirect_path;
+      const decodedState = decodeURIComponent(state);
+      if (decodedState) {
+        const stateData = JSON.parse(decodedState);
+        referId = stateData.referId || "";
+        redirect_path = stateData.redirect_path || "/";
+        currentStep = stateData.currentStep || 17;
+      }
     } catch (error) {
       console.error("Error parsing state:", error);
     }

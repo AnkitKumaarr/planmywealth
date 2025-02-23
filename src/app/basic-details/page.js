@@ -32,6 +32,7 @@ export default function BasicDetails() {
     setErrors,
     currentStep,
     setCurrentStep,
+    resetFormData,
     sidebarOpen,
     setSidebarOpen,
   } = useFormData();
@@ -184,8 +185,10 @@ export default function BasicDetails() {
         if (!formData.education) newErrors.education = true;
         break;
       case 2:
-        if (formData.disease === null || formData.disease === undefined) newErrors.disease = true;
-        if (formData.disease === true && !formData.userDisease) newErrors.userDisease = true;
+        if (formData.disease === null || formData.disease === undefined)
+          newErrors.disease = true;
+        if (formData.disease === true && !formData.userDisease)
+          newErrors.userDisease = true;
         break;
       case 3:
         if (!formData.smoking) newErrors.smoking = true;
@@ -344,9 +347,7 @@ export default function BasicDetails() {
   };
 
   const handleRetake = () => {
-    // Reset form data
-    handleInputChange({ target: { name: "reset", value: true } });
-    // Reset errors
+    resetFormData();
     setErrors({});
     // Set current step to 1
     setCurrentStep(1);

@@ -72,13 +72,54 @@ export function FormProvider({ children }) {
     localStorage.removeItem("currentStep"); // Clear after restoring
   }, []);
 
-  console.log(formData);
-
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
+  };
+
+  // Add the reset function
+  const resetFormData = () => {
+    setFormData({
+      firstName: "",
+      lastName: "",
+      dateOfBirth: "",
+      age: "",
+      pincode: "",
+      gender: "",
+      education: "",
+      disease: "",
+      smoking: "",
+      alcohol: "",
+      incomeSources: [{ type: "", amount: "" }],
+      incomeStability: "",
+      retirementAge: "",
+      hasDependents: null,
+      dependents: [],
+      nomineeReaction: "",
+      knowsLivingExpenses: null,
+      monthlyExpenses: 0,
+      hasLoans: null,
+      loanAmount: "",
+      hasSavings: null,
+      savingsAmount: "",
+      knowsInvestments: null,
+      totalInvestments: 0,
+      hasLifeCover: null,
+      lifeCoverAmount: 0,
+      termInsuranceAmount: 0,
+      healthInsuranceAmount: 0,
+      numberOfKids: 1,
+      children: [],
+      educationExpenses: "",
+      weddingExpenses: "",
+      hasEmergencyFund: null,
+      emergencyFundAmount: "",
+      emergencyFundMonths: "",
+    });
+    setCurrentStep(1);
+    setErrors({});
   };
 
   return (
@@ -93,6 +134,7 @@ export function FormProvider({ children }) {
         setCurrentStep,
         sidebarOpen,
         setSidebarOpen,
+        resetFormData,
       }}
     >
       {children}

@@ -5,7 +5,7 @@ import { useFormData } from "@/context/FormContext";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const { formData, currentStep } = useFormData();
+  const { formData, currentStep, setCurrentStep } = useFormData();
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -100,6 +100,10 @@ export function AuthProvider({ children }) {
       });
       if (response.status === 200) {
         setUser(null);
+        localStorage.removeItem("formData");
+        localStorage.removeItem("currentStep");
+        localStorage.removeItem("referId");
+        setCurrentStep(1); // Reset step after logout
         return true;
       }
     } catch (error) {

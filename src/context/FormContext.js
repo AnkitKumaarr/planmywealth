@@ -55,7 +55,6 @@ export function FormProvider({ children }) {
       try {
         const parsedFormData = JSON.parse(savedFormData);
         setFormData(parsedFormData);
-        localStorage.removeItem("formData"); // Clear after restoring
       } catch (error) {
         console.error("Error parsing saved form data:", error);
       }
@@ -65,11 +64,12 @@ export function FormProvider({ children }) {
       try {
         const parsedStep = JSON.parse(savedCurrentStep);
         setCurrentStep(parsedStep);
-        localStorage.removeItem("currentStep"); // Clear after restoring
       } catch (error) {
         console.error("Error parsing saved step:", error);
       }
     }
+    localStorage.removeItem("formData"); // Clear after restoring
+    localStorage.removeItem("currentStep"); // Clear after restoring
   }, []);
 
   console.log(formData);

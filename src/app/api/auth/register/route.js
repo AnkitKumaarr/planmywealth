@@ -18,9 +18,9 @@ export async function POST(request) {
       );
     }
 
-    // Check if pool is closed and reinitialize if necessary
-    if (mysql.pool._closed) {
-      await mysql.createPool(); // Assuming you have this method in your db.config
+    // Check if pool is closed or doesn't exist and reinitialize if necessary
+    if (!mysql.pool || mysql.pool._closed) {
+      await mysql.createPool();
     }
 
     // Ensure database connection is established

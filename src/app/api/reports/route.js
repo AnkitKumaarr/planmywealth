@@ -131,14 +131,18 @@ export async function POST(request) {
       return amount * Math.pow(1 + inflationRate, years);
     };
 
+    const finalMonthlyExpenses =
+      knowsLivingExpenses === "yes" ? monthlyExpenses : totalMonthlyExpenses;
     // expense inflation
     const monthlyExpensesInflation = calculateInflationAdjustedAmount(
-      knowsLivingExpenses === "yes" ? monthlyExpenses : totalMonthlyExpenses,
+      finalMonthlyExpenses,
       yearsToRetirement
     );
     const retirementMonthlyExpensesInflation =
       monthlyExpensesInflation * (85 - retirementAge) * 12;
 
+    const finalEmergencyFundAmount =
+      emergencyFundAmount < 0 ? emergencyFundAmount : finalMonthlyExpenses * 6;
     // Calculate total inflation-adjusted expenses
     let totalEducationInflation = 0;
     let totalWeddingInflation = 0;
@@ -271,7 +275,7 @@ export async function POST(request) {
       educationExpenses || 0,
       weddingExpenses || 0,
       hasEmergencyFund !== undefined ? hasEmergencyFund : false,
-      emergencyFundAmount || 0,
+      finalEmergencyFundAmount || 0,
       emergencyFundMonths || 0,
       totalMonthlyExpenses || 0,
       lifeInsuranceNeed || 0,

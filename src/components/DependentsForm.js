@@ -1,26 +1,31 @@
-import { useState } from 'react';
-import Dialog from './Dialog';
+import { useState } from "react";
+import Dialog from "./Dialog";
 
 const DependentsForm = ({ data, onChange }) => {
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const [newRelation, setNewRelation] = useState('');
+  const [newRelation, setNewRelation] = useState("");
 
   const defaultDependents = [
-    { id: 'wife', label: 'Wife' },
-    { id: 'children', label: 'Children' },
-    { id: 'mother', label: 'Mother' },
-    { id: 'father', label: 'Father' }
+    { id: "wife", label: "Wife" },
+    { id: "children", label: "Children" },
+    { id: "mother", label: "Mother" },
+    { id: "father", label: "Father" },
   ];
 
   const handleDependentToggle = (dependentId) => {
     const currentDependents = data.dependents || [];
-    const isSelected = currentDependents.some(d => d.id === dependentId);
+    const isSelected = currentDependents.some((d) => d.id === dependentId);
 
     if (isSelected) {
-      onChange('dependents', currentDependents.filter(d => d.id !== dependentId));
+      onChange(
+        "dependents",
+        currentDependents.filter((d) => d.id !== dependentId)
+      );
     } else {
-      const dependentToAdd = defaultDependents.find(d => d.id === dependentId);
-      onChange('dependents', [...currentDependents, { ...dependentToAdd }]);
+      const dependentToAdd = defaultDependents.find(
+        (d) => d.id === dependentId
+      );
+      onChange("dependents", [...currentDependents, { ...dependentToAdd }]);
     }
   };
 
@@ -28,12 +33,15 @@ const DependentsForm = ({ data, onChange }) => {
     if (newRelation) {
       const currentDependents = data.dependents || [];
       const newId = `custom-${Date.now()}`;
-      onChange('dependents', [...currentDependents, {
-        id: newId,
-        label: newRelation
-      }]);
+      onChange("dependents", [
+        ...currentDependents,
+        {
+          id: newId,
+          label: newRelation,
+        },
+      ]);
       setShowAddDialog(false);
-      setNewRelation('');
+      setNewRelation("");
     }
   };
 
@@ -44,24 +52,33 @@ const DependentsForm = ({ data, onChange }) => {
       </h2>
 
       <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 mt-8">
-        <div className={`w-full sm:w-64 h-20 flex items-center justify-center border rounded-lg cursor-pointer ${
-          data.hasDependents === false ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-gray-50'
-        }`}
-          onClick={() => onChange('hasDependents', false)}
+        <div
+          className={`w-full sm:w-64 h-20 flex items-center justify-center border rounded-lg cursor-pointer ${
+            data.hasDependents === false
+              ? "border-green-500 bg-green-50"
+              : "border-gray-200 bg-gray-50"
+          }`}
+          onClick={() => onChange("hasDependents", false)}
         >
           <span className="text-lg">No</span>
         </div>
 
-        <div className={`w-full sm:w-64 relative ${data.hasDependents ? 'border-green-500' : 'border-gray-200'} border rounded-lg`}>
-          <div 
+        <div
+          className={`w-full sm:w-64 relative ${
+            data.hasDependents ? "border-green-500" : "border-gray-200"
+          } border rounded-lg`}
+        >
+          <div
             className={`h-20 flex flex-col items-center justify-center cursor-pointer ${
-              data.hasDependents ? 'bg-green-50' : 'bg-gray-50'
+              data.hasDependents ? "bg-green-50" : "bg-gray-50"
             }`}
-            onClick={() => onChange('hasDependents', true)}
+            onClick={() => onChange("hasDependents", true)}
           >
             <span className="text-lg">Yes</span>
             {data.hasDependents && (
-              <p className="text-sm text-gray-600 mt-2">Choose as many as applicable</p>
+              <p className="text-sm text-gray-600 mt-2">
+                Choose as many as applicable
+              </p>
             )}
           </div>
 
@@ -72,38 +89,62 @@ const DependentsForm = ({ data, onChange }) => {
                   key={dependent.id}
                   type="button"
                   className={`w-full p-3 text-center border rounded-lg ${
-                    (data.dependents || []).some(d => d.id === dependent.id)
-                      ? 'border-green-500 bg-white relative'
-                      : 'border-gray-200 bg-white'
+                    (data.dependents || []).some((d) => d.id === dependent.id)
+                      ? "border-green-500 bg-white relative"
+                      : "border-gray-200 bg-white"
                   }`}
                   onClick={() => handleDependentToggle(dependent.id)}
                 >
                   {dependent.label}
-                  {(data.dependents || []).some(d => d.id === dependent.id) && (
+                  {(data.dependents || []).some(
+                    (d) => d.id === dependent.id
+                  ) && (
                     <div className="absolute -right-1 -top-1 bg-green-500 rounded-full p-1">
-                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      <svg
+                        className="w-3 h-3 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     </div>
                   )}
                 </button>
               ))}
 
-              {data.dependents?.filter(d => !defaultDependents.some(dd => dd.id === d.id)).map((dependent) => (
-                <button
-                  key={dependent.id}
-                  type="button"
-                  className="w-full p-3 text-center border border-green-500 bg-white rounded-lg relative"
-                  onClick={() => handleDependentToggle(dependent.id)}
-                >
-                  {dependent.label}
-                  <div className="absolute -right-1 -top-1 bg-green-500 rounded-full p-1">
-                    <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                </button>
-              ))}
+              {data.dependents
+                ?.filter((d) => !defaultDependents.some((dd) => dd.id === d.id))
+                .map((dependent) => (
+                  <button
+                    key={dependent.id}
+                    type="button"
+                    className="w-full p-3 text-center border border-green-500 bg-white rounded-lg relative"
+                    onClick={() => handleDependentToggle(dependent.id)}
+                  >
+                    {dependent.label}
+                    <div className="absolute -right-1 -top-1 bg-green-500 rounded-full p-1">
+                      <svg
+                        className="w-3 h-3 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    </div>
+                  </button>
+                ))}
 
               <button
                 type="button"
@@ -117,7 +158,7 @@ const DependentsForm = ({ data, onChange }) => {
         </div>
       </div>
 
-      {data.hasDependents === false && (
+      {/* {data.hasDependents === false && (
         <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-3">
           <div className="flex-shrink-0 mt-0.5">
             <svg className="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
@@ -128,7 +169,7 @@ const DependentsForm = ({ data, onChange }) => {
             If you do not have dependant family members, You do not require Term Insurance - do you want to still continue?
           </p>
         </div>
-      )}
+      )} */}
 
       <Dialog
         isOpen={showAddDialog}
@@ -152,4 +193,4 @@ const DependentsForm = ({ data, onChange }) => {
   );
 };
 
-export default DependentsForm; 
+export default DependentsForm;

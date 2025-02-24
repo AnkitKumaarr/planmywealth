@@ -135,28 +135,26 @@ const PersonalInfoForm = ({ data, onChange, errors, setErrors }) => {
           maxLength={6}
         />
       </div>
-      {/* <div className="space-y-2">
-        <label className="block text-gray-700 font-medium">Age</label>
-        <select
-          className={`w-full p-2 sm:p-3 border border-1 rounded-lg  outline-none ${
-            data.age ? "border-gray-400" : "border-gray-400"
+      <div className="space-y-2">
+        <label className="block text-gray-700 font-medium">Phone Number</label>
+        <input
+          className={`w-full p-2 sm:p-3 border rounded-lg outline-none ${
+            errors.phoneNumber ? "border-red-500" : "border-gray-400"
           }`}
-          value={data.age}
+          type="tel"
+          pattern="[0-9]*"
+          inputMode="numeric"
+          value={data.phoneNumber || ""}
           onChange={(e) => {
+            const value = e.target.value.slice(0, 10).replace(/\D/g, "");
             setErrors({});
-            handleChange("age", e.target.value);
+            handleChange("phoneNumber", value);
           }}
-        >
-          <option value="">Select Age</option>
-
-          {[...Array(53)].map((_, i) => (
-            <option key={i + 18} value={i + 18}>
-              {i + 18} years
-            </option>
-          ))}
-        </select>
-        {errors.age && <p className="text-red-500">{errors.age}</p>}
-      </div> */}
+        />
+        {errors.phoneNumber && (
+          <p className="text-red-500">{errors.phoneNumber}</p>
+        )}
+      </div>
 
       <div>
         <label className="block text-gray-700 mb-2">Gender</label>

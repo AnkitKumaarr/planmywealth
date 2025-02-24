@@ -183,6 +183,7 @@ export default function BasicDetails() {
         if (!formData.pincode) newErrors.pincode = true;
         if (!formData.gender) newErrors.gender = true;
         if (!formData.education) newErrors.education = true;
+        if (!formData.phoneNumber) newErrors.phoneNumber = true;
         break;
       case 2:
         if (formData.disease === null || formData.disease === undefined)

@@ -168,11 +168,16 @@ export default function ReferralsData() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-2 md:p-4 z-50 overflow-y-auto">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-6xl max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-white p-2 md:p-4 border-b z-10">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center flex-row">
                 <h3 className="text-sm md:text-xl lg:text-2xl font-semibold text-gray-800">
                   {selectedReport.first_name?.toUpperCase()}{" "}
                   {selectedReport.last_name?.toUpperCase()}
+                  <p className="text-[10px] md:text-base">
+                    <span className="font-medium">Phone Number:</span>{" "}
+                    {selectedReport.phone_number || "N/A"}
+                  </p>
                 </h3>
+
                 <button
                   onClick={closeModal}
                   className="text-gray-500 hover:text-gray-700"

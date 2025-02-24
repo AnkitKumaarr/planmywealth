@@ -111,6 +111,9 @@ export default function Review({ onBackStep, setCurrentStep }) {
                 Gender: <strong>{formData.gender}</strong>
               </p>
               <p>
+                Phone Number: <strong>{formData.phoneNumber}</strong>
+              </p>
+              <p>
                 Highest Education: <strong>{formData.education}</strong>
               </p>
               <p>

@@ -58,6 +58,7 @@ export async function POST(request) {
     monthly_expenses,
     total_monthly_expenses,
     monthly_expenses_inflation,
+    phone_number,
     retirement_monthly_expenses_inflation
     FROM true_reports WHERE userEmail = ? AND uuid = ?`;
     const [result] = await mysql.query(query, [userEmail, uuid]);
@@ -89,6 +90,7 @@ export async function POST(request) {
       monthlyExpensesInflation: formatToWords(
         data?.monthly_expenses_inflation || 0
       ),
+      phoneNumber: data?.phone_number,
       retirementMonthlyExpensesInflation: formatToWords(
         data?.retirement_monthly_expenses_inflation || 0
       ),

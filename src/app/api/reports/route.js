@@ -24,6 +24,7 @@ export async function POST(request) {
       dateOfBirth,
       age,
       pincode,
+      phoneNumber,
       gender,
       education,
       disease,
@@ -170,6 +171,7 @@ export async function POST(request) {
         date_of_birth DATE,
         age INT,
         pincode VARCHAR(255),
+        phone_number VARCHAR(255),
         gender VARCHAR(50),
         education VARCHAR(255),
         disease BOOLEAN,
@@ -220,7 +222,7 @@ export async function POST(request) {
     // Insert into database
     const query = `
       INSERT INTO true_reports (
-        userEmail, first_name, last_name,uuid, date_of_birth, age, pincode, gender, education, disease, user_disease,
+        userEmail, first_name, last_name,uuid, date_of_birth, age, pincode, phone_number, gender, education, disease, user_disease,
         smoking, alcohol, total_income, income_stability, retirement_age,
         hasDependents, dependents, nomineeReaction, knowsLivingExpenses, monthly_expenses,
         hasLoans, loan_amount, hasSavings, savings_amount, knowsInvestments, total_investments,
@@ -228,7 +230,7 @@ export async function POST(request) {
         hasEmergencyFund, emergency_fund_amount, emergency_fund_months, total_monthly_expenses,
         lifeInsuranceNeed, additionalCoverNeeded, education_inflation, wedding_inflation,
         healthInsuranceNeed, additionalHealthCoverNeeded, monthly_expenses_inflation, retirement_monthly_expenses_inflation
-      ) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+      ) VALUES (?, ?,?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     `;
 
     // Ensure all values are defined, using default values if necessary
@@ -240,6 +242,7 @@ export async function POST(request) {
       dateOfBirth || "",
       currentAge || 0,
       pincode || "",
+      phoneNumber || "",
       gender || "",
       education || "",
       disease === "no",

@@ -24,11 +24,9 @@ export async function POST(req) {
     return NextResponse.json({ message: "Invalid token" }, { status: 400 });
   }
 
-
-
   // campare both tokens
 
-  const result = await mysql.query(
+  const [result] = await mysql.query(
     `SELECT * FROM pmw_users WHERE email = ? AND verification_token = ?`,
     [userEmail, token]
   );
@@ -36,7 +34,6 @@ export async function POST(req) {
   if (result.length === 0) {
     return NextResponse.json({ message: "Invalid token" }, { status: 400 });
   }
-
   if (token !== result[0].verification_token) {
     return NextResponse.json({ message: "Invalid token" }, { status: 400 });
   }

@@ -16,7 +16,7 @@ export default function Navbar() {
   const { user, loading, logout, isSignInOpen, handleSignInOpen } = useAuth();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const pathname = usePathname();
-  const isDashboardPath = pathname?.startsWith('/dashboard');
+  const isDashboardPath = pathname?.startsWith("/dashboard");
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -144,12 +144,22 @@ export default function Navbar() {
                       className="flex items-center space-x-3 px-6 py-3 text-gray-700 hover:bg-gray-50"
                     >
                       <FaComments className="text-gray-400" />
-                      <span>Discuss with Advisor</span>
+                      <a
+                        href="tel:+917891015165"
+                        className="hover:text-blue-600"
+                      >
+                        <span>Discuss with Advisor</span>
+                      </a>
                     </Link>
 
                     <div className="flex items-center space-x-3 px-6 py-3 text-gray-700">
                       <FaHeadset className="text-gray-400" />
-                      <span>Support: +91 7891015165</span>
+                      <a
+                        href="tel:+917891015165"
+                        className="hover:text-blue-600"
+                      >
+                        <span>Support: +91 7891015165</span>
+                      </a>
                     </div>
 
                     <div className="border-t mt-2">

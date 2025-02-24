@@ -54,7 +54,10 @@ const AdvisorProfileSection = ({ flow }) => {
             </>
           )}
 
-          <button className="bg-green-500 hover:bg-green-700 transition-colors text-white py-2 px-6 rounded-lg w-full sm:w-auto">
+          <button
+            onClick={() => (window.location.href = "tel:+917891015165")}
+            className="bg-green-500 hover:bg-green-700 transition-colors text-white py-2 px-6 rounded-lg w-full sm:w-auto"
+          >
             Discuss with Advisor
           </button>
         </div>

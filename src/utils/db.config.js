@@ -1,22 +1,50 @@
 import mysql from "mysql2/promise";
 
-const connectionConfig = {
-  host: process.env.NEXT_PUBLIC_DB_HOST,
-  user: process.env.NEXT_PUBLIC_DB_USER,
-  password: process.env.NEXT_PUBLIC_DB_PASSWORD,
-  database: process.env.NEXT_PUBLIC_DB_DATABASE,
+let pool;
+
+const createPool = async () => {
+  pool = mysql.createPool({
+    host: process.env.NEXT_PUBLIC_DB_HOST,
+    user: process.env.NEXT_PUBLIC_DB_USER,
+    password: process.env.NEXT_PUBLIC_DB_PASSWORD,
+    database: process.env.NEXT_PUBLIC_DB_DATABASE,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+  });
+  return pool;
 };
 
-export async function checkDatabaseConnection() {
+const getPool = async () => {
+  if (!pool || pool._closed) {
+    pool = await createPool();
+  }
+  return pool;
+};
+
+export const checkDatabaseConnection = async () => {
   try {
-    const connection = await mysql.createConnection(connectionConfig);
-    await connection.ping(); 
-    await connection.end();
+    const pool = await getPool();
+    const connection = await pool.getConnection();
+    connection.release();
     return true;
   } catch (error) {
-    console.error("Database connection failed:", error);
+    console.error("Database connection error:", error);
     return false;
   }
-}
+};
 
-export default mysql.createPool(connectionConfig);
+const mysql_pool = {
+  query: async (...args) => {
+    const pool = await getPool();
+    return pool.query(...args);
+  },
+  getConnection: async () => {
+    const pool = await getPool();
+    return pool.getConnection();
+  },
+  createPool: createPool,
+  pool: pool,
+};
+
+export default mysql_pool;

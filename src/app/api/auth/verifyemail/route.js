@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import mysql from "@/utils/db.config";
 import jwt from "jsonwebtoken";
+import { checkDatabaseConnection } from "@/utils/db.config";
 
 export async function POST(request) {
+  let connection;
   try {
     const { token } = await request.json();
 
@@ -13,11 +15,32 @@ export async function POST(request) {
       );
     }
 
+    // Initialize or get pool safely
+    try {
+      if (!mysql.pool) {
+        await mysql.createPool();
+      }
+    } catch (error) {
+      console.error("Pool initialization error:", error);
+      return NextResponse.json(
+        { error: "Database connection failed" },
+        { status: 500 }
+      );
+    }
+
+    // Ensure database connection is established
+    const isConnected = await checkDatabaseConnection();
+    if (!isConnected) {
+      return NextResponse.json(
+        { error: "Database connection failed" },
+        { status: 500 }
+      );
+    }
+
     try {
       // Verify token and check expiration
       const decoded = jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET);
 
-      // Check if token is expired
       if (decoded.exp * 1000 < Date.now()) {
         return NextResponse.json(
           { error: "Verification token has expired" },
@@ -25,24 +48,21 @@ export async function POST(request) {
         );
       }
 
-      const [[user]] = await mysql.query(
+      // Get a connection from the pool
+      connection = await mysql.getConnection();
+
+      const [[user]] = await connection.query(
         "SELECT * FROM pmw_users WHERE email = ? AND verification_token = ?",
         [decoded.email, token]
       );
 
-      if (!user) {
+      if (!user || user.verification_token !== token) {
         return NextResponse.json(
           { error: "Invalid verification token" },
           { status: 400 }
         );
       }
 
-      if (user.verification_token !== token) {
-        return NextResponse.json(
-          { error: "Invalid verification token" },
-          { status: 400 }
-        );
-      }
       const verificationToken = jwt.sign(
         { email: user.email, role: user.role },
         process.env.NEXT_PUBLIC_JWT_SECRET,
@@ -51,11 +71,11 @@ export async function POST(request) {
         }
       );
 
-      const result = await mysql.query(
+      const [result] = await connection.query(
         `UPDATE pmw_users 
          SET is_verified = true,
          verification_token = ?
-         WHERE email = ? `,
+         WHERE email = ?`,
         [verificationToken, decoded.email]
       );
 
@@ -65,8 +85,6 @@ export async function POST(request) {
           { status: 400 }
         );
       }
-
-      await mysql.end();
 
       return NextResponse.json({
         success: true,
@@ -81,5 +99,9 @@ export async function POST(request) {
   } catch (error) {
     console.error("Verification error:", error);
     return NextResponse.json({ error: "Verification failed" }, { status: 500 });
+  } finally {
+    if (connection) {
+      connection.release();
+    }
   }
 }

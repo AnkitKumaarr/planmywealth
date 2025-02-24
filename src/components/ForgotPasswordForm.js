@@ -77,7 +77,7 @@ const ForgotPasswordForm = ({onClose}) => {
         >
           {loading ? <Loader size="24px" /> : "Send Reset Link"}
         </button>
-        {message && <p className="text-red-500">{message}</p>}
+        {message && <p className="text-green-500">{message}</p>}
       </div>
       <ToastContainer />
     </form>

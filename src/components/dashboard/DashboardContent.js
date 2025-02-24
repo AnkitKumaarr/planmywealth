@@ -42,12 +42,12 @@ export default function DashboardContent() {
           <InsuranceForm />
         </div>
       </div> */}
-      <div className="flex flex-col items-center h-[60vh] bg-white rounded-lg shadow p-4 md:p-8">
+      <div className="flex flex-col items-center min-h-[60vh] h-auto bg-white rounded-lg shadow p-4 md:p-8">
         {isLoading ? (
-          <div className="flex justify-center items-center h-full">
+          <div className="flex justify-center h-[60vh] items-center">
             <Loader size="48px" />
           </div>
-        ) : reportsData.length > 0 ? (
+        ) : reportsData.length > 0 && false ? (
           <div className="flex flex-col md:flex-row gap-4 min-h-[40vh]">
             <div className="">
               <div className="flex items-start mb-6">

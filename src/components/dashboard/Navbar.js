@@ -139,8 +139,8 @@ export default function Navbar() {
                       <span>My Account</span>
                     </Link>
 
-                    <Link
-                      href="/discuss-with-advisor"
+                    <div
+                      // href="/discuss-with-advisor"
                       className="flex items-center space-x-3 px-6 py-3 text-gray-700 hover:bg-gray-50"
                     >
                       <FaComments className="text-gray-400" />
@@ -150,7 +150,7 @@ export default function Navbar() {
                       >
                         <span>Discuss with Advisor</span>
                       </a>
-                    </Link>
+                    </div>
 
                     <div className="flex items-center space-x-3 px-6 py-3 text-gray-700">
                       <FaHeadset className="text-gray-400" />

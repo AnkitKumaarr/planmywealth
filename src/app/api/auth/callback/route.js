@@ -13,6 +13,7 @@ export async function GET(request) {
 
   let referId = null;
   let redirect_path = null;
+  let currentStep = null;
 
   if (state) {
     try {

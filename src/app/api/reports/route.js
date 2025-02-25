@@ -59,10 +59,10 @@ export async function POST(request) {
       totalMonthlyExpenses,
     } = formData;
 
-    // 1. Calculate Current Age
-    const currentYear = new Date().getFullYear();
-    const birthYear = new Date(dateOfBirth).getFullYear();
-    const currentAge = currentYear - birthYear;
+    // // 1. Calculate Current Age
+    // const currentYear = new Date().getFullYear();
+    // const birthYear = new Date(dateOfBirth).getFullYear();
+    // const currentAge = currentYear - birthYear;
 
     // 2. Calculate Annual Income
     const annualIncome = incomeSources.reduce(
@@ -82,7 +82,7 @@ export async function POST(request) {
     }, 0);
 
     // 3. Calculate Years to Retirement
-    const yearsToRetirement = retirementAge - currentAge;
+    const yearsToRetirement = retirementAge - age;
 
     // 4. Calculate Total Savings
     const totalSavings =
@@ -112,7 +112,7 @@ export async function POST(request) {
     };
 
     // Replace the static multiplier with dynamic one based on age
-    const multiplier = getMultiplier(currentAge);
+    const multiplier = getMultiplier(age);
     const lifeInsuranceNeed =
       salaryBusinessIncome * multiplier - termInsuranceAmount;
 
@@ -131,8 +131,9 @@ export async function POST(request) {
       return amount * Math.pow(1 + inflationRate, years);
     };
 
-    const finalMonthlyExpenses =
-      knowsLivingExpenses === "yes" ? monthlyExpenses : totalMonthlyExpenses;
+    const finalMonthlyExpenses = knowsLivingExpenses
+      ? monthlyExpenses
+      : totalMonthlyExpenses;
     // expense inflation
     const monthlyExpensesInflation = calculateInflationAdjustedAmount(
       finalMonthlyExpenses,
@@ -244,7 +245,7 @@ export async function POST(request) {
       lastName || "",
       uuid || "",
       dateOfBirth || "",
-      currentAge || 0,
+      age || 0,
       pincode || "",
       phoneNumber || "",
       gender || "",

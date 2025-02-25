@@ -122,7 +122,6 @@ export function FormProvider({ children }) {
     setErrors({});
   };
 
-  console.log(formData);
   return (
     <FormContext.Provider
       value={{

@@ -44,7 +44,7 @@ export default function Sidebar({
 
   return (
     <aside
-      className={`fixed  left-0 h-[calc(100vh-64px)] bg-white shadow-lg z-30
+      className={`fixed left-0 h-[calc(100vh-64px)] bg-white shadow-lg z-30
         w-64 transform transition-transform duration-300 ease-in-out
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
         lg:relative lg:translate-x-0 lg:z-0`}

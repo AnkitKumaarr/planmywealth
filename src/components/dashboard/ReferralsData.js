@@ -1,6 +1,7 @@
 import { useAuth } from "@/context/AuthContext";
 import EmptyState from "./EmptyState";
 import { useEffect, useState } from "react";
+import { BsBoxArrowUpRight } from "react-icons/bs";
 import Loader from "../Loader";
 
 export default function ReferralsData() {
@@ -47,6 +48,11 @@ export default function ReferralsData() {
     setIsModalOpen(true);
   };
 
+  const routeToGenerateReport = (report) => {
+    console.log("reportreport.uuid", report.uuid);
+    window.open(`/generatereport?uuid=${report.uuid}`, "_blank");
+  };
+
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedReport(null);
@@ -88,9 +94,9 @@ export default function ReferralsData() {
                       <th className="hidden md:table-cell py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
                         Email
                       </th>
-                      <th className="hidden md:table-cell py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
+                      {/* <th className="hidden md:table-cell py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
                         Age
-                      </th>
+                      </th> */}
                       <th className="py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
                         Life Insurance Need
                       </th>
@@ -110,6 +116,9 @@ export default function ReferralsData() {
                       <th className="py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
                         Action
                       </th>
+                      <th className="hidden md:table-cell py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
+                        View Report
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -126,9 +135,9 @@ export default function ReferralsData() {
                         <td className="hidden md:table-cell border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2 text-[10px] md:text-sm">
                           {report.userEmail || "N/A"}
                         </td>
-                        <td className="hidden md:table-cell border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2 text-[10px] md:text-sm">
+                        {/* <td className="hidden md:table-cell border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2 text-[10px] md:text-sm">
                           {report.age}
-                        </td>
+                        </td> */}
                         <td className="border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2 text-[10px] md:text-sm">
                           {formatToWords(report.lifeInsuranceNeed)}
                         </td>
@@ -151,6 +160,15 @@ export default function ReferralsData() {
                             onClick={() => handleViewReport(report)}
                           >
                             View
+                          </button>
+                        </td>
+                        <td className="border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2">
+                          <button
+                            onClick={() => routeToGenerateReport(report)}
+                            className="hidden md:flex text-green-500 items-center gap-0 mt-4 md:mt-0"
+                          >
+                            <BsBoxArrowUpRight />
+                            View Report
                           </button>
                         </td>
                       </tr>
@@ -263,7 +281,9 @@ export default function ReferralsData() {
                   <div className="space-y-1">
                     <p className="text-[10px] md:text-base">
                       <span className="font-medium">Pre-existing Disease:</span>{" "}
-                      {selectedReport.disease ? "Yes" : "No"}
+                      {selectedReport.disease
+                        ? selectedReport?.user_disease
+                        : "No"}
                     </p>
                     <p className="text-[10px] md:text-base">
                       <span className="font-medium">Smoking Habit:</span>{" "}
@@ -272,6 +292,28 @@ export default function ReferralsData() {
                     <p className="text-[10px] md:text-base">
                       <span className="font-medium">Alcohol Consumption:</span>{" "}
                       {selectedReport.alcohol ? "Yes" : "No"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Has Health Insurance:</span>{" "}
+                      {selectedReport.health_insurance_amount ? "Yes" : "No"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Current Health Cover:</span>{" "}
+                      {formatToWords(selectedReport?.health_insurance_amount)}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">
+                        Health Insurance Need:
+                      </span>{" "}
+                      {formatToWords(selectedReport?.healthInsuranceNeed)}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">
+                        Additional Cover Needed:
+                      </span>{" "}
+                      {formatToWords(
+                        selectedReport?.additionalHealthCoverNeeded
+                      )}
                     </p>
                   </div>
                 </div>
@@ -283,8 +325,38 @@ export default function ReferralsData() {
                   </h4>
                   <div className="space-y-1">
                     <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Income Sources:</span>{" "}
+                      {selectedReport?.income_sources
+                        ? typeof selectedReport.income_sources === "string"
+                          ? JSON.parse(selectedReport.income_sources).map(
+                              (income, index, arr) => (
+                                <span key={income.type}>
+                                  {`${income.type}: ${formatToWords(
+                                    income.amount
+                                  )}`}
+                                  {index !== arr.length - 1 ? ", " : ""}
+                                </span>
+                              )
+                            )
+                          : selectedReport.income_sources.map(
+                              (income, index, arr) => (
+                                <span key={income.type}>
+                                  {`${income.type}: ${formatToWords(
+                                    income.amount
+                                  )}`}
+                                  {index !== arr.length - 1 ? ", " : ""}
+                                </span>
+                              )
+                            )
+                        : "N/A"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
                       <span className="font-medium">Total Income:</span>{" "}
-                      {formatToWords(selectedReport.total_income)}
+                      {formatToWords(
+                        selectedReport.total_income /
+                          (selectedReport.retirement_age - selectedReport.age)
+                      )}{" "}
+                      per annum
                     </p>
                     <p className="text-[10px] md:text-base">
                       <span className="font-medium">Income Stability:</span>{" "}
@@ -295,8 +367,40 @@ export default function ReferralsData() {
                       {selectedReport.retirement_age}
                     </p>
                     <p className="text-[10px] md:text-base">
-                      <span className="font-medium">Monthly Expenses:</span>{" "}
-                      {formatToWords(selectedReport.monthly_expenses)}
+                      <span className="font-medium">Expenses:</span>{" "}
+                      {selectedReport?.expenses
+                        ? typeof selectedReport.expenses === "string"
+                          ? JSON.parse(selectedReport.expenses).map(
+                              (expense, index, arr) => (
+                                <span key={expense.category}>
+                                  {`${expense.category
+                                    .replace(/([A-Z])/g, " $1")
+                                    .replace(/^\w/, (c) =>
+                                      c.toUpperCase()
+                                    )}: ${formatToWords(expense.value)}`}
+                                  {index !== arr.length - 1 ? ", " : ""}
+                                </span>
+                              )
+                            )
+                          : selectedReport.expenses.map(
+                              (expense, index, arr) => (
+                                <span key={expense.category}>
+                                  {`${expense.category
+                                    .replace(/([A-Z])/g, " $1")
+                                    .replace(/^\w/, (c) =>
+                                      c.toUpperCase()
+                                    )}: ${formatToWords(expense.value)}`}
+                                  {index !== arr.length - 1 ? ", " : ""}
+                                </span>
+                              )
+                            )
+                        : "N/A"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">
+                        Total Monthly Expenses:
+                      </span>{" "}
+                      {formatToWords(selectedReport.total_monthly_expenses)}
                     </p>
                   </div>
                 </div>
@@ -314,6 +418,25 @@ export default function ReferralsData() {
                     <p className="text-[10px] md:text-base">
                       <span className="font-medium">Number of Dependents:</span>{" "}
                       {selectedReport.dependents}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Dependents:</span>{" "}
+                      {selectedReport?.dependents_name
+                        ? typeof selectedReport.dependents_name === "string"
+                          ? JSON.parse(selectedReport.dependents_name).map(
+                              (dependent) => (
+                                <span key={dependent.value}>
+                                  {dependent.label}
+                                  {", "}
+                                </span>
+                              )
+                            )
+                          : selectedReport.dependents_name.map((dependent) => (
+                              <span key={dependent.value}>
+                                {dependent.label}
+                              </span>
+                            ))
+                        : "N/A"}
                     </p>
                     <p className="text-[10px] md:text-base">
                       <span className="font-medium">Number of Kids:</span>{" "}
@@ -351,6 +474,33 @@ export default function ReferralsData() {
                     <p className="text-[10px] md:text-base">
                       <span className="font-medium">Savings Amount:</span>{" "}
                       {formatToWords(selectedReport.savings_amount)}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Investments:</span>{" "}
+                      {selectedReport?.splitted_investments
+                        ? typeof selectedReport.splitted_investments ===
+                          "string"
+                          ? JSON.parse(selectedReport.splitted_investments).map(
+                              (investment, index, arr) => (
+                                <span key={investment.id}>
+                                  {`${investment.type.toUpperCase()}: ${formatToWords(
+                                    investment.amount
+                                  )}`}
+                                  {index !== arr.length - 1 ? ", " : ""}
+                                </span>
+                              )
+                            )
+                          : selectedReport.splitted_investments.map(
+                              (investment, index, arr) => (
+                                <span key={investment.id}>
+                                  {`${investment.type.toUpperCase()}: ${formatToWords(
+                                    investment.amount
+                                  )}`}
+                                  {index !== arr.length - 1 ? ", " : ""}
+                                </span>
+                              )
+                            )
+                        : "N/A"}
                     </p>
                     <p className="text-[10px] md:text-base">
                       <span className="font-medium">Total Investments:</span>{" "}
@@ -413,6 +563,83 @@ export default function ReferralsData() {
                         Additional Cover Needed:
                       </span>{" "}
                       {formatToWords(selectedReport.additionalCoverNeeded)}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Loans & Major Expenses Section */}
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-xs text-green-600 md:text-lg border-b pb-2">
+                    Loans & Major Expenses
+                  </h4>
+                  <div className="space-y-1">
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">
+                        Have you taken any large loans or advances:
+                      </span>{" "}
+                      {selectedReport.hasLoans ? "Yes" : "No"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Loans:</span>{" "}
+                      {selectedReport?.loans
+                        ? typeof selectedReport.loans === "string"
+                          ? Object.entries(
+                              JSON.parse(selectedReport.loans)
+                            ).map(([type, amount], index, arr) => (
+                              <span key={type}>
+                                {`${type
+                                  .replace(/([A-Z])/g, " $1")
+                                  .replace(/^\w/, (c) =>
+                                    c.toUpperCase()
+                                  )}: ${formatToWords(amount)}`}
+                                {index !== arr.length - 1 ? ", " : ""}
+                              </span>
+                            ))
+                          : Object.entries(selectedReport.loans).map(
+                              ([type, amount], index, arr) => (
+                                <span key={type}>
+                                  {`${type
+                                    .replace(/([A-Z])/g, " $1")
+                                    .replace(/^\w/, (c) =>
+                                      c.toUpperCase()
+                                    )}: ${formatToWords(amount)}`}
+                                  {index !== arr.length - 1 ? ", " : ""}
+                                </span>
+                              )
+                            )
+                        : "N/A"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">
+                        Have any major upcoming expenses:
+                      </span>{" "}
+                      {selectedReport.major_expenses ? "Yes" : "No"}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Major Expenses:</span>{" "}
+                      {selectedReport?.major_expenses
+                        ? typeof selectedReport.major_expenses === "string"
+                          ? JSON.parse(selectedReport.major_expenses).map(
+                              (expense, index, arr) => (
+                                <span key={expense.id}>
+                                  {`${expense.description}: ${formatToWords(
+                                    expense.amount
+                                  )}`}
+                                  {index !== arr.length - 1 ? ", " : ""}
+                                </span>
+                              )
+                            )
+                          : selectedReport.major_expenses.map(
+                              (expense, index, arr) => (
+                                <span key={expense.id}>
+                                  {`${expense.description}: ${formatToWords(
+                                    expense.amount
+                                  )}`}
+                                  {index !== arr.length - 1 ? ", " : ""}
+                                </span>
+                              )
+                            )
+                        : "N/A"}
                     </p>
                   </div>
                 </div>

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { authenticate } from "@/middleware/auth";
 import mysql from "@/utils/db.config";
+import jwt from "jsonwebtoken";
 
 export async function POST(request) {
   const { uuid } = await request.json();
@@ -9,7 +10,6 @@ export async function POST(request) {
     return authResponse;
   }
 
-  // Utility function to format numbers
   const formatToWords = (num) => {
     if (!num || isNaN(num)) return "";
     const value = Number(num);
@@ -38,7 +38,6 @@ export async function POST(request) {
     },
   ];
 
-  const userEmail = authResponse;
   try {
     // write the query to get the data from the database
     const query = `SELECT uuid, retirement_age, nomineeReaction, 
@@ -60,8 +59,8 @@ export async function POST(request) {
     monthly_expenses_inflation,
     phone_number,
     retirement_monthly_expenses_inflation
-    FROM true_reports WHERE userEmail = ? AND uuid = ?`;
-    const [result] = await mysql.query(query, [userEmail, uuid]);
+    FROM true_reports WHERE uuid = ?`;
+    const [result] = await mysql.query(query, [uuid]);
     const data = result[0];
     const finalSavingAmount =
       parseFloat(data?.savings_amount) + parseFloat(data?.total_investments);

@@ -17,6 +17,7 @@ export async function POST(request) {
 
   try {
     const { formData, uuid } = await request.json();
+    console.log("formData", formData);
 
     const {
       firstName,
@@ -40,6 +41,7 @@ export async function POST(request) {
       nomineeReaction,
       knowsLivingExpenses,
       monthlyExpenses,
+      expenses,
       hasLoans,
       loanAmount,
       hasSavings,
@@ -57,6 +59,9 @@ export async function POST(request) {
       emergencyFundAmount,
       emergencyFundMonths,
       totalMonthlyExpenses,
+      majorExpenses,
+      loans,
+      splittedInvestments,
     } = formData;
 
     // // 1. Calculate Current Age
@@ -219,6 +224,12 @@ export async function POST(request) {
         additionalHealthCoverNeeded DECIMAL(15, 2),
         monthly_expenses_inflation DECIMAL(15, 2),
         retirement_monthly_expenses_inflation DECIMAL(15, 2),
+        income_sources TEXT,
+        expenses TEXT,
+        dependents_name TEXT,
+        loans TEXT,
+        major_expenses TEXT,
+        splitted_investments TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `;
@@ -227,55 +238,58 @@ export async function POST(request) {
     // Insert into database
     const query = `
       INSERT INTO true_reports (
-        userEmail, first_name, last_name,uuid, date_of_birth, age, pincode, phone_number, gender, education, disease, user_disease,
-        smoking, alcohol, total_income, income_stability, retirement_age,
-        hasDependents, dependents, nomineeReaction, knowsLivingExpenses, monthly_expenses,
-        hasLoans, loan_amount, hasSavings, savings_amount, knowsInvestments, total_investments,
-        hasLifeCover, life_cover_amount, term_insurance_amount, health_insurance_amount, number_of_kids, education_expenses, wedding_expenses,
-        hasEmergencyFund, emergency_fund_amount, emergency_fund_months, total_monthly_expenses,
-        lifeInsuranceNeed, additionalCoverNeeded, education_inflation, wedding_inflation,
-        healthInsuranceNeed, additionalHealthCoverNeeded, monthly_expenses_inflation, retirement_monthly_expenses_inflation
-      ) VALUES (?, ?,?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        userEmail, first_name, last_name, uuid, date_of_birth, age, pincode, phone_number, 
+        gender, education, disease, user_disease, smoking, alcohol, total_income, 
+        income_stability, retirement_age, hasDependents, dependents, nomineeReaction, 
+        knowsLivingExpenses, monthly_expenses, hasLoans, loan_amount, hasSavings, 
+        savings_amount, knowsInvestments, total_investments, hasLifeCover, life_cover_amount, 
+        term_insurance_amount, health_insurance_amount, number_of_kids, education_expenses, 
+        wedding_expenses, hasEmergencyFund, emergency_fund_amount, emergency_fund_months, 
+        total_monthly_expenses, lifeInsuranceNeed, additionalCoverNeeded, education_inflation, 
+        wedding_inflation, healthInsuranceNeed, additionalHealthCoverNeeded, 
+        monthly_expenses_inflation, retirement_monthly_expenses_inflation, income_sources, 
+        expenses, dependents_name, loans, major_expenses, splitted_investments
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
-    // Ensure all values are defined, using default values if necessary
     const values = [
       userEmail || "",
       firstName || "",
       lastName || "",
       uuid || "",
-      dateOfBirth || "",
+      dateOfBirth || null,
       age || 0,
       pincode || "",
       phoneNumber || "",
       gender || "",
       education || "",
-      disease === "no",
+      disease || false,
       userDisease || "",
-      smoking === "no",
-      alcohol === "no",
+      smoking === "yes",
+      alcohol === "yes",
       totalIncome || 0,
       incomeStability || "",
       retirementAge || 0,
-      hasDependents !== undefined ? hasDependents : false,
-      dependentsCount, // Use the count of dependents
+      hasDependents || false,
+      dependentsCount || 0,
       nomineeReaction || "",
-      knowsLivingExpenses !== undefined ? knowsLivingExpenses : false,
+      knowsLivingExpenses || false,
       monthlyExpenses || 0,
-      hasLoans !== undefined ? hasLoans : false,
+      hasLoans || false,
       loanAmount || 0,
-      hasSavings !== undefined ? hasSavings : false,
+      hasSavings || false,
       savingsAmount || 0,
-      knowsInvestments !== undefined ? knowsInvestments : false,
+      knowsInvestments || false,
       totalInvestments || 0,
-      hasLifeCover !== undefined ? hasLifeCover : false,
+      hasLifeCover || false,
       lifeCoverAmount || 0,
       termInsuranceAmount || 0,
       healthInsuranceAmount || 0,
       numberOfKids || 0,
       educationExpenses || 0,
       weddingExpenses || 0,
-      hasEmergencyFund !== undefined ? hasEmergencyFund : false,
+      hasEmergencyFund || false,
       finalEmergencyFundAmount || 0,
       emergencyFundMonths || 0,
       totalMonthlyExpenses || 0,
@@ -287,6 +301,12 @@ export async function POST(request) {
       additionalHealthCoverNeeded || 0,
       monthlyExpensesInflation || 0,
       retirementMonthlyExpensesInflation || 0,
+      JSON.stringify(incomeSources || []),
+      JSON.stringify(expenses || []),
+      JSON.stringify(dependents || []),
+      JSON.stringify(loans || {}),
+      JSON.stringify(majorExpenses || []),
+      JSON.stringify(splittedInvestments || [])
     ];
 
     await mysql.query(query, values);
@@ -297,6 +317,7 @@ export async function POST(request) {
       message: "Report generated successfully",
     });
   } catch (error) {
+    console.log("error", error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }

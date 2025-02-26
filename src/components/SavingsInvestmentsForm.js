@@ -15,7 +15,7 @@ const SavingsInvestmentsForm = ({ data, onChange, errors }) => {
     return `₹ ${(value / 10000000).toFixed(1)} crore`;
   };
 
-  const [expenses, setExpenses] = useState(data.expenses || [{
+  const [expenses, setExpenses] = useState(data.majorExpenses  || [{
     id: Date.now(),
     description: '',
     amount: ''
@@ -29,14 +29,14 @@ const SavingsInvestmentsForm = ({ data, onChange, errors }) => {
     };
     const updatedExpenses = [...expenses, newExpense];
     setExpenses(updatedExpenses);
-    onChange('expenses', updatedExpenses);
+    onChange('majorExpenses', updatedExpenses);
     onChange('majorExpensesAmount', calculateTotalAmount(updatedExpenses));
   };
 
   const handleRemoveExpense = (id) => {
     const updatedExpenses = expenses.filter(expense => expense.id !== id);
     setExpenses(updatedExpenses);
-    onChange('expenses', updatedExpenses);
+    onChange('majorExpenses', updatedExpenses);
     onChange('majorExpensesAmount', calculateTotalAmount(updatedExpenses));
   };
 
@@ -48,7 +48,7 @@ const SavingsInvestmentsForm = ({ data, onChange, errors }) => {
       return expense;
     });
     setExpenses(updatedExpenses);
-    onChange('expenses', updatedExpenses);
+    onChange('majorExpenses', updatedExpenses);
     if (field === 'amount') {
       onChange('majorExpensesAmount', calculateTotalAmount(updatedExpenses));
     }

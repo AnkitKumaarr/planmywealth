@@ -233,12 +233,12 @@ export default function BasicDetails() {
       case 10:
         if (formData.knowsLivingExpenses === null)
           newErrors.knowsLivingExpenses = true;
-        if (
-          formData.knowsLivingExpenses === true &&
-          !formData.monthlyExpenses
-        ) {
-          newErrors.monthlyExpenses = true;
-        }
+        // if (
+        //   formData.knowsLivingExpenses === true &&
+        //   !formData.monthlyExpenses
+        // ) {
+        //   newErrors.monthlyExpenses = true;
+        // }
         break;
       case 11:
         if (formData.hasLoans === null) newErrors.hasLoans = true;

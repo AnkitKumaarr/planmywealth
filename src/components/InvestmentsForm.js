@@ -1,7 +1,15 @@
 import { useState } from "react";
 
 const InvestmentsForm = ({ data, onChange, errors }) => {
-  const [investments, setInvestments] = useState([{ type: "", amount: "" }]);
+  const [investments, setInvestments] = useState(
+    data.investments || [
+      {
+        id: Date.now(),
+        type: "",
+        amount: "",
+      },
+    ]
+  );
 
   const formatToIndianCurrency = (num) => {
     if (!num) return "";
@@ -21,33 +29,46 @@ const InvestmentsForm = ({ data, onChange, errors }) => {
     onChange("knowsInvestments", knowsInvestments);
   };
 
-  const handleInvestmentChange = (index, value) => {
-    const newInvestments = [...investments];
-    newInvestments[index].amount = value;
-    setInvestments(newInvestments);
-
-    // Calculate total
-    const total = newInvestments.reduce(
-      (sum, inv) => sum + (Number(inv.amount) || 0),
-      0
-    );
-    onChange("totalInvestments", total);
+  const handleAddInvestment = () => {
+    const newInvestment = {
+      id: Date.now(),
+      type: "",
+      amount: "",
+    };
+    const updatedInvestments = [...investments, newInvestment];
+    setInvestments(updatedInvestments);
+    onChange("splittedInvestments", updatedInvestments);
+    onChange("totalInvestments", calculateTotalAmount(updatedInvestments));
   };
 
-  const addNewInvestment = () => {
-    setInvestments([...investments, { type: "", amount: "" }]);
+  const handleRemoveInvestment = (id) => {
+    const updatedInvestments = investments.filter(
+      (investment) => investment.id !== id
+    );
+    setInvestments(updatedInvestments);
+    onChange("splittedInvestments", updatedInvestments);
+    onChange("totalInvestments", calculateTotalAmount(updatedInvestments));
   };
 
-  const removeInvestment = (index) => {
-    const newInvestments = investments.filter((_, i) => i !== index);
-    setInvestments(newInvestments);
+  const handleInvestmentChange = (id, field, value) => {
+    const updatedInvestments = investments.map((investment) => {
+      if (investment.id === id) {
+        return { ...investment, [field]: value };
+      }
+      return investment;
+    });
+    setInvestments(updatedInvestments);
+    onChange("splittedInvestments", updatedInvestments);
+    if (field === "amount") {
+      onChange("totalInvestments", calculateTotalAmount(updatedInvestments));
+    }
+  };
 
-    // Recalculate total
-    const total = newInvestments.reduce(
-      (sum, inv) => sum + (Number(inv.amount) || 0),
+  const calculateTotalAmount = (investmentsList) => {
+    return investmentsList.reduce(
+      (sum, investment) => sum + (Number(investment.amount) || 0),
       0
     );
-    onChange("totalInvestments", total);
   };
 
   return (
@@ -124,18 +145,23 @@ const InvestmentsForm = ({ data, onChange, errors }) => {
 
       {data.knowsInvestments === false && (
         <div className="space-y-4 mt-6">
-          {investments.map((investment, index) => (
-            <div key={index} className="flex flex-col sm:flex-row gap-4">
+          {investments.map((investment) => (
+            <div
+              key={investment.id}
+              className="flex flex-col sm:flex-row gap-4"
+            >
               <div className="w-full sm:w-1/2">
                 <div className="bg-gray-200 p-4 rounded-lg">
                   <select
                     className="w-full bg-transparent outline-none"
                     value={investment.type}
-                    onChange={(e) => {
-                      const newInvestments = [...investments];
-                      newInvestments[index].type = e.target.value;
-                      setInvestments(newInvestments);
-                    }}
+                    onChange={(e) =>
+                      handleInvestmentChange(
+                        investment.id,
+                        "type",
+                        e.target.value
+                      )
+                    }
                   >
                     <option value="">Select Investment Type</option>
                     <option value="fd">Fixed Deposits</option>
@@ -148,8 +174,8 @@ const InvestmentsForm = ({ data, onChange, errors }) => {
                   </select>
                 </div>
               </div>
-              <div className="w-full sm:w-1/2">
-                <div className="relative bg-white rounded-lg border border-gray-200">
+              <div className="w-full sm:w-1/2 flex gap-2">
+                <div className="relative bg-white rounded-lg border border-gray-200 flex-1">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                     ₹
                   </span>
@@ -159,34 +185,31 @@ const InvestmentsForm = ({ data, onChange, errors }) => {
                     placeholder="Enter amount..."
                     value={investment.amount}
                     onChange={(e) =>
-                      handleInvestmentChange(index, e.target.value)
+                      handleInvestmentChange(
+                        investment.id,
+                        "amount",
+                        e.target.value
+                      )
                     }
                   />
                 </div>
-                {investment.amount && Number(investment.amount) > 0 && (
-                  <div className="text-sm text-gray-500 mt-1 text-right">
-                    {formatToWords(investment.amount)}
-                  </div>
-                )}
-              </div>
-              {index > 0 && (
                 <button
                   type="button"
-                  onClick={() => removeInvestment(index)}
-                  className="text-gray-500 hover:text-red-500"
+                  onClick={() => handleRemoveInvestment(investment.id)}
+                  className="p-4 text-red-500 hover:text-red-700"
                 >
                   ✕
                 </button>
-              )}
+              </div>
             </div>
           ))}
 
           <button
             type="button"
-            onClick={addNewInvestment}
-            className="text-green-500 hover:text-green-600 flex items-center gap-2"
+            onClick={handleAddInvestment}
+            className="w-full p-3 border border-gray-400 rounded-lg text-gray-600 hover:bg-gray-50"
           >
-            + Add More Investments
+            + Add Another Investment
           </button>
 
           <div className="bg-gray-100 p-4 rounded-lg flex justify-between items-center">

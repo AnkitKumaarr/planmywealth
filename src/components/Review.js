@@ -117,7 +117,7 @@ export default function Review({ onBackStep, setCurrentStep }) {
                 Highest Education: <strong>{formData.education}</strong>
               </p>
               <p>
-                Disease: <strong>{formData.disease}</strong>
+                Disease: <strong>{formData.disease ? "Yes" : "No"}</strong>
               </p>
               {formData?.userDisease && (
                 <p>
@@ -149,7 +149,11 @@ export default function Review({ onBackStep, setCurrentStep }) {
             <div className="space-y-2 text-sm">
               <p>
                 Total sources of income: ₹{" "}
-                <strong>{formData.totalIncome}</strong> crore
+                <strong>
+                  {formData.incomeSources.reduce((total, source) => {
+                    return total + (parseInt(source.amount) || 0);
+                  }, 0)}
+                </strong>{" "}
               </p>
               <p>
                 10-15 years income stability:{" "}
@@ -203,15 +207,15 @@ export default function Review({ onBackStep, setCurrentStep }) {
             <div className="space-y-2 text-sm">
               <p>
                 Living expenses of dependant members: ₹{" "}
-                <strong>{formData.monthlyExpenses}</strong> lakh per month
+                <strong>{formData.totalMonthlyExpenses}</strong>
               </p>
               <p>
                 Large loans or advances: ₹{" "}
-                <strong>{formData.loanAmount}</strong> thousand
+                <strong>{formData.loanAmount}</strong>
               </p>
               <p>
                 Major upcoming expenses: ₹{" "}
-                <strong>{formData.upcomingExpenses}</strong> thousand
+                <strong>{formData.upcomingExpenses}</strong>
               </p>
               <p>
                 Current invested amount: ₹{" "}

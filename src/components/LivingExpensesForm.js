@@ -2,22 +2,35 @@ import { useState } from "react";
 import ProgressIndicator from "./ProgressIndicator";
 
 const LivingExpensesForm = ({ data, onChange, errors }) => {
-  const [expenses, setExpenses] = useState(data.expenses || {});
+  const [expenses, setExpenses] = useState(data.expenses || []);
 
   const handleOptionSelect = (knowsExpenses) => {
     onChange("knowsLivingExpenses", knowsExpenses);
     if (!knowsExpenses) {
-      setExpenses(data.expenses || {});
+      setExpenses(data.expenses || []);
     }
   };
 
   const handleExpenseChange = (category, value) => {
     if (value === "" || /^\d+$/.test(value)) {
-      const newExpenses = { ...expenses, [category]: value };
+      // Find if category already exists in expenses array
+      const expenseIndex = expenses.findIndex(exp => exp.category === category);
+      let newExpenses;
+      
+      if (expenseIndex >= 0) {
+        // Update existing expense
+        newExpenses = expenses.map((exp, index) => 
+          index === expenseIndex ? { category, value } : exp
+        );
+      } else {
+        // Add new expense
+        newExpenses = [...expenses, { category, value }];
+      }
+      
       setExpenses(newExpenses);
 
-      const total = Object.values(newExpenses).reduce(
-        (sum, val) => sum + (Number(val) || 0),
+      const total = newExpenses.reduce(
+        (sum, exp) => sum + (Number(exp.value) || 0),
         0
       );
 
@@ -158,7 +171,7 @@ const LivingExpensesForm = ({ data, onChange, errors }) => {
                     type="text"
                     className="w-full p-4 pl-7 outline-none rounded-lg"
                     placeholder="Enter estimate..."
-                    value={expenses[category.id] || ""}
+                    value={expenses.find(exp => exp.category === category.id)?.value || ""}
                     onChange={(e) =>
                       handleExpenseChange(category.id, e.target.value)
                     }
@@ -167,9 +180,9 @@ const LivingExpensesForm = ({ data, onChange, errors }) => {
                     per month
                   </span>
                 </div>
-                {expenses[category.id] && Number(expenses[category.id]) > 0 && (
+                {expenses.find(exp => exp.category === category.id) && Number(expenses.find(exp => exp.category === category.id).value) > 0 && (
                   <div className="text-sm text-gray-500 mt-1 text-right">
-                    {formatToWords(expenses[category.id])}
+                    {formatToWords(expenses.find(exp => exp.category === category.id).value)}
                   </div>
                 )}
               </div>

@@ -122,7 +122,6 @@ export function FormProvider({ children }) {
     setCurrentStep(1);
     setErrors({});
   };
-  console.log(formData);
   return (
     <FormContext.Provider
       value={{

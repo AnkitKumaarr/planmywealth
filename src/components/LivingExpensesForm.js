@@ -2,32 +2,35 @@ import { useState } from "react";
 import ProgressIndicator from "./ProgressIndicator";
 
 const LivingExpensesForm = ({ data, onChange, errors }) => {
-  const [expenses, setExpenses] = useState({
-    houseRent: "",
-    schoolFees: "",
-    utilities: "",
-    vehicleMaintenance: "",
-    salaries: "",
-    groceries: "",
-    foodEntertainment: "",
-    other: "",
-  });
+  const [expenses, setExpenses] = useState(data.expenses || {});
 
   const handleOptionSelect = (knowsExpenses) => {
     onChange("knowsLivingExpenses", knowsExpenses);
+    if (!knowsExpenses) {
+      setExpenses(data.expenses || {});
+    }
   };
 
   const handleExpenseChange = (category, value) => {
-    // Update only the specific category
-    const newExpenses = { ...expenses, [category]: value };
-    setExpenses(newExpenses);
+    if (value === "" || /^\d+$/.test(value)) {
+      const newExpenses = { ...expenses, [category]: value };
+      setExpenses(newExpenses);
 
-    // Calculate total separately
-    const total = Object.values(newExpenses).reduce(
-      (sum, val) => sum + (Number(val) || 0),
-      0
-    );
-    onChange("totalMonthlyExpenses", total); // Store total in a different field
+      const total = Object.values(newExpenses).reduce(
+        (sum, val) => sum + (Number(val) || 0),
+        0
+      );
+
+      onChange("expenses", newExpenses);
+      onChange("totalMonthlyExpenses", total);
+    }
+  };
+
+  const handleTotalExpenseChange = (value) => {
+    if (value === "" || /^\d+$/.test(value)) {
+      const numericValue = value === "" ? "" : Number(value);
+      onChange("totalMonthlyExpenses", numericValue);
+    }
   };
 
   const formatToIndianCurrency = (num) => {
@@ -65,7 +68,6 @@ const LivingExpensesForm = ({ data, onChange, errors }) => {
 
   return (
     <div className="space-y-6 px-4 sm:px-6 lg:px-8">
-
       <h2 className="text-2xl font-semibold text-center">
         Do you know the monthly living expenses of your dependent family
         members?
@@ -105,29 +107,29 @@ const LivingExpensesForm = ({ data, onChange, errors }) => {
                 ₹
               </span>
               <input
-                type="number"
-                className={`w-full p-3 pl-7 border rounded-lg appearance-none [&::-webkit-inner-spin-button]:appearance-auto [&::-webkit-inner-spin-button]:h-[80%] [&::-webkit-outer-spin-button]:appearance-auto [&::-webkit-outer-spin-button]:h-[80%] ${
-                  errors?.monthlyExpenses ? "border-red-500" : "border-gray-200"
+                type="text"
+                className={`w-full p-3 pl-7 border rounded-lg ${
+                  errors?.totalMonthlyExpenses
+                    ? "border-red-500"
+                    : "border-gray-200"
                 }`}
                 placeholder="15000"
-                value={data.monthlyExpenses || ""}
-                onChange={(e) =>
-                  onChange("monthlyExpenses", e.target.value)
-                }
+                value={data.totalMonthlyExpenses || ""}
+                onChange={(e) => handleTotalExpenseChange(e.target.value)}
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
                 per month
               </span>
             </div>
           </div>
-          {errors?.monthlyExpenses && (
+          {errors?.totalMonthlyExpenses && (
             <div className="text-red-500 text-sm mt-1">
               Please enter the monthly expenses
             </div>
           )}
-          {data.monthlyExpenses > 0 && (
+          {data.totalMonthlyExpenses > 0 && (
             <div className="text-sm text-gray-500 mt-2 text-right">
-              {formatToWords(data.monthlyExpenses)}
+              {formatToWords(data.totalMonthlyExpenses)}
             </div>
           )}
         </div>
@@ -156,22 +158,10 @@ const LivingExpensesForm = ({ data, onChange, errors }) => {
                     type="text"
                     className="w-full p-4 pl-7 outline-none rounded-lg"
                     placeholder="Enter estimate..."
-                    value={expenses[category.id]}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setExpenses((prev) => ({
-                        ...prev,
-                        [category.id]: value,
-                      }));
-                      const newTotal = Object.entries({
-                        ...expenses,
-                        [category.id]: value,
-                      }).reduce(
-                        (sum, [key, val]) => sum + (Number(val) || 0),
-                        0
-                      );
-                      onChange("totalMonthlyExpenses", newTotal);
-                    }}
+                    value={expenses[category.id] || ""}
+                    onChange={(e) =>
+                      handleExpenseChange(category.id, e.target.value)
+                    }
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
                     per month

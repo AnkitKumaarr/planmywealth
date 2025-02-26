@@ -1,16 +1,28 @@
 import { useState } from "react";
 
 const LoansAdvancesForm = ({ data, onChange, errors }) => {
-  const [loans, setLoans] = useState({
-    homeLoan: "",
-    vehicleLoan: "",
-    personalLoan: "",
-    businessLoan: "",
-    other: "",
-  });
+  const [loans, setLoans] = useState(data.loans || {});
 
   const handleOptionSelect = (hasLoans) => {
     onChange("hasLoans", hasLoans);
+    if (!hasLoans) {
+      setLoans(data.loans || {});
+    }
+  };
+
+  const handleLoanChange = (category, value) => {
+    if (value === "" || /^\d+$/.test(value)) {
+      const newLoans = { ...loans, [category]: value };
+      setLoans(newLoans);
+
+      const total = Object.values(newLoans).reduce(
+        (sum, val) => sum + (Number(val) || 0),
+        0
+      );
+
+      onChange("loans", newLoans);
+      onChange("loanAmount", total);
+    }
   };
 
   const formatToIndianCurrency = (num) => {
@@ -85,22 +97,10 @@ const LoansAdvancesForm = ({ data, onChange, errors }) => {
                     type="text"
                     className="w-full p-4 pl-7 outline-none rounded-lg"
                     placeholder="Enter loan amount..."
-                    value={loans[category.id]}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setLoans((prev) => ({
-                        ...prev,
-                        [category.id]: value,
-                      }));
-                      const newTotal = Object.entries({
-                        ...loans,
-                        [category.id]: value,
-                      }).reduce(
-                        (sum, [key, val]) => sum + (Number(val) || 0),
-                        0
-                      );
-                      onChange("loanAmount", newTotal);
-                    }}
+                    value={loans[category.id] || ""}
+                    onChange={(e) =>
+                      handleLoanChange(category.id, e.target.value)
+                    }
                   />
                 </div>
                 {loans[category.id] && Number(loans[category.id]) > 0 && (

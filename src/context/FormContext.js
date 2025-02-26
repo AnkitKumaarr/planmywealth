@@ -24,6 +24,7 @@ export function FormProvider({ children }) {
     nomineeReaction: "",
     knowsLivingExpenses: null,
     monthlyExpenses: 0,
+    allMonthlyExpenses: [],
     hasLoans: null,
     loanAmount: "",
     hasSavings: null,
@@ -42,7 +43,7 @@ export function FormProvider({ children }) {
     emergencyFundAmount: "",
     emergencyFundMonths: "",
   });
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(11);
   const [errors, setErrors] = useState({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -121,7 +122,7 @@ export function FormProvider({ children }) {
     setCurrentStep(1);
     setErrors({});
   };
-
+  console.log(formData);
   return (
     <FormContext.Provider
       value={{

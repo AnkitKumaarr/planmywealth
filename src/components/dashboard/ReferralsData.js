@@ -113,6 +113,9 @@ export default function ReferralsData() {
                           </th>
                         </>
                       )}
+                      <th className="hidden md:table-cell py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
+                        Created at
+                      </th>
                       <th className="py-0.5 md:py-2 text-center border border-gray-400 text-[10px] md:text-sm">
                         Action
                       </th>
@@ -154,6 +157,9 @@ export default function ReferralsData() {
                             </td>
                           </>
                         )}
+                        <td className="border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2 text-[10px] md:text-sm">
+                          {new Date(report.created_at).toLocaleDateString()}
+                        </td>
                         <td className="border border-gray-400 text-center px-1 md:px-4 py-0.5 md:py-2">
                           <button
                             className="bg-blue-500 text-white px-1.5 md:px-4 py-0.5 md:py-2 rounded text-[10px] md:text-sm"
@@ -193,6 +199,10 @@ export default function ReferralsData() {
                   <p className="text-[10px] md:text-base">
                     <span className="font-medium">Phone Number:</span>{" "}
                     {selectedReport.phone_number || "N/A"}
+                  </p>
+                  <p className="text-[10px] md:text-base">
+                    <span className="font-medium">Created at:</span>{" "}
+                    {new Date(selectedReport.created_at).toLocaleDateString()}
                   </p>
                 </h3>
 

@@ -12,11 +12,13 @@ import AdvisorProfileSection from "./AdvisorProfileSection";
 import RefillDialog from "./RefillDialog";
 import { usePDF } from "react-to-pdf";
 import { FaArrowLeft } from "react-icons/fa";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import PDFReport from "@/components/PDFReport";
 
 // Create a reusable PDF configuration
 const pdfOptions = {
   format: "a4",
-  page: { margin: 10 }
+  page: { margin: 10 },
 };
 
 const GenerateReport = () => {
@@ -112,6 +114,30 @@ const GenerateReport = () => {
   // Create a reusable download function
   const handleDownloadPDF = () => {
     toPDF(pdfOptions);
+  };
+
+  const DownloadPDFButton = ({ user, report }) => {
+    if (!user || !report) return null;
+
+    return (
+      <PDFDownloadLink
+        document={<PDFReport user={user} report={report} />}
+        fileName={`${user.name}-financial-report.pdf`}
+        className="flex items-center text-green-500 border border-green-500 rounded-lg px-4 py-2"
+      >
+        {({ loading, error }) => 
+          loading ? (
+            "Preparing PDF..."
+          ) : error ? (
+            "Error generating PDF"
+          ) : (
+            <>
+              <FiDownload className="mr-2" /> Report
+            </>
+          )
+        }
+      </PDFDownloadLink>
+    );
   };
 
   return (
@@ -246,7 +272,10 @@ const GenerateReport = () => {
 
           {/* Main Content */}
           <div className="flex-1 lg:ml-64 lg:mr-80" ref={targetRef}>
-            <div className="px-4 lg:px-20 py-4 mt-16 lg:mt-0" id="feature-recipe">
+            <div
+              className="px-4 lg:px-20 py-4 mt-16 lg:mt-0"
+              id="feature-recipe"
+            >
               {/* Header */}
               <div className="mb-8">
                 <h2 className="text-xl font-bold">
@@ -282,12 +311,7 @@ const GenerateReport = () => {
             {/* Top Navigation */}
             <div className="flex justify-end items-center px-6 py-4 border-b">
               <div className="flex gap-4">
-                <button
-                  onClick={handleDownloadPDF}
-                  className="flex items-center text-green-500 border border-green-500 rounded-lg px-4 py-2"
-                >
-                  <FiDownload className="mr-2" /> Report
-                </button>
+                <DownloadPDFButton user={user} report={report} />
 
                 <button className="flex items-center text-green-500 border border-green-500 rounded-lg px-4 py-2">
                   <FiDownload className="mr-2" /> Checklist
@@ -302,12 +326,7 @@ const GenerateReport = () => {
           {/* Mobile Fixed Bottom Bar */}
           <div className="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.3)] sm:shadow-none">
             <div className="container mx-auto max-w-md">
-              <button
-                onClick={() => toPDF({ format: "a4", page: { margin: 10 } })}
-                className="w-full flex items-center justify-center text-green-500 border border-green-500 rounded-lg px-4 py-3 text-center"
-              >
-                <FiDownload className="mr-2" /> Download Report
-              </button>
+              <DownloadPDFButton user={user} report={report} />
             </div>
           </div>
 

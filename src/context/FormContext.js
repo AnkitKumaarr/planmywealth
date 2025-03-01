@@ -36,14 +36,22 @@ export function FormProvider({ children }) {
     termInsuranceAmount: 0,
     healthInsuranceAmount: 0,
     numberOfKids: 1,
-    children: [],
+    children: [
+      {
+        currentAge: "",
+        educationAge: "",
+        educationExpenses: "",
+        weddingAge: "",
+        weddingExpenses: "",
+      },
+    ],
     educationExpenses: "",
     weddingExpenses: "",
     hasEmergencyFund: null,
     emergencyFundAmount: "",
     emergencyFundMonths: "",
   });
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(16);
   const [errors, setErrors] = useState({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -80,6 +88,7 @@ export function FormProvider({ children }) {
     }));
   };
 
+  console.log(formData);
   // Add the reset function
   const resetFormData = () => {
     setFormData({

@@ -270,23 +270,30 @@ export default function BasicDetails() {
         }
         break;
       case 15:
-        if (
-          formData.numberOfKids === null ||
-          formData.numberOfKids === undefined
-        ) {
-          newErrors.numberOfKids = true;
-        }
-        if (
-          formData.educationExpenses === null ||
-          formData.educationExpenses === undefined
-        ) {
-          newErrors.educationExpenses = true;
-        }
-        if (
-          formData.weddingExpenses === null ||
-          formData.weddingExpenses === undefined
-        ) {
-          newErrors.weddingExpenses = true;
+        if (formData.numberOfKids > 0) {
+          const childErrors = formData.children.map((child, index) => {
+            const errors = {};
+            if (!child.currentAge && child.currentAge !== 0) {
+              errors.currentAge = "Required";
+            }
+            if (!child.educationAge && child.educationAge !== 0) {
+              errors.educationAge = "Required";
+            }
+            if (!child.educationExpenses && child.educationExpenses !== 0) {
+              errors.educationExpenses = "Required";
+            }
+            if (!child.weddingAge && child.weddingAge !== 0) {
+              errors.weddingAge = "Required";
+            }
+            if (!child.weddingExpenses && child.weddingExpenses !== 0) {
+              errors.weddingExpenses = "Required";
+            }
+            return Object.keys(errors).length > 0 ? errors : null;
+          });
+
+          if (childErrors.some(error => error !== null)) {
+            newErrors.children = childErrors;
+          }
         }
         break;
       case 16:

@@ -64,12 +64,6 @@ export async function POST(request) {
       splittedInvestments,
     } = formData;
 
-    // // 1. Calculate Current Age
-    // const currentYear = new Date().getFullYear();
-    // const birthYear = new Date(dateOfBirth).getFullYear();
-    // const currentAge = currentYear - birthYear;
-
-    // 2. Calculate Annual Income
     const annualIncome = incomeSources.reduce(
       (total, source) => total + parseFloat(source.amount || 0),
       0
@@ -89,21 +83,7 @@ export async function POST(request) {
     // 3. Calculate Years to Retirement
     const yearsToRetirement = retirementAge - age;
 
-    // 4. Calculate Total Savings
-    const totalSavings =
-      parseFloat(savingsAmount || 0) + parseFloat(totalInvestments || 0);
-
     const totalIncome = annualIncome * yearsToRetirement;
-
-    // Liabilities = (Loan Amount) + (Education Expenses) + (Wedding Expenses) + (Living Expenses Shortfall) + (Emergency Fund Shortfall)
-    const liabilities =
-      parseFloat(loanAmount || 0) +
-      parseFloat(educationExpenses || 0) +
-      parseFloat(weddingExpenses || 0) +
-      parseFloat(monthlyExpenses || 0) +
-      parseFloat(emergencyFundAmount || 0);
-
-    // 5. Calculate Life Insurance Need
 
     // Get multiplier based on age
     const getMultiplier = (age) => {
@@ -123,9 +103,8 @@ export async function POST(request) {
 
     const additionalCoverNeeded = Math.max(lifeInsuranceNeed, 0);
 
-    const healthInsuranceNeed = annualIncome - healthInsuranceAmount;
-
-    const additionalHealthCoverNeeded = Math.max(healthInsuranceNeed, 0);
+    const healthInsuranceNeed = annualIncome;
+    const additionalHealthCoverNeeded = annualIncome - healthInsuranceAmount;
 
     // Convert dependents array to a count
     const dependentsCount = Array.isArray(dependents) ? dependents.length : 0;
@@ -136,19 +115,22 @@ export async function POST(request) {
       return amount * Math.pow(1 + inflationRate, years);
     };
 
-    const finalMonthlyExpenses = knowsLivingExpenses
-      ? monthlyExpenses
-      : totalMonthlyExpenses;
     // expense inflation
     const monthlyExpensesInflation = calculateInflationAdjustedAmount(
-      finalMonthlyExpenses,
+      totalMonthlyExpenses,
       yearsToRetirement
     );
     const retirementMonthlyExpensesInflation =
       monthlyExpensesInflation * (85 - retirementAge) * 12;
 
-    const finalEmergencyFundAmount =
-      emergencyFundAmount < 0 ? emergencyFundAmount : finalMonthlyExpenses * 6;
+    // emergency Fund needed
+
+    const halfYearlyExpenses = totalMonthlyExpenses * 6;
+    const emergencyFundNeeded =
+      emergencyFundAmount < halfYearlyExpenses
+        ? halfYearlyExpenses - emergencyFundAmount
+        : 0;
+
     // Calculate total inflation-adjusted expenses
     let totalEducationInflation = 0;
     let totalWeddingInflation = 0;
@@ -230,6 +212,7 @@ export async function POST(request) {
         loans TEXT,
         major_expenses TEXT,
         splitted_investments TEXT,
+        emergency_fund_needed DECIMAL(15, 2),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `;
@@ -248,9 +231,9 @@ export async function POST(request) {
         total_monthly_expenses, lifeInsuranceNeed, additionalCoverNeeded, education_inflation, 
         wedding_inflation, healthInsuranceNeed, additionalHealthCoverNeeded, 
         monthly_expenses_inflation, retirement_monthly_expenses_inflation, income_sources, 
-        expenses, dependents_name, loans, major_expenses, splitted_investments
+        expenses, dependents_name, loans, major_expenses, splitted_investments, emergency_fund_needed
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
-                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -290,7 +273,7 @@ export async function POST(request) {
       educationExpenses || 0,
       weddingExpenses || 0,
       hasEmergencyFund || false,
-      finalEmergencyFundAmount || 0,
+      emergencyFundAmount || 0,
       emergencyFundMonths || 0,
       totalMonthlyExpenses || 0,
       lifeInsuranceNeed || 0,
@@ -306,7 +289,8 @@ export async function POST(request) {
       JSON.stringify(dependents || []),
       JSON.stringify(loans || {}),
       JSON.stringify(majorExpenses || []),
-      JSON.stringify(splittedInvestments || [])
+      JSON.stringify(splittedInvestments || []),
+      emergencyFundNeeded || 0,
     ];
 
     await mysql.query(query, values);

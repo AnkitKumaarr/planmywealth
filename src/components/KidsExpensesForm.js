@@ -6,31 +6,33 @@ import TotalExpensesSummary from "./TotalExpensesSummary";
 
 const InputField = React.memo(
   ({ value, onChange, placeholder, error, isAmount, name }) => (
-    <div className="relative">
-      {isAmount && (
-        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-          ₹
-        </span>
-      )}
-      <input
-        type="number"
-        min="0"
-        value={value || ""}
-        name={name}
-        onChange={(e) => {
-          const val = Number(e.target.value);
-          if (val >= 0) {
-            onChange(val);
-          }
-        }}
-        placeholder={placeholder}
-        className={`w-full p-2 border ${
-          error ? "border-red-500" : "border-gray-300"
-        } rounded-lg focus:ring-2 focus:outline-none focus:ring-green-500 text-sm
-      ${isAmount ? "pl-8" : ""}
-      `}
-      />
-      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+    <div className="relative flex flex-col">
+      <div className="relative">
+        {isAmount && (
+          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
+            ₹
+          </span>
+        )}
+        <input
+          type="number"
+          min="0"
+          value={value || ""}
+          name={name}
+          onChange={(e) => {
+            const val = Number(e.target.value);
+            if (val >= 0) {
+              onChange(val);
+            }
+          }}
+          placeholder={placeholder}
+          className={`w-full p-2 border ${
+            error ? "border-red-500" : "border-gray-300"
+          } rounded-lg focus:ring-2 focus:outline-none focus:ring-green-500 text-sm
+          ${isAmount ? "pl-8" : ""}
+          `}
+        />
+      </div>
+      {error && <p className="mt-1 text-xs text-red-500 focus:outline-none">{error}</p>}
     </div>
   )
 );
@@ -187,7 +189,17 @@ const TableHeader = React.memo(() => (
 TableHeader.displayName = "TableHeader";
 
 export default function KidsExpensesForm({ data, onChange, errors }) {
-  const [localChildren, setLocalChildren] = useState(data.children || []);
+  const [localChildren, setLocalChildren] = useState(
+    data.children || [
+      {
+        currentAge: "",
+        educationAge: "",
+        educationExpenses: "",
+        weddingAge: "",
+        weddingExpenses: "",
+      },
+    ]
+  );
   const [numberOfKids, setNumberOfKids] = useState(data.numberOfKids || 0);
   const [totals, setTotals] = useState({ education: 0, wedding: 0 });
 
@@ -205,7 +217,16 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
 
       const newLocalChildren = Array(numKids)
         .fill(null)
-        .map((_, index) => localChildren[index] || {});
+        .map(
+          (_, index) =>
+            localChildren[index] || {
+              currentAge: "",
+              educationAge: "",
+              educationExpenses: "",
+              weddingAge: "",
+              weddingExpenses: "",
+            }
+        );
 
       setLocalChildren(newLocalChildren);
 

@@ -46,7 +46,7 @@ const ReportSection = ({ report }) => {
       </section>
       {/* 2nd section */}
       <section>
-        <h2 className="text-md font-bold mb-4">
+        <h2 className="text-md font-bold mb-4 mt-4">
           2. Additional Health Insurance cover your family needs
         </h2>
         <div className="bg-blue-100 p-6 rounded-lg">
@@ -83,7 +83,7 @@ const ReportSection = ({ report }) => {
       </section>
       {/* 3rd section */}
       <section>
-        <h2 className="text-md font-bold mb-4">
+        <h2 className="text-md font-bold mb-4 mt-6">
           3. You should keep your Term Insurance cover until
         </h2>
         <div className="bg-blue-100 p-6 rounded-lg">
@@ -107,7 +107,7 @@ const ReportSection = ({ report }) => {
       </section>
       {/* 4th section */}
       <section>
-        <h2 className="text-md font-bold mb-4">
+        <h2 className="text-md font-bold mb-4 mt-8">
           4. Plan how your nominee will receive the claim amount
         </h2>
         <div className="bg-blue-100 flex flex-col md:flex-row items-center gap-2 p-6 rounded-lg">
@@ -143,7 +143,9 @@ const ReportSection = ({ report }) => {
       </section>
       {/* 5th section */}
       <section>
-        <h2 className="text-md font-bold mb-4">5. Build an Emergency Fund</h2>
+        <h2 className="text-md font-bold mb-4 mt-4">
+          5. Build an Emergency Fund
+        </h2>
         <div className="bg-blue-100 p-6 rounded-lg">
           <div className="flex flex-col md:flex-row items-center gap-2">
             <div className="text-2xl font-bold border-b-4 border-green-600">
@@ -175,7 +177,7 @@ const ReportSection = ({ report }) => {
       </section>
       {/* 6th section children education inflation */}
       <section>
-        <h2 className="text-md font-bold mb-4">
+        <h2 className="text-md font-bold mb-4 mt-4">
           6. Build fund for child education
         </h2>
         <div className="bg-blue-100 p-6 rounded-lg">
@@ -220,7 +222,7 @@ const ReportSection = ({ report }) => {
 
       {/* 7th section children wedding inflation */}
       <section>
-        <h2 className="text-md font-bold mb-4">
+        <h2 className="text-md font-bold mb-4 mt-4">
           7. Build fund for child Wedding
         </h2>
         <div className="bg-blue-100 p-6 rounded-lg">
@@ -266,7 +268,9 @@ const ReportSection = ({ report }) => {
 
       {/* 8th section expenses inflation */}
       <section>
-        <h2 className="text-md font-bold mb-4">8. Build fund for Retirement</h2>
+        <h2 className="text-md font-bold mb-4 mt-4">
+          8. Build fund for Retirement
+        </h2>
         <div className="bg-blue-100 p-6 rounded-lg">
           <div className="flex flex-col md:flex-row items-center">
             <div className="flex flex-col items-start mr-4">
@@ -317,7 +321,7 @@ const ReportSection = ({ report }) => {
 
       {/* 9th section */}
       <section>
-        <h2 className="text-md font-bold mb-4">
+        <h2 className="text-md font-bold mb-4 mt-4">
           9. Choose the Following add-on Ridders
         </h2>
         <div className="bg-blue-100 p-6 rounded-lg">

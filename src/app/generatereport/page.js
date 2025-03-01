@@ -12,13 +12,22 @@ import AdvisorProfileSection from "./AdvisorProfileSection";
 import RefillDialog from "./RefillDialog";
 import { usePDF } from "react-to-pdf";
 import { FaArrowLeft } from "react-icons/fa";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import PDFReport from "@/components/PDFReport";
+import PDF from "./PDF";
 
-// Create a reusable PDF configuration
+// Update the PDF configuration with more specific options
 const pdfOptions = {
   format: "a4",
-  page: { margin: 10 },
+  page: {
+    margin: 25,
+    orientation: "portrait",
+  },
+  html2canvas: {
+    scale: 2,
+    useCORS: true,
+    logging: true,
+    letterRendering: true,
+    windowWidth: 1200,
+  },
 };
 
 const GenerateReport = () => {
@@ -111,33 +120,20 @@ const GenerateReport = () => {
     document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Create a reusable download function
-  const handleDownloadPDF = () => {
-    toPDF(pdfOptions);
-  };
+  // Modify the download function to ensure content is properly rendered
+  const handleDownloadPDF = async () => {
+    // Add a class to the body when generating PDF
+    document.body.classList.add("generating-pdf");
 
-  const DownloadPDFButton = ({ user, report }) => {
-    if (!user || !report) return null;
+    // Wait for any images to load
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    return (
-      <PDFDownloadLink
-        document={<PDFReport user={user} report={report} />}
-        fileName={`${user.name}-financial-report.pdf`}
-        className="flex items-center text-green-500 border border-green-500 rounded-lg px-4 py-2"
-      >
-        {({ loading, error }) => 
-          loading ? (
-            "Preparing PDF..."
-          ) : error ? (
-            "Error generating PDF"
-          ) : (
-            <>
-              <FiDownload className="mr-2" /> Report
-            </>
-          )
-        }
-      </PDFDownloadLink>
-    );
+    try {
+      await toPDF(pdfOptions);
+    } finally {
+      // Remove the class after generation
+      document.body.classList.remove("generating-pdf");
+    }
   };
 
   return (
@@ -271,39 +267,69 @@ const GenerateReport = () => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 lg:ml-64 lg:mr-80" ref={targetRef}>
+          <div className="flex-1 lg:ml-64 lg:mr-80 print:m-0">
             <div
-              className="px-4 lg:px-20 py-4 mt-16 lg:mt-0"
+              className="px-4 lg:px-20 py-4 mt-16 lg:mt-0 print:px-0 print:mt-0"
               id="feature-recipe"
             >
-              {/* Header */}
-              <div className="mb-8">
-                <h2 className="text-xl font-bold">
-                  🎉 {user?.name?.split(" ")[0]}! Your Report is Ready!
-                </h2>
-              </div>
+              {/* Header Section */}
+              <section className="pdf-section">
+                <div className="pdf-content">
+                  <h2 className="text-xl font-bold">
+                    🎉 {user?.name?.split(" ")[0]}! Your Report is Ready!
+                  </h2>
+                </div>
+              </section>
 
-              <h1 className="text-3xl font-semibold mb-8">
-                Here's the smartest way to financially secure your family
-              </h1>
+              <section className="pdf-section">
+                <div className="pdf-content">
+                  <h1 className="text-3xl font-semibold mb-8">
+                    Here's the smartest way to financially secure your family
+                  </h1>
+                </div>
+              </section>
 
               {/* Dynamic Sections */}
-              <div className="space-y-8">
-                <ReportSection report={report} />
-                {/* Add other sections here */}
-              </div>
-              <div className="mt-24 mb-12">
-                <p className="text-xs text-gray-600">
-                  <span className="font-bold">Disclaimer:</span> While we will
-                  refer to you only advisors who are credible, whom we have
-                  personally interviewed, but at the same time you are free to
-                  evaluate their services independently and decide whether you
-                  want to go ahead with them or not. Plan My Wealth won't be
-                  liable or responsible for the conversations, decisions
-                  happening between you and the advisor.
-                </p>
-              </div>
+              <section className="pdf-section">
+                <div className="pdf-content">
+                  <ReportSection report={report} />
+                </div>
+              </section>
+
+              {/* Disclaimer Section */}
+              <section className="pdf-section">
+                <div className="pdf-content">
+                  <div className="mt-24 mb-12">
+                    <p className="text-xs text-gray-600">
+                      <span className="font-bold">Disclaimer:</span> While we
+                      will refer to you only advisors who are credible, whom we
+                      have personally interviewed, but at the same time you are
+                      free to evaluate their services independently and decide
+                      whether you want to go ahead with them or not. Plan My
+                      Wealth won't be liable or responsible for the
+                      conversations, decisions happening between you and the
+                      advisor.
+                    </p>
+                  </div>
+                </div>
+              </section>
             </div>
+          </div>
+
+          {/* PDF Content Container - Hidden but rendered */}
+          <div
+            ref={targetRef}
+            className="fixed  pointer-events-none"
+            style={{
+              width: "1200px", // Fixed width for consistent PDF rendering
+              height: "auto",
+              zIndex: -1,
+              top: 0,
+              left: 0,
+              transform: "translateX(-9999px)",
+            }}
+          >
+            <PDF user={user} report={report} />
           </div>
 
           {/* Right Sidebar */}
@@ -311,7 +337,12 @@ const GenerateReport = () => {
             {/* Top Navigation */}
             <div className="flex justify-end items-center px-6 py-4 border-b">
               <div className="flex gap-4">
-                <DownloadPDFButton user={user} report={report} />
+                <button
+                  onClick={handleDownloadPDF}
+                  className="flex items-center text-green-500 border border-green-500 rounded-lg px-4 py-2"
+                >
+                  <FiDownload className="mr-2" /> Report
+                </button>
 
                 <button className="flex items-center text-green-500 border border-green-500 rounded-lg px-4 py-2">
                   <FiDownload className="mr-2" /> Checklist
@@ -326,7 +357,12 @@ const GenerateReport = () => {
           {/* Mobile Fixed Bottom Bar */}
           <div className="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.3)] sm:shadow-none">
             <div className="container mx-auto max-w-md">
-              <DownloadPDFButton user={user} report={report} />
+              <button
+                onClick={() => toPDF({ format: "a4", page: { margin: 10 } })}
+                className="w-full flex items-center justify-center text-green-500 border border-green-500 rounded-lg px-4 py-3 text-center"
+              >
+                <FiDownload className="mr-2" /> Download Report
+              </button>
             </div>
           </div>
 

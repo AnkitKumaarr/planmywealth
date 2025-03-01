@@ -1,7 +1,7 @@
 import React from "react";
 import { CgProfile } from "react-icons/cg";
 
-const AdvisorProfileSection = ({ flow }) => {
+const AdvisorProfileSection = ({ flow, from }) => {
   const [imageError, setImageError] = React.useState(false);
 
   return (

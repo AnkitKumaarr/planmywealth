@@ -149,7 +149,7 @@ const ReportSection = ({ report }) => {
         <div className="bg-blue-100 p-6 rounded-lg">
           <div className="flex flex-col md:flex-row items-center gap-2">
             <div className="text-2xl font-bold border-b-4 border-green-600">
-              {report?.emergencyFundAmount || "₹ 0"}
+              {report?.emergencyFundNeeded || "₹ 0"}
             </div>
             <p className="text-gray-600 text-xs">
               Most of us have fixed monthly commitments like EMIs, Household

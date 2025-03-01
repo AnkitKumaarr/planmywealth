@@ -58,7 +58,8 @@ export async function POST(request) {
     total_monthly_expenses,
     monthly_expenses_inflation,
     phone_number,
-    retirement_monthly_expenses_inflation
+    retirement_monthly_expenses_inflation,
+    emergency_fund_needed
     FROM true_reports WHERE uuid = ?`;
     const [result] = await mysql.query(query, [uuid]);
     const data = result[0];
@@ -93,6 +94,7 @@ export async function POST(request) {
       retirementMonthlyExpensesInflation: formatToWords(
         data?.retirement_monthly_expenses_inflation || 0
       ),
+      emergencyFundNeeded: formatToWords(data?.emergency_fund_needed || 0),
     };
     return NextResponse.json({
       success: true,

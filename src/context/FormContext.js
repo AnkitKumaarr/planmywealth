@@ -51,7 +51,7 @@ export function FormProvider({ children }) {
     emergencyFundAmount: "",
     emergencyFundMonths: "",
   });
-  const [currentStep, setCurrentStep] = useState(16);
+  const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -88,8 +88,6 @@ export function FormProvider({ children }) {
     }));
   };
 
-  console.log(formData);
-  // Add the reset function
   const resetFormData = () => {
     setFormData({
       firstName: "",

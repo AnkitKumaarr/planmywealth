@@ -30,7 +30,7 @@ export async function GET(req) {
       });
       const [reports] = await mysql.query(`SELECT * FROM true_reports`);
       const filteredReports = reports.filter((item) =>
-        emails.includes(item.email)
+        emails.includes(item.userEmail)
       );
       return NextResponse.json({ status: 200, data: filteredReports });
     }

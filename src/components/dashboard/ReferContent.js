@@ -16,10 +16,10 @@ export default function ReferContent() {
     <div className="space-y-1">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-xl md:text-2xl lg:text-1xl font-semibold">Refer</h1>
-        <div className="text-base md:text-lg lg:text-xl bg-green-50 px-3 md:px-4 py-2 rounded-lg flex items-center w-full sm:w-auto">
+        {/* <div className="text-base md:text-lg lg:text-xl bg-green-50 px-3 md:px-4 py-2 rounded-lg flex items-center w-full sm:w-auto">
           <span className="mr-2"> 🤵 Your Referrals</span>
           <span className="font-bold">0</span>
-        </div>
+        </div> */}
       </div>
 
       <div className="bg-white rounded-lg shadow p-4 md:p-6 lg:p-8 text-center">

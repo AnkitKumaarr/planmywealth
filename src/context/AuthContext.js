@@ -50,8 +50,10 @@ export function AuthProvider({ children }) {
       if (response.status === 200) {
         const data = await response.json();
         setUser(data.user);
+        await checkAuth();
         return { success: true, message: "Login successful" };
       }
+
       return { success: false, error: "Invalid credentials" };
     } catch (error) {
       return { success: false, error: "Login failed" };

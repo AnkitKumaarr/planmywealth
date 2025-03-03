@@ -55,7 +55,7 @@ const AdvisorProfileSection = ({ flow, from }) => {
           )}
 
           <button
-            onClick={() => (window.location.href = "tel:+917891015165")}
+            onClick={() => (window.location.href = "tel:+918307127643")}
             className="bg-green-500 hover:bg-green-700 transition-colors text-white py-2 px-6 rounded-lg w-full sm:w-auto"
           >
             Discuss with Advisor

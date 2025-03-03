@@ -145,7 +145,7 @@ export default function Navbar() {
                     >
                       <FaComments className="text-gray-400" />
                       <a
-                        href="tel:+917891015165"
+                        href="tel:+918307127643"
                         className="hover:text-blue-600"
                       >
                         <span>Discuss with Advisor</span>
@@ -155,10 +155,10 @@ export default function Navbar() {
                     <div className="flex items-center space-x-3 px-6 py-3 text-gray-700">
                       <FaHeadset className="text-gray-400" />
                       <a
-                        href="tel:+917891015165"
+                        href="tel:+918307127643"
                         className="hover:text-blue-600"
                       >
-                        <span>Support: +91 7891015165</span>
+                        <span>Support: +91 8307127643</span>
                       </a>
                     </div>
 

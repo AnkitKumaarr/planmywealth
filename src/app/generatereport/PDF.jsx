@@ -685,7 +685,7 @@ const AdvisorProfileSection = ({ flow }) => {
             </>
           )}
           <h3 className="bg-green-500  text-white py-2 px-6 rounded-lg pb-6">
-            CALL : +91 7891015165
+            CALL : +91 8307127643
           </h3>
         </div>
       </div>

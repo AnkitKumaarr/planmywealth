@@ -10,15 +10,15 @@ const InsuranceHead = () => {
           <span className=" font-bold mb-3 text-[#08AD5B]">80% people</span> who
           created their financial plan achieved their goals!
         </p>
-        <p className="text-[#004F27]  text-md md:text-xl mb-2 font-semibold">
+        {/* <p className="text-[#004F27]  text-md md:text-xl mb-2 font-semibold">
           Create your trumatch report now
-        </p>
+        </p> */}
 
-        {/* <div className="mt-6">
+        <div className="mt-6">
           <span className="text-white font-semibold bg-[#08AD5B] rounded-full px-4 sm:px-4 py-2 sm:py-3 text-sm md:text-lg">
             Start Your Journey Today!
           </span>
-        </div> */}
+        </div>
       </div>
       <button
         onClick={() => router.push("/")}

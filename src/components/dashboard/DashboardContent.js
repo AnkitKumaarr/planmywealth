@@ -47,7 +47,7 @@ export default function DashboardContent() {
           <div className="flex justify-center h-[60vh] items-center">
             <Loader size="48px" />
           </div>
-        ) : reportsData.length > 0 ? (
+        ) : reportsData.length > 0  ? (
           <div className="flex flex-col md:flex-row gap-4 min-h-[40vh]">
             <div className="">
               <div className="flex items-start mb-6">

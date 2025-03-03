@@ -81,6 +81,7 @@ export async function POST(request) {
       [token, user.id]
     );
 
+
     return NextResponse.json({
       status: 200,
       success: true,

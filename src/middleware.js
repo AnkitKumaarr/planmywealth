@@ -13,7 +13,7 @@ export async function middleware(request) {
     "/settings",
     "/generatereport",
   ];
-  console.log("Ankite-->", request.nextUrl.pathname);
+
   if (
     protectedPaths.some((path) => request.nextUrl.pathname.startsWith(path))
   ) {

@@ -468,6 +468,30 @@ export default function ReferralsData() {
                       <span className="font-medium">Wedding Inflation:</span>{" "}
                       {formatToWords(selectedReport.wedding_inflation)}
                     </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">Dependents:</span>{" "}
+                      {selectedReport?.children
+                        ? typeof selectedReport.children === "string"
+                          ? JSON.parse(selectedReport.children).map((child, index) => (
+                              <span key={index}>
+                                Child {index + 1}: {" "}
+                                {`Current Age: ${child.currentAge}, `}
+                                {`Education at ${child.educationAge} (₹${child.educationExpenses}), `}
+                                {`Wedding at ${child.weddingAge} (₹${child.weddingExpenses})`}
+                                {index < JSON.parse(selectedReport.children).length - 1 ? "; " : ""}
+                              </span>
+                            ))
+                          : selectedReport.children.map((child, index) => (
+                              <span key={index}>
+                                Child {index + 1}: {" "}
+                                {`Current Age: ${child.currentAge}, `}
+                                {`Education at ${child.educationAge} (₹${child.educationExpenses}), `}
+                                {`Wedding at ${child.weddingAge} (₹${child.weddingExpenses})`}
+                                {index < selectedReport.children.length - 1 ? "; " : ""}
+                              </span>
+                            ))
+                        : "N/A"}
+                    </p>
                   </div>
                 </div>
 

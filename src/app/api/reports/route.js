@@ -212,6 +212,7 @@ export async function POST(request) {
         loans TEXT,
         major_expenses TEXT,
         splitted_investments TEXT,
+        children TEXT,
         emergency_fund_needed DECIMAL(15, 2),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
@@ -231,9 +232,9 @@ export async function POST(request) {
         total_monthly_expenses, lifeInsuranceNeed, additionalCoverNeeded, education_inflation, 
         wedding_inflation, healthInsuranceNeed, additionalHealthCoverNeeded, 
         monthly_expenses_inflation, retirement_monthly_expenses_inflation, income_sources, 
-        expenses, dependents_name, loans, major_expenses, splitted_investments, emergency_fund_needed
+        expenses, dependents_name, loans, major_expenses, splitted_investments,children, emergency_fund_needed
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
-                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -290,6 +291,7 @@ export async function POST(request) {
       JSON.stringify(loans || {}),
       JSON.stringify(majorExpenses || []),
       JSON.stringify(splittedInvestments || []),
+      JSON.stringify(children || []),
       emergencyFundNeeded || 0,
     ];
 

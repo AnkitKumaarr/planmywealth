@@ -32,7 +32,9 @@ const InputField = React.memo(
           `}
         />
       </div>
-      {error && <p className="mt-1 text-xs text-red-500 focus:outline-none">{error}</p>}
+      {error && (
+        <p className="mt-1 text-xs text-red-500 focus:outline-none">{error}</p>
+      )}
     </div>
   )
 );
@@ -81,7 +83,7 @@ const ChildRow = React.memo(({ index, childData, onFieldChange, errors }) => {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Education Expense
+              Higher Education Expenses
             </label>
             <InputField
               value={childData?.educationExpenses}
@@ -180,7 +182,9 @@ const TableHeader = React.memo(() => (
     <div className="font-medium text-gray-700 w-[12%]">
       Age of Higher Education
     </div>
-    <div className="font-medium text-gray-700 flex-1">Education Expense</div>
+    <div className="font-medium text-gray-700 flex-1">
+      Higher Education Expenses
+    </div>
     <div className="font-medium text-gray-700 w-[12%]">Wedding Age</div>
     <div className="font-medium text-gray-700 flex-1">Wedding Expense</div>
   </div>
@@ -294,7 +298,7 @@ export default function KidsExpensesForm({ data, onChange, errors }) {
             className="w-full sm:w-32 outline-none p-2 border rounded-lg focus:ring-2 focus:ring-green-500 text-lg"
             aria-label="Select number of children"
           >
-            {[0, 1, 2, 3, 4, 5, 6].map((num) => (
+            {[0, 1, 2, 3].map((num) => (
               <option key={num} value={num}>
                 {num}
               </option>

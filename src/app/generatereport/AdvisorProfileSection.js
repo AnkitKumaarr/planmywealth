@@ -17,7 +17,7 @@ const AdvisorProfileSection = ({ flow, from }) => {
             👤 Advisor Matched To You
           </span>
           <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-2 rounded-full overflow-hidden bg-gray-100">
-            {!imageError ? (
+            {!imageError && false ? (
               <img
                 src={
                   process.env.NEXT_PUBLIC_APP_URL + "/images/harshiteimage.jpeg"
@@ -36,7 +36,7 @@ const AdvisorProfileSection = ({ flow, from }) => {
             </svg>
             VERIFIED
           </div>
-          <h3 className="text-xl font-bold mb-1 text-center">Harshit</h3>
+          <h3 className="text-xl font-bold mb-1 text-center">Pooja</h3>
           <p className="text-gray-600 mb-4 text-center">Perfect Consultant</p>
         </div>
 

@@ -51,7 +51,7 @@ export function FormProvider({ children }) {
     emergencyFundAmount: "",
     emergencyFundMonths: "",
   });
-  const [currentStep, setCurrentStep] = useState(15);
+  const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
 

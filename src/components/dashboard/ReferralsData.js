@@ -592,12 +592,12 @@ export default function ReferralsData() {
                       <span className="font-medium">Life Insurance Need:</span>{" "}
                       {formatToWords(selectedReport.lifeInsuranceNeed)}
                     </p>
-                    <p className="text-[10px] md:text-base">
+                    {/* <p className="text-[10px] md:text-base">
                       <span className="font-medium">
                         Additional Cover Needed:
                       </span>{" "}
                       {formatToWords(selectedReport.additionalCoverNeeded)}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
 

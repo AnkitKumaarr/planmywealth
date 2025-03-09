@@ -2,6 +2,7 @@ import React from "react";
 import ReportSection from "./ReportSection";
 import { FaFileAlt, FaPhoneAlt, FaFolderOpen, FaWallet } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
+import '../../../src/app/globals.css'
 
 const PDF = ({ user, report }) => {
   return (

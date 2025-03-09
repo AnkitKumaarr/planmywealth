@@ -31,7 +31,7 @@ const PDF = ({ user, report }) => {
 
         {/* Dynamic Sections */}
         <section className="pdf-section">
-          <div className="">
+          <div className="flex flex-col gap-2">
             <>
               {/* 1st section */}
               <section>

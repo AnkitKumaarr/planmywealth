@@ -6,6 +6,7 @@ const FormContext = createContext();
 
 export function FormProvider({ children }) {
   const [formData, setFormData] = useState({
+    uuid: "",
     firstName: "",
     lastName: "",
     dateOfBirth: "",
@@ -90,6 +91,7 @@ export function FormProvider({ children }) {
 
   const resetFormData = () => {
     setFormData({
+      uuid: "",
       firstName: "",
       lastName: "",
       dateOfBirth: "",
@@ -129,6 +131,7 @@ export function FormProvider({ children }) {
     setCurrentStep(1);
     setErrors({});
   };
+  console.log(formData);
   return (
     <FormContext.Provider
       value={{

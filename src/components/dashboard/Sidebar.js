@@ -32,6 +32,7 @@ export default function Sidebar({
     { title: "Quotations", icon: "💰", path: "quotations" },
     { title: "Refer", icon: "🔊", path: "refer" },
     { title: "Your Referrals", icon: "🔗", path: "your-referrals" },
+    { title: "Partial Information", icon: "📋", path: "partial-information" },
     { title: "Account", icon: "🤵", path: "account" },
   ];
 

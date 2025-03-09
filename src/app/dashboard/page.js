@@ -9,6 +9,7 @@ import QuotationsContent from "@/components/dashboard/QuotationsContent";
 import ReferContent from "@/components/dashboard/ReferContent";
 import AccountContent from "@/components/dashboard/AccountContent";
 import ReferralsData from "@/components/dashboard/ReferralsData";
+import PartialInformation from "@/components/dashboard/PartialInformation";
 import { useFormData } from "@/context/FormContext";
 
 export default function Dashboard() {
@@ -39,6 +40,8 @@ export default function Dashboard() {
         return <AccountContent />;
       case "your-referrals":
         return <ReferralsData />;
+      case "partial-information":
+        return <PartialInformation />;
       default:
         return <DashboardContent />;
     }

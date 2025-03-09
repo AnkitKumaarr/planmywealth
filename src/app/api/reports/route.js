@@ -16,10 +16,17 @@ export async function POST(request) {
   const userEmail = authResponse;
 
   try {
-    const { formData, uuid } = await request.json();
+    const { formData } = await request.json();
     console.log("formData", formData);
 
+    // Check if UUID exists and delete existing record
+    if (formData?.uuid) {
+      const checkExistingQuery = "DELETE FROM partial_form_pmw WHERE uuid = ?";
+      await mysql.query(checkExistingQuery, [formData.uuid]);
+    }
+
     const {
+      uuid,
       firstName,
       lastName,
       dateOfBirth,

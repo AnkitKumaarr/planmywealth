@@ -46,7 +46,7 @@ export async function GET(req) {
           (user) => user.email === item.userEmail
         );
         const user = totalUsers.find(
-          (user) => user.user_referral_code === currentUserItem[0].referby_code
+          (user) => user.user_referral_code === currentUserItem[0]?.referby_code
         );
         reportsData.push({
           ...item,

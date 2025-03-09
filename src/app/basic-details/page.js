@@ -23,6 +23,7 @@ import Navbar from "@/components/dashboard/Navbar";
 import Review from "@/components/Review";
 import RetakeButton from "@/components/RetakeButton";
 import Disease from "@/components/Disease";
+import { v4 as uuidv4 } from "uuid";
 
 export default function BasicDetails() {
   const {
@@ -291,7 +292,7 @@ export default function BasicDetails() {
             return Object.keys(errors).length > 0 ? errors : null;
           });
 
-          if (childErrors.some(error => error !== null)) {
+          if (childErrors.some((error) => error !== null)) {
             newErrors.children = childErrors;
           }
         }
@@ -312,9 +313,47 @@ export default function BasicDetails() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const savePartialInformation = async () => {
+    const uuid = uuidv4();
+    handleInputChange("uuid", uuid);
+
+    const { firstName, lastName, pincode, gender, education, phoneNumber } =
+      formData;
+
+    try {
+      const response = await fetch(`/api/save-partial-information`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          formData: {
+            uuid,
+            firstName,
+            lastName,
+            pincode,
+            gender,
+            education,
+            phoneNumber,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save partial information");
+      }
+      console.log("Partial information saved successfully");
+    } catch (error) {
+      console.error("Error saving partial information:", error);
+    }
+  };
+
   const handleNext = () => {
     const isValid = validateCurrentStep();
     if (isValid) {
+      if (currentStep === 1) {
+        savePartialInformation();
+      }
       if (currentStep < 17) {
         setCurrentStep((prev) => prev + 1);
       }

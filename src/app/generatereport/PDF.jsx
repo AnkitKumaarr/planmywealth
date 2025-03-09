@@ -7,13 +7,13 @@ const PDF = ({ user, report }) => {
   return (
     <div className="w-full h-full p-8">
       <div
-        className="px-4 lg:px-20 py-4 mt-16 lg:mt-0 print:px-0 print:mt-0"
+       className="px-4 lg:px-20 py-4 mt-16 lg:mt-0 print:px-0 print:mt-0"
         id="feature-recipe"
       >
         {/* Header Section Page 1  */}
 
         <section className="pdf-section mt-20">
-          <div className="pdf-content">
+          <div className="">
             <h2 className="text-xl font-bold">
               🎉 {user?.name?.split(" ")[0]}! Your Report is Ready!
             </h2>
@@ -237,7 +237,7 @@ const PDF = ({ user, report }) => {
                     </div>
                   </div>
                 </div>
-                <p className=" mt-2 text-sm font-bold mt-64">Analysis</p>
+                <p className=" mt-2 text-sm font-bold mt-44">Analysis</p>
                 <div className="mt-2 text-sm text-gray-600">
                   <ul className="list-disc pl-4 space-y-2">
                     <li>
@@ -636,15 +636,15 @@ const AdvisorProfileSection = ({ flow }) => {
   const [imageError, setImageError] = React.useState(false);
 
   return (
-    <div className="bg-blue-100 rounded-lg p-4">
+    <div className="bg-blue-100 rounded-lg p-4 sm:p-6 w-full print:w-full">
       <div
         className={`gap-6 ${
           flow === "horizontal" ? "lg:flex-row flex flex-col" : "flex flex-col"
-        }`}
+        } w-full`}
       >
         {/* Profile Section */}
         <div className="flex flex-col justify-center items-center flex-1 mb-6 lg:mb-0">
-          <span className="bg-yellow-400 text-black px-4 py-1 pb-6 rounded-full text-sm inline-block mb-4 whitespace-nowrap ">
+          <span className="bg-yellow-400 text-black px-4 py-1 pb-6 rounded-full text-sm inline-block mb-4 whitespace-nowrap">
             👤 Advisor Matched To You
           </span>
           <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-2 rounded-full overflow-hidden bg-gray-100">
@@ -672,21 +672,23 @@ const AdvisorProfileSection = ({ flow }) => {
         </div>
 
         {/* Info Section */}
-        <div className="flex flex-col justify-center items-center lg:items-center flex-1">
+        <div className="flex flex-col justify-center items-center lg:items-start flex-1">
           {flow === "horizontal" && (
             <>
-              <h3 className="text-xl font-bold mb-2 text-center lg:text-left">
+              <h3 className="text-xl font-bold mb-2 text-center lg:text-left w-full">
                 Need an expert's help?
               </h3>
-              <p className="text-gray-600 mb-4 text-sm text-center lg:text-left max-w-md">
+              <p className="text-gray-600 mb-4 text-sm text-center lg:text-left w-full">
                 Consult Real Experts from the PlanMyWealth community with 5+ yrs
                 of experience in Health Insurance. Zero spam. Zero charges.
               </p>
             </>
           )}
-          <h3 className="bg-green-500  text-white py-2 px-6 rounded-lg pb-6">
-            CALL : +91 8307127643
-          </h3>
+          <div className="w-full flex justify-center lg:justify-start">
+            <h3 className="bg-green-500  text-white py-2 px-6 rounded-lg pb-6">
+              CALL : +91 8307127643
+            </h3>
+          </div>
         </div>
       </div>
     </div>

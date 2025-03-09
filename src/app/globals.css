@@ -29,3 +29,20 @@ body {
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out forwards;
 }
+
+/* PDF Styles */
+.pdf-section {
+  @apply w-full mb-8 print:mb-4 overflow-visible;
+}
+
+.pdf-content {
+  @apply w-full max-w-full overflow-x-hidden print:overflow-visible;
+}
+
+@media print {
+  .pdf-section, .pdf-content {
+    page-break-inside: avoid;
+    max-width: 100%;
+    width: 100%;
+  }
+}

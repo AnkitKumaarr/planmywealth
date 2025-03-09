@@ -17,7 +17,6 @@ export async function POST(request) {
 
   try {
     const { formData } = await request.json();
-    console.log("formData", formData);
 
     // Check if UUID exists and delete existing record
     if (formData?.uuid) {

@@ -342,7 +342,6 @@ export default function BasicDetails() {
       if (!response.ok) {
         throw new Error("Failed to save partial information");
       }
-      console.log("Partial information saved successfully");
     } catch (error) {
       console.error("Error saving partial information:", error);
     }

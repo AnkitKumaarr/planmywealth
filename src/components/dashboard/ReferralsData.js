@@ -49,7 +49,6 @@ export default function ReferralsData() {
   };
 
   const routeToGenerateReport = (report) => {
-    console.log("reportreport.uuid", report.uuid);
     window.open(`/generatereport?uuid=${report.uuid}`, "_blank");
   };
 

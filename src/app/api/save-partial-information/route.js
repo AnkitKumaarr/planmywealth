@@ -8,7 +8,6 @@ export async function POST(req) {
 
   let userId;
   if (typeof authResponse !== "string") {
-    console.log("user is not logged in");
     userId = null;
   } else {
     userId = authResponse;
@@ -37,7 +36,6 @@ export async function POST(req) {
         )
       `;
       await mysql.query(createTableQuery);
-      console.log("Table 'partial_form_pmw' created successfully");
     }
 
     const query = `

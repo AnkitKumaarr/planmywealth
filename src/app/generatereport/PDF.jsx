@@ -2,13 +2,13 @@ import React from "react";
 import ReportSection from "./ReportSection";
 import { FaFileAlt, FaPhoneAlt, FaFolderOpen, FaWallet } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
-import '../../../src/app/globals.css'
+import "../../../src/app/globals.css";
 
 const PDF = ({ user, report }) => {
   return (
     <div className="w-full h-full p-8">
       <div
-       className="px-4 lg:px-20 py-4 mt-16 lg:mt-0 print:px-0 print:mt-0"
+        className="px-4 lg:px-20 py-4 mt-16 lg:mt-0 print:px-0 print:mt-0"
         id="feature-recipe"
       >
         {/* Header Section Page 1  */}
@@ -314,9 +314,9 @@ const PDF = ({ user, report }) => {
                     <div className="flex flex-col items-start mr-4">
                       <div className="text-sm text-gray-600">
                         Current Cost:{" "}
-                        {report?.knowsLivingExpenses
-                          ? report?.monthlyExpenses
-                          : report?.totalMonthlyExpenses || "0"}
+                        {(report?.knowsLivingExpenses &&
+                          report?.totalMonthlyExpenses) ||
+                          "0"}
                       </div>
                       <div className="text-sm">
                         Future Cost: {report?.monthlyExpensesInflation || "0"}{" "}

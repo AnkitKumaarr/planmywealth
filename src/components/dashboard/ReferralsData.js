@@ -407,9 +407,25 @@ export default function ReferralsData() {
                     </p>
                     <p className="text-[10px] md:text-base">
                       <span className="font-medium">
-                        Total Monthly Expenses:
+                        Current expenses/month:
                       </span>{" "}
                       {formatToWords(selectedReport.total_monthly_expenses)}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">
+                        Estimated Future expenses:
+                      </span>{" "}
+                      {formatToWords(
+                        selectedReport?.monthly_expenses_inflation
+                      )}
+                    </p>
+                    <p className="text-[10px] md:text-base">
+                      <span className="font-medium">
+                        Total Corpus required for Retirement:
+                      </span>{" "}
+                      {formatToWords(
+                        selectedReport?.retirement_monthly_expenses_inflation
+                      )}
                     </p>
                   </div>
                 </div>

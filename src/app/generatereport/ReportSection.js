@@ -275,10 +275,7 @@ const ReportSection = ({ report }) => {
           <div className="flex flex-col md:flex-row items-center">
             <div className="flex flex-col items-start mr-4">
               <div className="text-sm text-gray-600">
-                Current Cost:{" "}
-                {(report?.knowsLivingExpenses &&
-                  report?.totalMonthlyExpenses) ||
-                  "0"}
+                Current Cost: {report?.totalMonthlyExpenses || "0"}
               </div>
               <div className="text-sm text-gray-600">
                 Future Cost: {report?.monthlyExpensesInflation || "0"} per month

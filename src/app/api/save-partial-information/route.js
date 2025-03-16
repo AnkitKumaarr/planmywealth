@@ -3,16 +3,39 @@ import mysql from "@/utils/db.config";
 import { authenticate } from "@/middleware/auth";
 
 export async function POST(req) {
-  const { formData } = await req.json();
-  const authResponse = await authenticate(req);
-
-  let userId;
-  if (typeof authResponse !== "string") {
-    userId = null;
-  } else {
-    userId = authResponse;
-  }
   try {
+    const { formData } = await req.json();
+    const authResponse = await authenticate(req);
+
+    let userId = null;
+    let referralByEmail = null;
+
+    if (typeof authResponse === "string") {
+      userId = authResponse;
+
+      // Use parameterized queries to prevent SQL injection
+      const [userRows] = await mysql.query(
+        "SELECT referby_code FROM pmw_users WHERE email = ?",
+        [userId]
+      );
+
+      console.log(userRows);
+      if (userRows && userRows.length > 0) {
+        const currentUserReferByCode = userRows[0].referby_code;
+
+        // Only query for referral if referby_code exists
+        if (currentUserReferByCode) {
+          const [referralRows] = await mysql.query(
+            "SELECT email FROM pmw_users WHERE user_referral_code = ?",
+            [currentUserReferByCode]
+          );
+          if (referralRows && referralRows.length > 0) {
+            referralByEmail = referralRows[0].email;
+          }
+        }
+      }
+    }
+
     // Check if table exists
     const tableCheckQuery = `
       SELECT COUNT(*) as count FROM information_schema.tables 
@@ -39,8 +62,8 @@ export async function POST(req) {
     }
 
     const query = `
-      INSERT INTO partial_form_pmw (user_id,uuid, name, phone_number, pincode, gender, education)
-      VALUES (?,?, ?, ?, ?, ?, ?)
+      INSERT INTO partial_form_pmw (user_id, uuid, name, phone_number, pincode, gender, education, referral_email)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     await mysql.query(query, [
@@ -51,6 +74,7 @@ export async function POST(req) {
       formData.pincode,
       formData.gender,
       formData.education,
+      referralByEmail,
     ]);
 
     return NextResponse.json({ success: true });

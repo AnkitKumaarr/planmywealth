@@ -26,6 +26,9 @@ const PartialInfoItem = ({ item, index }) => (
     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
       {new Date(item.created_at).toLocaleDateString()}
     </td>
+    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+      {item.referral_email || "N/A"}
+    </td>
   </tr>
 );
 
@@ -134,6 +137,9 @@ export default function PartialInformation() {
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Date
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Referral By
                       </th>
                     </tr>
                   </thead>

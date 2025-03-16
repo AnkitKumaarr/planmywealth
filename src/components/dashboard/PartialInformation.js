@@ -80,7 +80,7 @@ export default function PartialInformation() {
     );
   }
 
-  if (user.role !== "admin") {
+  if (user.role !== "admin" && user.role !== "manager") {
     return (
       <div className="text-center py-10">
         You don't have permission to access this page

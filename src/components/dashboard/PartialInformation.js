@@ -41,7 +41,7 @@ export default function PartialInformation() {
 
   useEffect(() => {
     // Check if user is admin, if not redirect to dashboard
-    if (user && user.role !== "admin") {
+    if (user && user.role !== "admin" && user.role !== "manager") {
       router.push("/dashboard");
       return;
     }

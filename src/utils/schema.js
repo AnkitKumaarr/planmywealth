@@ -13,6 +13,8 @@ export async function initializeDatabase() {
         role VARCHAR(255) NOT NULL DEFAULT 'user',
         user_referral_code VARCHAR(255),
         referby_code VARCHAR(255),
+        mobile VARCHAR(20),
+        profile_image VARCHAR(255),
         is_verified BOOLEAN DEFAULT false,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

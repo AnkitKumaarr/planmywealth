@@ -37,10 +37,10 @@ export async function GET(request) {
       // );
 
       const [[user]] = await mysql.query(
-        "SELECT full_name, role, user_referral_code FROM pmw_users WHERE email = ?",
+        "SELECT full_name, role, user_referral_code, mobile, profile_image FROM pmw_users WHERE email = ?",
         [decoded.email]
       );
-      const { full_name, role, user_referral_code } = user;
+      const { full_name, role, user_referral_code, mobile, profile_image } = user;
 
       return NextResponse.json({
         status: 200,
@@ -51,6 +51,8 @@ export async function GET(request) {
           email: decoded.email,
           role,
           user_referral_code,
+          mobile,
+          profile_image,
         },
       });
     } catch (jwtError) {

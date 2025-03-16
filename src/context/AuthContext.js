@@ -95,6 +95,74 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const updateProfile = async (profileData) => {
+    try {
+      const response = await fetch("/api/auth/update-profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profileData),
+        credentials: "include",
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        setUser(data.data);
+        return { success: true, message: "Profile updated successfully" };
+      }
+      
+      return { success: false, error: data.error || "Failed to update profile" };
+    } catch (error) {
+      console.error("Profile update failed:", error);
+      return { success: false, error: "Failed to update profile" };
+    }
+  };
+
+  const uploadProfileImage = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/auth/upload-image", {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        setUser(prev => ({ ...prev, profile_image: data.imageUrl }));
+        return { success: true, imageUrl: data.imageUrl };
+      }
+      
+      return { success: false, error: data.error || "Failed to upload image" };
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      return { success: false, error: "Failed to upload image" };
+    }
+  };
+
+  const checkReferralCode = async (code) => {
+    try {
+      const response = await fetch(`/api/auth/update-profile?code=${code}`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        return { success: true, isAvailable: data.isAvailable };
+      }
+      
+      return { success: false, error: data.error || "Failed to check referral code" };
+    } catch (error) {
+      console.error("Referral code check failed:", error);
+      return { success: false, error: "Failed to check referral code" };
+    }
+  };
+
   const logout = async () => {
     try {
       const response = await fetch("/api/auth/logout", {
@@ -125,6 +193,9 @@ export function AuthProvider({ children }) {
         logout,
         handleGoogleLogin,
         handleGoogleCallback,
+        updateProfile,
+        uploadProfileImage,
+        checkReferralCode,
       }}
     >
       {children}

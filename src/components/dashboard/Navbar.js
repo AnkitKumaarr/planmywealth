@@ -100,7 +100,17 @@ export default function Navbar() {
               <div className="flex items-center justify-center">
                 <button className="flex items-center space-x-3 focus:outline-none ">
                   <div className="h-8 w-8 rounded-full bg-blue-800 flex items-center justify-center text-white">
-                    {user?.name?.charAt(0)}
+                    {user?.profile_image ? (
+                      <Image 
+                        src={user.profile_image} 
+                        alt={user.name || "User"} 
+                        width={32} 
+                        height={32} 
+                        className="rounded-full"
+                      />
+                    ) : (
+                      user?.name?.charAt(0)
+                    )}
                   </div>
                   <span className="text-gray-700 hidden sm:block">
                     My Account
@@ -111,7 +121,17 @@ export default function Navbar() {
                   <div className="px-6 py-4 border-b">
                     <div className="flex items-center space-x-3">
                       <div className="h-12 w-12 rounded-full bg-blue-800 flex items-center justify-center text-white text-xl">
-                        {user?.name?.charAt(0)}
+                        {user?.profile_image ? (
+                          <Image 
+                            src={user.profile_image} 
+                            alt={user.name || "User"} 
+                            width={48} 
+                            height={48} 
+                            className="rounded-full"
+                          />
+                        ) : (
+                          user?.name?.charAt(0)
+                        )}
                       </div>
                       <div className="min-w-0 flex-1">
                         <p

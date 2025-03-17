@@ -35,6 +35,20 @@ export async function POST(request) {
           { status: 400 }
         );
       }
+      
+      // Get the user's current referral code to update referred users
+      const [[currentUser]] = await mysql.query(
+        "SELECT user_referral_code FROM pmw_users WHERE email = ?",
+        [userEmail]
+      );
+      
+      if (currentUser && currentUser.user_referral_code) {
+        // Update all users who were referred by this user
+        await mysql.query(
+          "UPDATE pmw_users SET referby_code = ? WHERE referby_code = ?",
+          [user_referral_code, currentUser.user_referral_code]
+        );
+      }
     }
 
     // Build the update query dynamically based on provided fields

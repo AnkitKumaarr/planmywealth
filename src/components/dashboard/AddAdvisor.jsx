@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
-import * as XLSX from "xlsx";
+import ExcelJS from "exceljs";
 import { MdDelete } from "react-icons/md";
+import { toast } from "react-toastify";
 
 // Individual advisor item component with edit and delete options
 const AdvisorItem = ({ item, index, onEdit, onDelete }) => (
@@ -57,7 +58,7 @@ export default function AddAdvisor() {
     email: "",
     password: "",
     verified: true,
-    role: "advisor",
+    role: "manager",
   });
   const { user } = useAuth();
   const router = useRouter();
@@ -77,23 +78,45 @@ export default function AddAdvisor() {
     setIsLoading(true);
 
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
       try {
-        const data = new Uint8Array(event.target.result);
-        const workbook = XLSX.read(data, { type: "array" });
+        const buffer = event.target.result;
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(buffer);
+        
+        const worksheet = workbook.worksheets[0];
+        const jsonData = [];
+        
+        // Get headers from the first row
+        const headers = [];
+        worksheet.getRow(1).eachCell((cell) => {
+          headers.push(cell.value);
+        });
+        
+        // Process rows to JSON
+        worksheet.eachRow((row, rowNumber) => {
+          if (rowNumber > 1) { // Skip header row
+            const rowData = {};
+            row.eachCell((cell, colNumber) => {
+              const header = headers[colNumber - 1];
+              // Handle hyperlink cells (like emails and urls)
+              if (cell.value && typeof cell.value === 'object' && cell.value.text) {
+                rowData[header] = cell.value.text;
+              } else {
+                rowData[header] = cell.value;
+              }
+            });
+            jsonData.push(rowData);
+          }
+        });
 
-        const worksheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[worksheetName];
-
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
-        // Add created_at field to each record
-        console.log("jsonData", jsonData);
         const processedData = jsonData.map((item) => ({
-          ...item,
+          name: item.name || item.full_name || "",
+          email: item.email || "",
+          password: item.password || "",
           created_at: new Date().toISOString(),
           verified: true,
-          role: item.role || "advisor", // Default role if not specified
+          role: item.role || "manager", // Default role if not specified
         }));
 
         setAdvisorData(processedData);
@@ -161,10 +184,48 @@ export default function AddAdvisor() {
     });
   };
 
-  const handleRegisterAll = () => {
-    // In a real implementation, this would send data to an API
-    alert(`Ready to register ${advisorData.length} advisors to the database`);
-    console.log("Data to register:", advisorData);
+  const handleRegisterAll = async () => {
+    if (advisorData.length === 0) {
+      alert("No advisors to register");
+      return;
+    }
+    
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch('/api/advisor/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ advisors: advisorData }),
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to register advisors');
+      }
+      
+      if (result.errors && result.errors.length > 0) {
+        const errorMessages = result.errors.map(err => `${err.email}: ${err.error}`).join('\n');
+        setError(`Some advisors could not be registered:\n${errorMessages}`);
+      }
+      
+      // Clear the advisors that were successfully registered
+      if (result.results && result.results.length > 0) {
+        const successfulEmails = new Set(result.results.map(r => r.email));
+        setAdvisorData(advisorData.filter(advisor => !successfulEmails.has(advisor.email)));
+        toast.success(`Successfully registered ${result.results.length} advisors.`);
+      }
+      
+    } catch (err) {
+      console.error('Error registering advisors:', err);
+      setError(err.message || 'Failed to register advisors');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (!user) {
@@ -198,8 +259,11 @@ export default function AddAdvisor() {
         ) : (
           <>
             {error ? (
-              <div className="text-center text-red-500 py-10">
-                Error: {error}
+              <div className="text-center text-red-500 py-4 mb-4 bg-red-50 rounded border border-red-200 px-4">
+                <p className="font-medium mb-1">Error:</p>
+                <pre className="text-xs text-left whitespace-pre-wrap overflow-auto max-h-40">
+                  {error}
+                </pre>
               </div>
             ) : (
               <div className="w-full h-full">
@@ -276,7 +340,7 @@ export default function AddAdvisor() {
                           className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                         >
                           <option value="user">User</option>
-                          <option value="manager">Advisor</option>
+                          <option value="manager">Manager</option>
                         </select>
                       </div>
                       <div className="flex gap-2">

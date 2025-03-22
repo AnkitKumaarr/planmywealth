@@ -11,6 +11,7 @@ import AccountContent from "@/components/dashboard/AccountContent";
 import ReferralsData from "@/components/dashboard/ReferralsData";
 import PartialInformation from "@/components/dashboard/PartialInformation";
 import { useFormData } from "@/context/FormContext";
+import AddAdvisor from "@/components/dashboard/AddAdvisor";
 
 export default function Dashboard() {
   const { sidebarOpen, setSidebarOpen } = useFormData();
@@ -42,6 +43,8 @@ export default function Dashboard() {
         return <ReferralsData />;
       case "partial-information":
         return <PartialInformation />;
+      case "add-advisor":
+        return <AddAdvisor />;
       default:
         return <DashboardContent />;
     }

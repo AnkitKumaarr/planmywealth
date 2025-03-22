@@ -34,6 +34,7 @@ export default function Sidebar({
     { title: "Refer", icon: "🔊", path: "refer" },
     { title: "Your Referrals", icon: "🔗", path: "your-referrals" },
     { title: "Partial Information", icon: "📋", path: "partial-information" },
+    { title: "Add Advisor", icon: "👨", path: "add-advisor" },
     { title: "Account", icon: "🤵", path: "account" },
   ];
 

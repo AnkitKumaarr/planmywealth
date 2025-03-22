@@ -231,7 +231,7 @@ export default function AccountContent() {
                   <label className="block text-sm text-gray-600 mb-1">
                     Your Referral Code
                   </label>
-                  {isEditing ? (
+                  {isEditing && false ? (
                     <div>
                       <input
                         type="text"
